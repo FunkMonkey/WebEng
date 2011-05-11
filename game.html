@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>QuQu</title>
+        <script type="text/javascript" src="Engine/Extension.js"></script>
+        <script type="text/javascript" src="Engine/ScriptLoader.js"></script>
+        <script type="text/javascript" src="Engine/ModuleSystem.js"></script>
+        <script type="text/javascript">
+            ScriptLoader.loadDebug = true;
+            
+            var log = function(text)
+            {
+                if(console)
+                    console.log(text);
+            }
+            
+        </script>  
+        <script type="text/javascript" src="TestGame/entry.js"></script>
+        
+        
+    </head>
+    
+    <body>
+        <canvas id="glcanvas" width="640" height="480">
+            Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
+        </canvas>
+    </body>
+
+</html>
