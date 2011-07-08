@@ -1,7 +1,22 @@
 
-var Game = new (ModuleSystem.require("TestGame.Game")).Game();
 
-Game.startGameLoop();
+var GraphicsCore = null;
+var Game = null;
+
+function onLoad()
+{
+	GraphicsCore = ModuleSystem.require("Engine.Graphics.GraphicsCore").GraphicsCore;
+	GraphicsCore.init();
+	Game = new (ModuleSystem.require("TestGame.Game")).Game();
+	Game.startGameLoop();
+}
+
+window.addEventListener("load", onLoad, false);
+
+
+
+
+//Game.startGameLoop();
 
 
 

@@ -14,7 +14,7 @@ ModuleSystem.registerModule(function(){
 		 */
 		update: function update(deltaTime)
 		{
-			
+			GraphicsCore.update(deltaTime);
 		},
 	};
 	
