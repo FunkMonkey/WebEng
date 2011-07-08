@@ -15,7 +15,9 @@ ModuleSystem.registerModule(function(){
 			if(!this.update)
 				throw "No Update Function";
 			
-			this.updateTimer = window.setInterval(this.update.bind(this), this.updateInterval);
+			this.update(0);
+			
+			//this.updateTimer = window.setInterval(this.update.bind(this), this.updateInterval);
 		},
 				
 		/* Initializes the game

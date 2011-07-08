@@ -4,7 +4,7 @@
 ModuleSystem.registerModule(function(){
 	
 	GraphicsCore = ModuleSystem.require("Engine.Graphics.GraphicsCore").GraphicsCore;
-	gl = GraphicsCore.gl;
+	var gl = GraphicsCore.gl;
 	
 	function GraphicsObject()
 	{
