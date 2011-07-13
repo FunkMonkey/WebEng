@@ -1,6 +1,7 @@
 ModuleSystem.registerModule(function(){
 	
 	var BaseGame = ModuleSystem.require("GameCore.BaseGame").BaseGame;
+	var BaseGameObject = ModuleSystem.require("GameCore.BaseGameObject").BaseGameObject;
 	
 	function Game()
 	{
@@ -9,6 +10,17 @@ ModuleSystem.registerModule(function(){
 	}
 	
 	Game.functions = {
+		
+		init: function init()
+		{
+			// creating objects
+			this.testObj = new BaseGameObject();
+			
+			GraphicsCore.SimpleGraphicsObject.createOn(this.testObj, "TestGame/Content/nehe2.gif");
+			GraphicsCore.addDrawableObject(this.testObj);
+		},
+		
+		
 		/*
 		 *
 		 */

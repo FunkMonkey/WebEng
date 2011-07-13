@@ -7,7 +7,10 @@ function onLoad()
 {
 	GraphicsCore = ModuleSystem.require("Engine.Graphics.GraphicsCore").GraphicsCore;
 	GraphicsCore.init();
-	Game = new (ModuleSystem.require("TestGame.Game")).Game();
+	Game = new (ModuleSystem.require("TestGame.Game").Game)();
+	
+	Game.init();
+	
 	Game.startGameLoop();
 }
 
