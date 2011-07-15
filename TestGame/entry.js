@@ -9,9 +9,15 @@ function onLoad()
 	GraphicsCore.init();
 	Game = new (ModuleSystem.require("TestGame.Game").Game)();
 	
-	Game.init();
+	Game.create();
+	Game.loadConfig();
+	log("trying to load resources");
+	Game.loadResources(function(){
+		log("resources loaded");
+		Game.init();
+		Game.startGameLoop();
+	}); // async
 	
-	Game.startGameLoop();
 }
 
 window.addEventListener("load", onLoad, false);

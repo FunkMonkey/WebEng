@@ -2,6 +2,7 @@ ModuleSystem.registerModule(function(){
 	
 	var BaseGame = ModuleSystem.require("GameCore.BaseGame").BaseGame;
 	var BaseGameObject = ModuleSystem.require("GameCore.BaseGameObject").BaseGameObject;
+	var Plugin_WorldObject3D = ModuleSystem.require("GameCore.Plugin_WorldObject3D").Plugin_WorldObject3D;
 	
 	function Game()
 	{
@@ -11,16 +12,24 @@ ModuleSystem.registerModule(function(){
 	
 	Game.functions = {
 		
-		init: function init()
+		create: function create()
 		{
 			// creating objects
 			this.testObj = new BaseGameObject();
-			
-			GraphicsCore.SimpleGraphicsObject.createOn(this.testObj, "TestGame/Content/nehe2.gif");
-			GraphicsCore.addDrawableObject(this.testObj);
+			this.addGameObject(this.testObj);
 		},
 		
-		
+		loadConfig: function loadConfig()
+		{
+			this.testObj.addPlugin(new Plugin_WorldObject3D(this.testObj));
+			this.testObj.pos.z = -7
+			//this.testObj.rot.z = Math.PI;
+			//this.testObj.scale.x = 2;
+			
+			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleGraphics2D(this.testObj));
+			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+		},
+				
 		/*
 		 *
 		 */

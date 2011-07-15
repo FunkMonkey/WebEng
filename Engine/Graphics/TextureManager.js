@@ -16,21 +16,69 @@ ModuleSystem.registerModule(function(){
 			this._createStandardTexBuffer();
 		},
 		
-		createTexture: function createTexture(path)
+		images: {},
+		
+		loadImage: function loadImage(path, callback)
+		{
+			if(this.images[path])
+			{
+				callback(images[path]);
+			}
+			else
+			{
+				log(path);
+				var image = new Image();
+				image.onload = function () {
+					callback(image);
+				};
+				
+				image.path = path;
+				image.src = path;
+				this.images[path] = image;
+			}
+		},
+		
+		getTexture: function getTexture(path)
+		{
+			return this.textures[path]; 
+		},
+		
+		_handleLoadedImage: function _handleLoadedImage(image, callback)
+		{
+			var texture = gl.createTexture();
+			texture.image = image;
+			texture.width = image.width;
+			texture.height = image.height;
+			
+			gl.bindTexture(gl.TEXTURE_2D, texture);
+			//gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+			//gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+			gl.bindTexture(gl.TEXTURE_2D, null);
+			
+			this.textures[image.path] = texture;
+			
+			callback(texture);	
+		},
+		
+		
+		createTexture: function createTexture(path, callback)
 		{
 			// TODO: error handling
 			
-			var tex = gl.createTexture();
-			tex.image = new Image();
-			tex.image.onload = (function () {
-				this.handleLoadedTexture(tex)
-			}).bind(this);
-
-			tex.image.src = path;
-			
-			this.textures[path] = tex;
-			
-			return tex;
+			if(this.textures[path])
+			{
+				callback(this.textures[path]);
+			}
+			else
+			{
+				this.loadImage(path, (function(image){
+					this._handleLoadedImage(image, callback);
+				}).bind(this));
+			}
 		},
 		
 		handleLoadedTexture: function handleLoadedTexture(texture)

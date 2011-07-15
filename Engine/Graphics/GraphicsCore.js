@@ -34,13 +34,11 @@ ModuleSystem.registerModule(function(){
 			this.ShaderManager.init(this);
 			this.TextureManager.init(this);
 			this.ShaderProgram.init(this);
-			this.SimpleGraphicsObject.initModule(this);
+			this.Plugin_SimpleGraphics2D.initModule(this);
 			
 			GraphicsObject = ModuleSystem.require("Engine.Graphics.GraphicsObject").GraphicsObject;
 			
 			this.stdShaderProgram = this.createStandardShaderProgram();
-			
-			this.init_test();
 		},
 		
 		/*
@@ -80,37 +78,8 @@ ModuleSystem.registerModule(function(){
 			this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
 			this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 			
-			
-			
-			/* --------------- TUTORIAL --------------- */
-			
 			mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, this.pMatrix);
-
-			
-			
-			
-
 			mat4.identity(this.mvMatrix);
-			
-			
-			
-			gl.activeTexture(gl.TEXTURE0);
-			gl.bindTexture(gl.TEXTURE_2D, this.neheTexture);
-			gl.uniform1i(this.stdShaderProgram.samplerUniform, 0);
-	
-			mat4.translate(this.mvMatrix, Vector3.fromPool(1.5, 0.0, -7.0));
-			
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.squareVertexPositionBuffer);
-			gl.vertexAttribPointer(this.stdShaderProgram.vertexPositionAttribute, this.squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-			
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.TextureManager.standardTexBuffer);
-			gl.vertexAttribPointer(this.stdShaderProgram.textureCoordAttribute, this.TextureManager.standardTexBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-			// setting projection and modelview matrix
-			this.stdShaderProgram.pMatrix = this.pMatrix;
-			this.stdShaderProgram.mvMatrix = this.mvMatrix;
-			
-			gl.drawArrays(gl.TRIANGLE_STRIP, 0, this.squareVertexPositionBuffer.numItems);
 			
 			for(var i = 0; i < this.drawableObjects.length; ++i)
 			{
@@ -123,37 +92,6 @@ ModuleSystem.registerModule(function(){
 			this.drawableObjects.push(obj);
 		},
 		
-		
-		init_test: function test()
-		{
-			
-			
-			/* Shaders */
-			
-			
-			// TODO: async shaders
-			
-			/* Textures */			
-			this.neheTexture = this.TextureManager.createTexture("TestGame/Content/nehe.gif");
-			
-			
-			
-			/* Vertices */
-			
-			this.squareVertexPositionBuffer = gl.createBuffer();
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.squareVertexPositionBuffer);
-			var vertices = [
-				-1.0,  1.0,  0.0,
-				 1.0,  1.0,  0.0,
-				-1.0, -1.0,  0.0,
-				 1.0, -1.0,  0.0
-			];
-			
-			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-			this.squareVertexPositionBuffer.itemSize = 3;
-			this.squareVertexPositionBuffer.numItems = 4;
-
-		},
 		
 		createStandardShaderProgram: function createStandardShaderProgram()
 		{
@@ -187,7 +125,7 @@ ModuleSystem.registerModule(function(){
 	GraphicsCore.ShaderManager = ModuleSystem.require("Engine.Graphics.ShaderManager").ShaderManager;
 	GraphicsCore.TextureManager = ModuleSystem.require("Engine.Graphics.TextureManager").TextureManager;
 	GraphicsCore.ShaderProgram = ModuleSystem.require("Engine.Graphics.ShaderProgram").ShaderProgram;
-	GraphicsCore.SimpleGraphicsObject = ModuleSystem.require("Engine.Graphics.SimpleGraphicsObject").SimpleGraphicsObject;
+	GraphicsCore.Plugin_SimpleGraphics2D = ModuleSystem.require("Engine.Graphics.Plugin_SimpleGraphics2D").Plugin_SimpleGraphics2D;
 		
 	return {GraphicsCore: GraphicsCore};
 	
