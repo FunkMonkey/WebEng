@@ -28,29 +28,23 @@ Vector3.functions = {
 	{
 		if(xOrVec === undefined)
 		{
-			this.push(0);
-			this.push(0);
-			this.push(0);
+			this[0] = 0;
+			this[1] = 0;
+			this[2] = 0;
 		}
 		else if(y === undefined)
 		{
-			this.push(xOrVec[0]);
-			this.push(xOrVec[1]);
-			this.push(xOrVec[2]);
+			this[0] = xOrVec[0];
+			this[1] = xOrVec[1];
+			this[2] = xOrVec[2];
 		}
 		else
 		{
-			this.push(xOrVec);
-			this.push(y);
-			this.push(z);
+			this[0] = xOrVec;
+			this[1] = y;
+			this[2] = z;
 		}
 	},
-	
-	/*toString: function toString()
-	{
-		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
-	},*/
-	
 	
 	toPool: function toPool()
 	{
