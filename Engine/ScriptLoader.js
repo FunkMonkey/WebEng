@@ -4,6 +4,8 @@ var ScriptLoader = {
 
 	loadDebug: false,
 	
+	_blockFile: "Engine/ScriptLoader.js",
+	
 	/*
 	 *
 	 */
@@ -13,7 +15,7 @@ var ScriptLoader = {
 		var xhrObj = new XMLHttpRequest();
 		
 		// open and send a synchronous request
-		xhrObj.open('GET', "Engine/ScriptLoader.js", false);
+		xhrObj.open('GET', this._blockFile, false);
 		xhrObj.overrideMimeType("text/plain");
 		xhrObj.send('');
 	},
