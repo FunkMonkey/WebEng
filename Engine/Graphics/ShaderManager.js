@@ -1,6 +1,6 @@
 "use strict";
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	var gl = null;
 	var GraphicsCore = null;
@@ -61,6 +61,6 @@ ModuleSystem.registerModule(function(){
 		
 	};
 	
-	return {ShaderManager: ShaderManager};
+	exports.ShaderManager = ShaderManager;
 	
 });

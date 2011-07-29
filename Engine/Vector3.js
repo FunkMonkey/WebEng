@@ -1,4 +1,6 @@
 
+// TODO: into module
+
 function Vector3(xOrVec, y, z)
 {
 	this.set(xOrVec, y, z);

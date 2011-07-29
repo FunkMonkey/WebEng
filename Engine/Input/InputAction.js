@@ -1,7 +1,7 @@
 "use strict";
 
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	var InputCore = null;
 	
@@ -189,6 +189,6 @@ ModuleSystem.registerModule(function(){
 		InputCore = inputCore;
 	}
 	
-	return {InputAction: InputAction};
+	exports.InputAction = InputAction;
 	
 });

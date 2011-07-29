@@ -1,5 +1,5 @@
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	function BaseGame()
 	{
@@ -96,6 +96,6 @@ ModuleSystem.registerModule(function(){
 	
 	Extension.inherit_auto(BaseGame, Object);
 	
-	return {BaseGame: BaseGame};
+	exports.BaseGame = BaseGame;
 	
 });

@@ -1,6 +1,6 @@
 "use strict";
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	function Plugin_WorldObject3D(gameObj)
 	{
@@ -18,6 +18,6 @@ ModuleSystem.registerModule(function(){
 	};*/
 
 	
-	return {Plugin_WorldObject3D: Plugin_WorldObject3D};
+	exports.Plugin_WorldObject3D = Plugin_WorldObject3D;
 	
 });

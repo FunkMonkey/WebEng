@@ -1,4 +1,4 @@
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	var BaseGame = ModuleSystem.require("GameCore.BaseGame").BaseGame;
 	var BaseGameObject = ModuleSystem.require("GameCore.BaseGameObject").BaseGameObject;
@@ -52,6 +52,6 @@ ModuleSystem.registerModule(function(){
 	
 	Extension.inherit_auto(Game, BaseGame);
 	
-	return {Game: Game};
+	exports.Game = Game;
 	
 });

@@ -1,6 +1,6 @@
 "use strict";
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	var gl = null;
 	var GraphicsCore = null;
@@ -93,6 +93,6 @@ ModuleSystem.registerModule(function(){
 			
 		}
 	
-	return {Plugin_SimpleGraphics2D: Plugin_SimpleGraphics2D};
+	exports.Plugin_SimpleGraphics2D = Plugin_SimpleGraphics2D;
 	
 });

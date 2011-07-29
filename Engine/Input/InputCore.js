@@ -1,7 +1,7 @@
 "use strict";
 
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	var InputCore = {
 		
@@ -248,6 +248,6 @@ ModuleSystem.registerModule(function(){
 	InputCore.InputAction = ModuleSystem.require("Engine.Input.InputAction").InputAction;
 	InputCore.InputAction.initModule(InputCore);
 
-	return {InputCore: InputCore};
+	exports.InputCore = InputCore;
 	
 });

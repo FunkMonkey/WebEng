@@ -1,7 +1,7 @@
 "use strict";
 
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	var AudioCore = {
 		
@@ -42,6 +42,6 @@ ModuleSystem.registerModule(function(){
 	};
 	
 
-	return {AudioCore: AudioCore};
+	exports.AudioCore = AudioCore;
 	
 });

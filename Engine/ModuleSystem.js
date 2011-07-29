@@ -23,25 +23,34 @@ var ModuleSystem = {
 		
 		if(!module.loaded || forceRecreation)
 		{
-			module.moduleData = module.moduleFunc();
+			module.exports = {}
+			module.moduleFunc(this._boundRequire, module.exports);
 			module.loaded = true;
 		}
 		
-		return module.moduleData;
+		return module.exports;
 	},
 	
 	require_async: function require_async(moduleName, forceRecreation, forceFileReload, asyncCallback)
 	{
 	},
 	
-	registerModule: function registerModule(moduleFunc)
+	registerModule: function registerModule(moduleFunc, name)
 	{
-		this.modules[this._lastModuleName] = {
+		var module = {
 			name: name,
 			moduleFunc: moduleFunc,
 			loaded: false,
-			moduleData: null
+			exports: null
 		};
+		
+		// TODO: check availability
+		if(name)
+			this.modules[name] = module;
+		else
+			this.modules[this._lastModuleName] = module;
+			
+			
 		//this.registeredModules[name] = moduleFunc;
 	},
 	
@@ -54,7 +63,8 @@ var ModuleSystem = {
 		if(!module)
 			throw "Unknown module: " + name;
 		
-		module.moduleData = module.moduleFunc();
+		module.exports = {};
+		module.moduleFunc(this._boundRequire, module.exports);
 		module.loaded = true;
 	},
 	
@@ -90,4 +100,6 @@ var ModuleSystem = {
 		return path.replace(new RegExp("\\.", "g"), "\\");
 	},
 };
+
+ModuleSystem._boundRequire = ModuleSystem.require.bind(ModuleSystem);
 

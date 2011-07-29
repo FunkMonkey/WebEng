@@ -1,7 +1,7 @@
 "use strict";
 
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	var gl = null;
 	
@@ -124,6 +124,6 @@ ModuleSystem.registerModule(function(){
 	GraphicsCore.ShaderProgram = ModuleSystem.require("Engine.Graphics.ShaderProgram").ShaderProgram;
 	GraphicsCore.Plugin_SimpleGraphics2D = ModuleSystem.require("Engine.Graphics.Plugin_SimpleGraphics2D").Plugin_SimpleGraphics2D;
 		
-	return {GraphicsCore: GraphicsCore};
+	exports.GraphicsCore = GraphicsCore;
 	
 });

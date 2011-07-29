@@ -1,7 +1,7 @@
 
 "use strict";
 
-ModuleSystem.registerModule(function(){
+ModuleSystem.registerModule(function(require, exports){
 	
 	function BaseGameObject()
 	{
@@ -70,6 +70,6 @@ ModuleSystem.registerModule(function(){
 		
 	};
 	
-	return {BaseGameObject: BaseGameObject};
+	exports.BaseGameObject = BaseGameObject;
 });
 
