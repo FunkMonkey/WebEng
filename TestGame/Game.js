@@ -14,6 +14,10 @@ ModuleSystem.registerModule(function(){
 		
 		create: function create()
 		{
+			
+			var action = InputCore.getAction("OnTest");
+			//action.addMouseButtonTrigger(1, InputCore.MOUSEBUTTON_STATE_DOWN);
+			
 			// creating objects
 			this.testObj = new BaseGameObject();
 			this.addGameObject(this.testObj);
@@ -35,7 +39,14 @@ ModuleSystem.registerModule(function(){
 		 */
 		update: function update(deltaTime)
 		{
+			InputCore.update(deltaTime);
 			GraphicsCore.update(deltaTime);
+			
+			var testAction = InputCore.actions["OnTest"];
+			if(testAction.isTriggered)
+			{
+				log("pressed")
+			}
 		},
 	};
 	

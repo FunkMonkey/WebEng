@@ -4,7 +4,7 @@ ModuleSystem.registerModule(function(){
 	function BaseGame()
 	{
 		this.name = "foo";
-		this.updateInterval = 16;
+		this.updateInterval = 50;
 		this.updateTimer = null;
 		this.gameObjectsArray = [];
 		this.gameObjects = {};
@@ -89,8 +89,8 @@ ModuleSystem.registerModule(function(){
 				throw "No Update Function";
 			
 			
-			//this.updateTimer = window.setInterval(this.update.bind(this), this.updateInterval);
-			this.updateTimer = window.setTimeout(this.update.bind(this), 100);
+			this.updateTimer = window.setInterval(this.update.bind(this), this.updateInterval);
+			//this.updateTimer = window.setTimeout(this.update.bind(this), 100);
 		},
 	};
 	

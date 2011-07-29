@@ -26,7 +26,6 @@ ModuleSystem.registerModule(function(){
 			}
 			else
 			{
-				log(path);
 				var image = new Image();
 				image.onload = function () {
 					callback(image);

@@ -1,5 +1,7 @@
 var ScriptLoader = {
 
+	timeout: 3000,
+
 	loadDebug: false,
 	
 	/*
@@ -55,23 +57,36 @@ var ScriptLoader = {
 			node.text = xhrObj.responseText;
 			document.getElementsByTagName("head")[0].appendChild(node);
 		}
-		else
+		else // firefox only
 		{
 			var node = document.createElement("script");
 			node.async = false;
 			node.setAttribute("type", "text/javascript");
 			node.setAttribute("src", filePath);
 			node.scriptLoaded = false;
+			node.scriptLoadFailed = false;
+			node.path = filePath;
 			
 			node.onload = function onload(event){
 				this.scriptLoaded = true;
 			};
 			
+			var begin = Date.now();
+			
 			document.getElementsByTagName("head")[0].appendChild(node);
 			
 			// dirty hack
 			while(!node.scriptLoaded)
+			{
+				if((curr - begin) > this.timeout)
+				{
+					log("Could not load " + filePath);
+					break;
+				}
+				
 				this._blockExecution();
+				var curr = Date.now();
+			}
 		}
 	},
 	

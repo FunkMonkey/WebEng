@@ -4,7 +4,6 @@
 ModuleSystem.registerModule(function(){
 	
 	var gl = null;
-	var GraphicsObject = null;
 	
 	var GraphicsCore = {
 		
@@ -35,8 +34,6 @@ ModuleSystem.registerModule(function(){
 			this.TextureManager.init(this);
 			this.ShaderProgram.init(this);
 			this.Plugin_SimpleGraphics2D.initModule(this);
-			
-			GraphicsObject = ModuleSystem.require("Engine.Graphics.GraphicsObject").GraphicsObject;
 			
 			this.stdShaderProgram = this.createStandardShaderProgram();
 		},

@@ -1,17 +1,26 @@
 
 
 var GraphicsCore = null;
+var InputCore = null;
+var AudioCore = null;
 var Game = null;
 
 function onLoad()
 {
 	GraphicsCore = ModuleSystem.require("Engine.Graphics.GraphicsCore").GraphicsCore;
 	GraphicsCore.init();
+	
+	InputCore = ModuleSystem.require("Engine.Input.InputCore").InputCore;
+	//InputCore.init(document.getElementById("glcanvas"));
+	InputCore.init(window, document.getElementById("glcanvas"));
+	
+	AudioCore = ModuleSystem.require("Engine.Audio.AudioCore").AudioCore;
+	AudioCore.init();
+	
 	Game = new (ModuleSystem.require("TestGame.Game").Game)();
 	
 	Game.create();
 	Game.loadConfig();
-	log("trying to load resources");
 	Game.loadResources(function(){
 		log("resources loaded");
 		Game.init();

@@ -46,6 +46,12 @@ Vector3.functions = {
 		}
 	},
 	
+	/*toString: function toString()
+	{
+		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+	},*/
+	
+	
 	toPool: function toPool()
 	{
 		Vector3.pool.push(this); 
