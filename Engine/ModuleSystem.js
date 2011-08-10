@@ -4,28 +4,24 @@ var ModuleSystem = {
 	
 	modules: {},
 	
-	_lastModuleName: "",
-	
-	require: function require(moduleName, forceRecreation, forceFileReload, asyncCallback)
+	require: function require(id, options)
 	{
-		var module = this.modules[moduleName];
+		var module = this.modules[id];
 		
-		if(!module || forceFileReload)
+		if(!module || (options && options.forceFileReload))
 		{
-			this._lastModuleName = moduleName;
-			ScriptLoader.loadJSFile_Sync(ModuleSystem.modulePathToFilePath(moduleName));
+			ScriptLoader.loadJSFile_Sync(ModuleSystem.modulePathToFilePath(id));
 		}
 		
-		module = this.modules[moduleName];
-	
-		if(!module)
-			throw "Unknown module: " + moduleName;
+		module = this.modules[id];
 		
-		if(!module.loaded || forceRecreation)
+		
+		if(!module)
+			throw "Unknown module: " + id;
+		
+		if(!module.loaded || (options && options.forceRecreation))
 		{
-			module.exports = {}
-			module.moduleFunc(this._boundRequire, module.exports);
-			module.loaded = true;
+			this.loadModule(module);
 		}
 		
 		return module.exports;
@@ -35,45 +31,55 @@ var ModuleSystem = {
 	{
 	},
 	
-	registerModule: function registerModule(moduleFunc, name)
+	registerModule: function registerModule(id, moduleFunc)
 	{
+		if(id[0] !== "/")
+			id = "/" + id;
+			
 		var module = {
-			name: name,
+			id: id,
 			moduleFunc: moduleFunc,
 			loaded: false,
-			exports: null
+			exports: null,
+			dir: this.modulePathToModuleDirPath(id)
 		};
 		
-		// TODO: check availability
-		if(name)
-			this.modules[name] = module;
-		else
-			this.modules[this._lastModuleName] = module;
-			
-			
-		//this.registeredModules[name] = moduleFunc;
+		this.modules[id] = module;
 	},
 	
 	/*
 	 *
 	 */
-	loadModule: function loadModule(name)
+	loadModule: function loadModule(module)
 	{
-		var module = this.modules[name];
-		if(!module)
-			throw "Unknown module: " + name;
+		var modRequire = (function modRequire(id, options)
+		{
+			if(id[0] === "/")
+				return this.require(id, options)
+			else
+				return this.require(module.dir + "/" + id, options);
+		}).bind(this);
 		
 		module.exports = {};
-		module.moduleFunc(this._boundRequire, module.exports);
+		module.moduleFunc(modRequire, module.exports, module);
 		module.loaded = true;
 	},
+	
+	modulePathToModuleDirPath: function modulePathToModuleDirPath(path)
+	{
+		var index = path.lastIndexOf("/");
+		return (index === -1 || index === 0) ? "" : path.substring(0, index);
+	},
+	
+	
+	// var path = "/foo/bar"; var index = path.lastIndexOf("/");alert("result " + (index === -1 || index === 0) ? "" : path.substring(0, index));
 	
 	/*
 	 *
 	 */
 	modulePathToFilePath: function modulePathToFilePath(path)
 	{
-		return path.replace(new RegExp("\\.", "g"), "\\") + ".js";
+		return path.substr(1) + ".js";
 	},
 	
 	/*
@@ -81,7 +87,7 @@ var ModuleSystem = {
 	 */
 	filePathToModulePath: function filePathToModulePath(path)
 	{
-		return path.replace(new RegExp("/|\\\\", "g"), ".").substring(0, path.length - 3);
+		return path.replace(new RegExp("\\\\", "g"), "/").substring(0, path.length - 3);
 	},
 	
 	/*
@@ -89,7 +95,7 @@ var ModuleSystem = {
 	 */
 	directoryPathToModulePath: function filePathToModulePath(path)
 	{
-		return path.replace(new RegExp("/|\\\\", "g"), ".");
+		return path.replace(new RegExp("\\\\", "g"), "/");
 	},
 	
 	/*
@@ -97,7 +103,7 @@ var ModuleSystem = {
 	 */
 	modulePathToDirectoryPath: function filePathToModulePath(path)
 	{
-		return path.replace(new RegExp("\\.", "g"), "\\");
+		return path.substr(1);
 	},
 };
 

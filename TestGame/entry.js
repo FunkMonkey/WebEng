@@ -7,17 +7,17 @@ var Game = null;
 
 function onLoad()
 {
-	GraphicsCore = ModuleSystem.require("Engine.Graphics.GraphicsCore").GraphicsCore;
+	GraphicsCore = ModuleSystem.require("/Engine/Graphics/GraphicsCore").GraphicsCore;
 	GraphicsCore.init();
 	
-	InputCore = ModuleSystem.require("Engine.Input.InputCore").InputCore;
+	InputCore = ModuleSystem.require("/Engine/Input/InputCore").InputCore;
 	//InputCore.init(document.getElementById("glcanvas"));
 	InputCore.init(window, document.getElementById("glcanvas"));
 	
-	AudioCore = ModuleSystem.require("Engine.Audio.AudioCore").AudioCore;
+	AudioCore = ModuleSystem.require("/Engine/Audio/AudioCore").AudioCore;
 	AudioCore.init();
 	
-	Game = new (ModuleSystem.require("TestGame.Game").Game)();
+	Game = new (ModuleSystem.require("/TestGame/Game").Game)();
 	
 	Game.create();
 	Game.loadConfig();

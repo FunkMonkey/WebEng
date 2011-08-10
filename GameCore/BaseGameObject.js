@@ -1,7 +1,7 @@
 
 "use strict";
 
-ModuleSystem.registerModule(function(require, exports){
+ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports){
 	
 	function BaseGameObject()
 	{

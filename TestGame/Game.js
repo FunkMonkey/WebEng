@@ -1,8 +1,8 @@
-ModuleSystem.registerModule(function(require, exports){
+ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 	
-	var BaseGame = ModuleSystem.require("GameCore.BaseGame").BaseGame;
-	var BaseGameObject = ModuleSystem.require("GameCore.BaseGameObject").BaseGameObject;
-	var Plugin_WorldObject3D = ModuleSystem.require("GameCore.Plugin_WorldObject3D").Plugin_WorldObject3D;
+	var BaseGame = ModuleSystem.require("/GameCore/BaseGame").BaseGame;
+	var BaseGameObject = ModuleSystem.require("/GameCore/BaseGameObject").BaseGameObject;
+	var Plugin_WorldObject3D = ModuleSystem.require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	
 	function Game()
 	{

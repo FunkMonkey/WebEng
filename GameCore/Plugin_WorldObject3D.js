@@ -1,6 +1,6 @@
 "use strict";
 
-ModuleSystem.registerModule(function(require, exports){
+ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, exports){
 	
 	function Plugin_WorldObject3D(gameObj)
 	{

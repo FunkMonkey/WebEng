@@ -1,6 +1,6 @@
 "use strict";
 
-ModuleSystem.registerModule(function(require, exports){
+ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, exports){
 	
 	var gl = null;
 	var GraphicsCore = null;

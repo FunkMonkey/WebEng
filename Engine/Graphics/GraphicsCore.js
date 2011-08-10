@@ -1,7 +1,7 @@
 "use strict";
 
 
-ModuleSystem.registerModule(function(require, exports){
+ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, exports){
 	
 	var gl = null;
 	
@@ -119,10 +119,10 @@ ModuleSystem.registerModule(function(require, exports){
 		
 	};
 	
-	GraphicsCore.ShaderManager = ModuleSystem.require("Engine.Graphics.ShaderManager").ShaderManager;
-	GraphicsCore.TextureManager = ModuleSystem.require("Engine.Graphics.TextureManager").TextureManager;
-	GraphicsCore.ShaderProgram = ModuleSystem.require("Engine.Graphics.ShaderProgram").ShaderProgram;
-	GraphicsCore.Plugin_SimpleGraphics2D = ModuleSystem.require("Engine.Graphics.Plugin_SimpleGraphics2D").Plugin_SimpleGraphics2D;
+	GraphicsCore.ShaderManager = require("ShaderManager").ShaderManager;
+	GraphicsCore.TextureManager = require("TextureManager").TextureManager;
+	GraphicsCore.ShaderProgram = require("ShaderProgram").ShaderProgram;
+	GraphicsCore.Plugin_SimpleGraphics2D = require("Plugin_SimpleGraphics2D").Plugin_SimpleGraphics2D;
 		
 	exports.GraphicsCore = GraphicsCore;
 	

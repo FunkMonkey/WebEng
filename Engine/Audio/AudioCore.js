@@ -1,7 +1,7 @@
 "use strict";
 
 
-ModuleSystem.registerModule(function(require, exports){
+ModuleSystem.registerModule("Engine/Audio/AudioCore", function(require, exports){
 	
 	var AudioCore = {
 		
