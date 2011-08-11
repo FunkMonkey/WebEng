@@ -4,8 +4,12 @@ var ModuleSystem = {
 	
 	modules: {},
 	
+	// TODO: check for /
 	require: function require(id, options)
 	{
+		if(id[0] !== "/")
+			id = "/" + id;
+		
 		var module = this.modules[id];
 		
 		if(!module || (options && options.forceFileReload))

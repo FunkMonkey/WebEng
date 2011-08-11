@@ -6,7 +6,6 @@
         
         <script type="text/javascript" src="Dependencies/glMatrix-0.9.5.min.js"></script>
         <script type="text/javascript" src="Dependencies/jquery-1.6.2.min.js"></script>
-        <script type="text/javascript" src="Engine/Engine.js"></script>
         <script type="text/javascript" src="Engine/Extension.js"></script>
         <script type="text/javascript" src="Engine/ScriptLoader.js"></script>
         <script type="text/javascript" src="Engine/ModuleSystem.js"></script>
@@ -19,8 +18,10 @@
                     console.log(text);
             }
             
+            var require = ModuleSystem._boundRequire;
+            
         </script>
-        <script type="text/javascript" src="Engine/Vector3.js"></script>
+        <script type="text/javascript" src="Engine/Engine.js"></script>
         <script type="text/javascript" src="TestGame/entry.js"></script>
         
         
