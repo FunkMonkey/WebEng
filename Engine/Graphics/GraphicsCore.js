@@ -5,9 +5,18 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 	
 	var gl = null;
 	
+	var Camera = require("Camera").Camera;
+	
 	var GraphicsCore = {
 		
 		canvas: null,
+		
+		vpWidth: 0,
+		vpHeight: 0,
+		vpHalfWidth: 0,
+		vpHalfHeight: 0,
+		
+		orthoFactor: 100,
 		
 		init: function init()
 		{
@@ -16,12 +25,22 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			// matrices
 			this.mvMatrix = mat4.create();
 			this.pMatrix = mat4.create();
+			this.ipMatrix = mat4.create();
+			
+			// camera
+			this.camera = new Camera();
+			this.camera.pos.z = -10;
 			
 			this.canvas = document.getElementById("glcanvas");
 			//this._viewportSize = Vector2.getFromPool(this.canvas.width, this.canvas.height);
 			//this._cameraPos = Vector2.getFromPool(0, 0);
 			
 			this.initWebGL();
+			
+			//mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, this.pMatrix);
+			mat4.ortho(-this.vpWidth / this.orthoFactor / 2, this.vpWidth / this.orthoFactor / 2, -this.vpHeight / this.orthoFactor / 2, this.vpHeight / this.orthoFactor / 2, 0.1, 100.0, this.pMatrix);
+			//mat4.ortho(-10, 10, -10, 10, 0.1, 100.0, this.pMatrix);
+			mat4.inverse(this.pMatrix, this.ipMatrix);
 			
 			this.gl.clearColor(0.0, 0.0, 0.0, 1.0);  		// Set clear color to black, fully opaque
 			this.gl.clearDepth(1.0);                 		// Clear everything
@@ -48,6 +67,12 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			
 			gl.viewportWidth = this.canvas.width;
 			gl.viewportHeight = this.canvas.height;
+			
+			this.vpWidth = this.canvas.width;
+			this.vpHeight = this.canvas.height;
+			this.vpHalfWidth = this.vpWidth / 2.0;
+			this.vpHalfHeight = this.vpHeight / 2.0;
+			this.aspect = this.vpWidth / this.vpHeight;
 			 
 			// If we don't have a GL context, give up now
 			if (!this.gl)
@@ -75,7 +100,6 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
 			this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 			
-			mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, this.pMatrix);
 			mat4.identity(this.mvMatrix);
 			
 			for(var i = 0; i < this.drawableObjects.length; ++i)
@@ -115,6 +139,18 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			
 			return shaderProgram;
 		},
+		
+		screenPosToWorldPos: function screenPosToWorldPos(screenPos, distance, outWorldPos)
+		{
+			if(!outWorldPos)
+				outWorldPos = Vector3.fromPool();
+				
+			outWorldPos.x = -this.camera.pos.x + ((screenPos.x - this.vpHalfWidth) / this.orthoFactor);
+			outWorldPos.y = -this.camera.pos.y + ((-screenPos.y + this.vpHalfHeight) / this.orthoFactor);
+			
+			return outWorldPos;
+		},
+		
 		
 		
 	};

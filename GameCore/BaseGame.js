@@ -67,7 +67,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports){
 		update: function update(deltaTime)
 		{
 			for(var i = 0; i < this.gameObjectsArray.length; ++i)
-				this.gameObjectsArray[i].update(dt);
+				this.gameObjectsArray[i].update(deltaTime);
 		},
 		
 		destroy: function destroy()

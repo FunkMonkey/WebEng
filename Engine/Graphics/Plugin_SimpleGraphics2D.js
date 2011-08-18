@@ -57,6 +57,8 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleGraphics2D", function(
 			this.vertexPosBuffer.numItems = 4; 
 		},
 		
+		_tmpFinalPos: Vector3.fromPool(),
+		
 		draw: function draw(dt)
 		{
 			var mvMatrix = GraphicsCore.mvMatrix;
@@ -66,8 +68,12 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleGraphics2D", function(
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, this.texture);
 			gl.uniform1i(this.shaderProgram.samplerUniform, 0);
-	
-			mat4.translate(mvMatrix, this.gameObj.pos);
+			
+			this._tmpFinalPos.x = GraphicsCore.camera.pos.x + this.gameObj.pos.x;
+			this._tmpFinalPos.y = GraphicsCore.camera.pos.y + this.gameObj.pos.y;
+			this._tmpFinalPos.z = GraphicsCore.camera.pos.z + this.gameObj.pos.z;
+			
+			mat4.translate(mvMatrix, this._tmpFinalPos);
 			mat4.rotate(mvMatrix, this.gameObj.rot[2], zAxis)
 			mat4.scale(mvMatrix, this.gameObj.scale);
 			

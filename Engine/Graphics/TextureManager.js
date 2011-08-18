@@ -22,7 +22,7 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 		{
 			if(this.images[path])
 			{
-				callback(images[path]);
+				callback(this.images[path]);
 			}
 			else
 			{

@@ -40,7 +40,7 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 			this.jdomMouseEventReceiver = $(domMouseEventReceiver);
 			this.jdomMouseEventReceiver.mousedown(this.onMousedown.bind(this));
 			this.jdomMouseEventReceiver.mouseup(this.onMouseup.bind(this));
-			this.jdomMouseEventReceiver.mousemove(this.onMousemove.bind(this));
+			this.jdomMouseEventReceiver.mousemove(this.onMousemove.bind(this)); // TODO: bottleneck
 			this.jdomMouseEventReceiver.mouseenter(this.onMouseenter.bind(this));
 			this.jdomMouseEventReceiver.mouseleave(this.onMouseleave.bind(this));
 			
@@ -134,6 +134,8 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 		_mousePosCurr: Vector3.fromPool(),
 		mousePos: Vector3.fromPool(),
 		mousePosRel: Vector3.fromPool(),
+		mousePosWS: Vector3.fromPool(),
+		mousePosRelWS: Vector3.fromPool(),
 		
 		
 		onMousemove: function onMousemove(event)
@@ -232,6 +234,8 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 			// updating mouse position
 			this.mousePosRel.x = this._mousePosCurr.x - this.mousePos.x;
 			this.mousePosRel.y = this._mousePosCurr.y - this.mousePos.y;
+			//this.mousePosRelWS.x = this.mousePosRel.x;
+			//this.mousePosRelWS.y = -this.mousePosRel.y;
 			
 			this.mousePos.x = this._mousePosCurr.x;
 			this.mousePos.y = this._mousePosCurr.y;

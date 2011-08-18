@@ -11,6 +11,7 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		this.keyCode = keyCode;
 		this.state = state;
 		this.input = input;
+		this.obligatory = false;
 		
 		if(this.input && action.result.length < input.length)
 		{
@@ -26,14 +27,15 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		{
 			if(InputCore.isKey(this.keyCode, this.state))
 			{
-				this.action.isTriggered = true;
-				
 				if(this.input)
 				{
 					for(var i = 0; i < this.input.length; ++i)
 						this.action.result[i] += this.input[i];
 				}
+				
+				return true;
 			}
+			return false;
 		}
 	};
 	
@@ -43,6 +45,7 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		this.buttonCode = buttonCode;
 		this.state = state;
 		this.input = input;
+		this.obligatory = false;
 		
 		if(this.input && action.result.length < input.length)
 		{
@@ -58,14 +61,14 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		{
 			if(InputCore.isMouseButton(this.buttonCode, this.state))
 			{
-				this.action.isTriggered = true;
-				
 				if(this.input)
 				{
 					for(var i = 0; i < this.input.length; ++i)
 						this.action.result[i] += this.input[i];
 				}
+				return true;
 			}
+			return false;
 		}
 	};
 	
@@ -73,6 +76,7 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	{
 		this.action = action;
 		this.input = input;
+		this.obligatory = false;
 		
 		action.result[0] = 0;
 		action.result[1] = 0;
@@ -86,8 +90,6 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 			var mouseRel = InputCore.mousePosRel;
 			if(mouseRel.x !== 0 || mouseRel.y !== 0)
 			{
-				this.action.isTriggered = true;
-				
 				if(this.input)
 				{
 					switch(this.input.length)
@@ -117,8 +119,22 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 					this.action.result[0] += mouseRel[0];
 					this.action.result[1] += mouseRel[1];
 				}
+				
+				return true;
 			}
+			return false;
 		}
+	};
+	
+	function TriggerGroup()
+	{
+		
+	}
+	
+	TriggerGroup.prototype = {
+		constructor: TriggerGroup,
+		
+		
 	};
 	
 	function InputAction(name)
@@ -143,19 +159,32 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 				this.callbacks[i](action, this.result);
 		},
 		
+		addTrigger: function addTrigger(trigger)
+		{
+			this.triggers.push(trigger);
+			return trigger;
+		},
+		
+		
 		addKeyboardTrigger: function addKeyboardTrigger(keyCode, state, input)
 		{
-			this.triggers.push(new KeyboardTrigger(this, keyCode, state, input));
+			var trigger = new KeyboardTrigger(this, keyCode, state, input);
+			this.triggers.push(trigger);
+			return trigger;
 		},
 		
 		addMouseButtonTrigger: function addMouseButtonTrigger(mbCode, state, input)
 		{
-			this.triggers.push(new MouseButtonTrigger(this, mbCode, state, input));
+			var trigger = new MouseButtonTrigger(this, mbCode, state, input);
+			this.triggers.push(trigger);
+			return trigger;
 		},
 		
 		addMouseMoveTrigger: function addMouseMoveTrigger(input)
 		{
-			this.triggers.push(new MouseMoveTrigger(this, input));
+			var trigger = new MouseMoveTrigger(this, input);
+			this.triggers.push(trigger);
+			return trigger;
 		},
 		
 		check: function check()
@@ -168,7 +197,20 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 			
 			// check triggers
 			for(var i = 0; i < this.triggers.length; ++i)
-				this.triggers[i].check();
+			{
+				if(this.triggers[i].check())
+				{
+					this.isTriggered = true;
+				}
+				else
+				{
+					if(this.triggers[i].obligatory)
+					{
+						this.isTriggered = false;
+						break;
+					}
+				}
+			}
 			
 			// run callbacks
 			if(this.isTriggered)
@@ -182,6 +224,7 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	InputAction.KeyboardTrigger = KeyboardTrigger;
 	InputAction.MouseButtonTrigger = MouseButtonTrigger;
 	InputAction.MouseMoveTrigger = MouseMoveTrigger;
+	InputAction.TriggerGroup = TriggerGroup;
 	
 	
 	InputAction.initModule = function initModule(inputCore)
