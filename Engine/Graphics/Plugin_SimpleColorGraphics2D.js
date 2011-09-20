@@ -10,8 +10,8 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 	{
 		this.gameObj = gameObj;
 		gameObj.pluginGraphics = this;
-		this.width = 10;
-		this.height = 10;
+		this.width = 1;
+		this.height = 1;
 		this.color = GraphicsCore.Color.fromPool();
 	}
 	
@@ -53,10 +53,10 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 			this.vertexPosBuffer.itemSize = 3;
 			this.vertexPosBuffer.numItems = 4;
 			
-			var color = [];
+			var colors = [];
 			for(var i = 0; i < 4; ++i)
 				for(var j = 0; j < 4; ++j)
-					color.push(this.color[j]);
+					colors.push(this.color[j]);
 					
 			this.vertexColorBuffer = gl.createBuffer();
 			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexColorBuffer);

@@ -1,5 +1,5 @@
 attribute vec3 aVertexPosition;
-attribute vec2 aTextureCoord;
+attribute vec4 aVertexColor;
 
 uniform mat4 uMVMatrix;
 uniform mat4 uPMatrix;

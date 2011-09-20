@@ -64,7 +64,7 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 	
 	Extension.inherit_auto(Color, Array);
 	
-	require("GCPool").initPoolOn(Color, Color.prototype.set);
+	require("/Engine/GCPool").initPoolOn(Color, Color.prototype.set);
 	
 	exports.Color = Color;
 });

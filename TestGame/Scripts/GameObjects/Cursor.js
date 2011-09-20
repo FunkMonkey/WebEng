@@ -30,8 +30,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		var obj = new BaseGameObject();
 		obj.addPlugin(new Plugin_WorldObject3D(obj));
 		obj.addPlugin(new Plugin_LogicCursor(obj));
-		obj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D(obj));
-		obj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D(obj));
 		return obj;
 	}
 	
