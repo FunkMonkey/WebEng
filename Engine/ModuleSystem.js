@@ -4,6 +4,8 @@ var ModuleSystem = {
 	
 	modules: {},
 	
+	modulesPath: "",
+	
 	// TODO: check for /
 	require: function require(id, options)
 	{
@@ -14,7 +16,8 @@ var ModuleSystem = {
 		
 		if(!module || (options && options.forceFileReload))
 		{
-			ScriptLoader.loadJSFile_Sync(ModuleSystem.modulePathToFilePath(id));
+			var path = (this.modulesPath === "") ? ModuleSystem.modulePathToFilePath(id) : this.modulesPath + ModuleSystem.modulePathToFilePath(id);
+			ScriptLoader.loadJSFile_Sync(path);
 		}
 		
 		module = this.modules[id];

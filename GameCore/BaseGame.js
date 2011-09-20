@@ -1,5 +1,5 @@
 
-ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports){
+ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, module){
 	
 	function BaseGame()
 	{
