@@ -52,9 +52,9 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			this.ShaderManager.init(this);
 			this.TextureManager.init(this);
 			this.ShaderProgram.init(this);
-			this.Plugin_SimpleGraphics2D.initModule(this);
+			this.Plugin_SimpleTextureGraphics2D.initModule(this);
 			
-			this.stdShaderProgram = this.createStandardShaderProgram();
+			this.stdTextureShaderProgram = this.createStdTextureShaderProgram();
 		},
 		
 		/*
@@ -114,10 +114,10 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		},
 		
 		
-		createStandardShaderProgram: function createStandardShaderProgram()
+		createStdTextureShaderProgram: function createStdTextureShaderProgram()
 		{
-			this.ShaderManager.loadShaderCode("fs", "Engine/Graphics/Standard_fs.shader", "x-shader/x-fragment");
-			this.ShaderManager.loadShaderCode("vs", "Engine/Graphics/Standard_vs.shader", "x-shader/x-vertex");
+			this.ShaderManager.loadShaderCode("fs", "Engine/Graphics/Std_Texture_fs.shader", "x-shader/x-fragment");
+			this.ShaderManager.loadShaderCode("vs", "Engine/Graphics/Std_Texture_vs.shader", "x-shader/x-vertex");
 			
 			var fragmentShader = this.ShaderManager.createGLSLShader("fs");
 			var vertexShader = this.ShaderManager.createGLSLShader("vs");
@@ -158,7 +158,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 	GraphicsCore.ShaderManager = require("ShaderManager").ShaderManager;
 	GraphicsCore.TextureManager = require("TextureManager").TextureManager;
 	GraphicsCore.ShaderProgram = require("ShaderProgram").ShaderProgram;
-	GraphicsCore.Plugin_SimpleGraphics2D = require("Plugin_SimpleGraphics2D").Plugin_SimpleGraphics2D;
+	GraphicsCore.Plugin_SimpleTextureGraphics2D = require("Plugin_SimpleTextureGraphics2D").Plugin_SimpleTextureGraphics2D;
 		
 	exports.GraphicsCore = GraphicsCore;
 	

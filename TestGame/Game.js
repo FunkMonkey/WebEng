@@ -38,7 +38,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			//this.testObj.rot.z = Math.PI;
 			//this.testObj.scale.x = 2;
 			
-			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleGraphics2D(this.testObj));
+			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D(this.testObj));
 			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
 		},
 				

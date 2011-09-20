@@ -1,6 +1,6 @@
 "use strict";
 
-ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleGraphics2D", function(require, exports){
+ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", function(require, exports){
 	
 	var gl = null;
 	var GraphicsCore = null;
@@ -8,14 +8,14 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleGraphics2D", function(
 	
 	// TODO: rename to Plugin_SimpleGraphicsObject
 	
-	function Plugin_SimpleGraphics2D(gameObj)
+	function Plugin_SimpleTextureGraphics2D(gameObj)
 	{
 		this.gameObj = gameObj;
 		gameObj.pluginGraphics = this;
 	}
 	
-	Plugin_SimpleGraphics2D.prototype = {
-		constructor: Plugin_SimpleGraphics2D,
+	Plugin_SimpleTextureGraphics2D.prototype = {
+		constructor: Plugin_SimpleTextureGraphics2D,
 		
 		pixelToWorldScaleFactor: 0.01,
 		
@@ -33,7 +33,7 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleGraphics2D", function(
 		{
 			GraphicsCore.addDrawableObject(this);
 			
-			this.shaderProgram = GraphicsCore.stdShaderProgram;
+			this.shaderProgram = GraphicsCore.stdTextureShaderProgram;
 			
 			var width = this.texture.width * this.pixelToWorldScaleFactor;
 			var height = this.texture.height * this.pixelToWorldScaleFactor;
@@ -92,13 +92,13 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleGraphics2D", function(
 	};
 
 	
-	Plugin_SimpleGraphics2D.initModule = function initModule(graphicsCore)
+	Plugin_SimpleTextureGraphics2D.initModule = function initModule(graphicsCore)
 		{
 			gl = graphicsCore.gl;
 			GraphicsCore = graphicsCore;
 			
 		}
 	
-	exports.Plugin_SimpleGraphics2D = Plugin_SimpleGraphics2D;
+	exports.Plugin_SimpleTextureGraphics2D = Plugin_SimpleTextureGraphics2D;
 	
 });
