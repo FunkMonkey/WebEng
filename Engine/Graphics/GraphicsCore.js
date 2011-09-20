@@ -55,6 +55,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			this.Plugin_SimpleTextureGraphics2D.initModule(this);
 			
 			this.stdTextureShaderProgram = this.createStdTextureShaderProgram();
+			this.stdColorShaderProgram = this.createStdColorShaderProgram();
 		},
 		
 		/*
@@ -136,6 +137,32 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			shaderProgram.registerUniform("mvMatrix", "uMVMatrix", "uniformMatrix4fv");
 			
 			shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram.webglShaderProgram, "uSampler");
+			
+			return shaderProgram;
+		},
+		
+		createStdColorShaderProgram: function createStdColorShaderProgram()
+		{
+			this.ShaderManager.loadShaderCode("fs", "Engine/Graphics/Std_Color_fs.shader", "x-shader/x-fragment");
+			this.ShaderManager.loadShaderCode("vs", "Engine/Graphics/Std_Color_vs.shader", "x-shader/x-vertex");
+			
+			var fragmentShader = this.ShaderManager.createGLSLShader("fs");
+			var vertexShader = this.ShaderManager.createGLSLShader("vs");
+			
+			var shaderProgram = new this.ShaderProgram([vertexShader, fragmentShader], true);
+			
+			shaderProgram.use();
+			
+			shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram.webglShaderProgram, "aVertexPosition");
+			gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+			
+			shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram.webglShaderProgram, "aVertexColor");
+			gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+			
+			shaderProgram.registerUniform("pMatrix", "uPMatrix", "uniformMatrix4fv");
+			shaderProgram.registerUniform("mvMatrix", "uMVMatrix", "uniformMatrix4fv");
+			
+			//shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram.webglShaderProgram, "uSampler");
 			
 			return shaderProgram;
 		},
