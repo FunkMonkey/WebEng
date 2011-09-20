@@ -53,6 +53,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			this.TextureManager.init(this);
 			this.ShaderProgram.init(this);
 			this.Plugin_SimpleTextureGraphics2D.initModule(this);
+			this.Plugin_SimpleColorGraphics2D.initModule(this);
 			
 			this.stdTextureShaderProgram = this.createStdTextureShaderProgram();
 			this.stdColorShaderProgram = this.createStdColorShaderProgram();
@@ -186,7 +187,9 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 	GraphicsCore.TextureManager = require("TextureManager").TextureManager;
 	GraphicsCore.ShaderProgram = require("ShaderProgram").ShaderProgram;
 	GraphicsCore.Plugin_SimpleTextureGraphics2D = require("Plugin_SimpleTextureGraphics2D").Plugin_SimpleTextureGraphics2D;
-		
+	GraphicsCore.Plugin_SimpleColorGraphics2D = require("Plugin_SimpleColorGraphics2D").Plugin_SimpleColorGraphics2D;
+	GraphicsCore.Color = require("Color").Color;
+	
 	exports.GraphicsCore = GraphicsCore;
 	
 });

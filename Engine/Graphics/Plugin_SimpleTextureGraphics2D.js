@@ -12,6 +12,7 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 	{
 		this.gameObj = gameObj;
 		gameObj.pluginGraphics = this;
+		this.textureID = "";
 	}
 	
 	Plugin_SimpleTextureGraphics2D.prototype = {
