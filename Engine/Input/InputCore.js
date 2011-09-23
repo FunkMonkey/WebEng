@@ -120,7 +120,7 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 			this.mouseButtonsDown[event.which] = true;
 			this._mouseButtonsPressedCollector[event.which] = true;
 			
-			log("mouse is down " + event.which);
+			//log("mouse is down " + event.which);
 		},
 		
 		onMouseup: function onMouseup(event)
@@ -128,7 +128,7 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 			this.mouseButtonsDown[event.which] = false;
 			this._mouseButtonsReleasedCollector[event.which] = true;
 			
-			log("mouse is up " + event.which);
+			//log("mouse is up " + event.which);
 		},
 		
 		_mousePosCurr: Vector3.fromPool(),

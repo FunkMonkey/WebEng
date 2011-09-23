@@ -7,8 +7,10 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1", function(require, 
 	
 	var BaseGameObject = require("/GameCore/BaseGameObject").BaseGameObject;
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
+	var Plugin_Pickable = require("/TestGame/Scripts/Plugins/Plugin_Pickable").Plugin_Pickable;
 	
-	var M_Cursor = require("/TestGame/Scripts/GameObjects/Cursor");
+	var GO_Cursor = require("/TestGame/Scripts/GameObjects/Cursor");
+	var GO_BoxWithPhysics = require("/TestGame/Scripts/GameObjects/BoxWithPhysics");
 	
 	function Level1()
 	{
@@ -19,21 +21,27 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1", function(require, 
 		
 		create: function create()
 		{
-			
-
-			
 			// creating objects
-			this.testObj = new BaseGameObject();
+			//this.testObj = new BaseGameObject();
 			//this.addGameObject(this.testObj);
-			this.addGameObject(M_Cursor.createCursor());
+			//this.addGameObject(GO_Cursor.createCursor());
+			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics(Vector3.fromPool(0, 0, 0), Vector3.fromPool(5, 0.5, 0), GraphicsCore.Color.fromPool(0, 0, 0, 1), true));
 			
-			this.testObj.addPlugin(new Plugin_WorldObject3D(this.testObj));
-			this.testObj.pos.z = 0;
-			//this.testObj.rot.z = Math.PI;
-			//this.testObj.scale.x = 2;
+			var testbox = GO_BoxWithPhysics.createBoxWithPhysics(Vector3.fromPool(0, 2, 0), Vector3.fromPool(0.3, 0.3, 0), GraphicsCore.Color.fromPool(1, 0, 0, 1), false);
+			testbox.addPlugin(new Plugin_Pickable(testbox));
+			this.addGameObject(testbox);
 			
-			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D(this.testObj));
-			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+			testbox = GO_BoxWithPhysics.createBoxWithPhysics(Vector3.fromPool(-1, 2, 0), Vector3.fromPool(0.3, 0.3, 0), GraphicsCore.Color.fromPool(1, 0, 0, 1), false);
+			testbox.addPlugin(new Plugin_Pickable(testbox));
+			this.addGameObject(testbox);
+			
+			
+			
+			//this.testObj.addPlugin(new Plugin_WorldObject3D(this.testObj));
+			//this.testObj.pos.z = 0;
+			//
+			//this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D(this.testObj));
+			//this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
 		},
 		
 	};

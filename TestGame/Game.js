@@ -14,8 +14,15 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		{
 			BaseGame.prototype.init.call(this);
 			
-			var action = InputCore.getAction("OnCameraMove");
-			var trigger = action.addMouseButtonTrigger(1, InputCore.MOUSEBUTTON_STATE_DOWN);
+			var action = null;
+			var trigger = null;
+			
+			action = InputCore.getAction("OnMouseDown");
+			trigger = action.addMouseButtonTrigger(1, InputCore.MOUSEBUTTON_STATE_DOWN);
+			trigger.obligatory = true;
+			
+			action = InputCore.getAction("OnCameraMove");
+			trigger = action.addMouseButtonTrigger(1, InputCore.MOUSEBUTTON_STATE_DOWN);
 			trigger.obligatory = true;
 			
 			trigger = action.addMouseMoveTrigger();
@@ -26,21 +33,24 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		/*
 		 *
 		 */
-		update: function update(deltaTime)
+		update: function update(dt)
 		{
-			InputCore.update(deltaTime);
+			InputCore.update(dt);
+			this.mouseWorldPos = GraphicsCore.screenPosToWorldPos(InputCore.mousePos, 0);
 			
 			var onCameraMove = InputCore.actions["OnCameraMove"];
-			if(onCameraMove.isTriggered)
+			/*if(onCameraMove.isTriggered)
 			{
 				var pos = GraphicsCore.camera.pos;
 				pos.x += onCameraMove.result[0] / GraphicsCore.orthoFactor;
 				pos.y -= onCameraMove.result[1] / GraphicsCore.orthoFactor;
-			}
+			}*/
 			
-			BaseGame.prototype.update.call(this, deltaTime);
+			PhysicsCore.update(dt);
 			
-			GraphicsCore.update(deltaTime);
+			BaseGame.prototype.update.call(this, dt);
+			
+			GraphicsCore.update(dt);
 		},
 	};
 	

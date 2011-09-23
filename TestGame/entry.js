@@ -4,6 +4,7 @@ ScriptLoader.debugOptions.logLoading = false;
 var Vector3 = require("Engine/Vector3").Vector3;
 
 var GraphicsCore = null;
+var PhysicsCore = null;
 var InputCore = null;
 var AudioCore = null;
 var Game = null;
@@ -21,6 +22,9 @@ function onLoad()
 	
 	AudioCore = ModuleSystem.require("/Engine/Audio/AudioCore").AudioCore;
 	AudioCore.init();
+	
+	PhysicsCore = ModuleSystem.require("/Engine/Physics/PhysicsCore").PhysicsCore;
+	PhysicsCore.init();
 	
 	Game = new (ModuleSystem.require("/TestGame/Game").Game)();
 	

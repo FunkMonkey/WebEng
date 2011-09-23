@@ -22,7 +22,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		_tmpLengthFactor: 0,
 		update: function update(dt)
 		{
-			var mouseWorldPos = GraphicsCore.screenPosToWorldPos(InputCore.mousePos, this.gameObj.pos.z);
+			var mouseWorldPos = Game.mouseWorldPos;
 			this._tmpVec.x = mouseWorldPos.x - this.gameObj.pos.x;
 			this._tmpVec.y = mouseWorldPos.y - this.gameObj.pos.y;
 			this._tmpLength = Math.sqrt(this._tmpVec.x * this._tmpVec.x + this._tmpVec.y * this._tmpVec.y);
