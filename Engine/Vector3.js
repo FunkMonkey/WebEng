@@ -29,7 +29,13 @@ ModuleSystem.registerModule("Engine/Vector3", function(require, exports, module)
 				this[1] = y;
 				this[2] = z;
 			}
-		}
+		},
+		
+		toString: function toString()
+		{
+			return "(" + this[0] + ", " + this[1] + ", " + this[2] + ")";
+		},
+		
 	
 	};
 	

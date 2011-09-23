@@ -6,6 +6,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		this.updateInterval = 50;
 		this.updateTimer = null;
 		this.level = null;
+		this.lastUpdate = Date.now();
 	}
 	
 	BaseGame.functions = {
@@ -36,9 +37,14 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		/* Updates the game
 		 *
 		 */
-		update: function update(deltaTime)
+		update: function update()
 		{
-			this.level.update(deltaTime);
+			var now = Date.now();
+			var dt = (now - this.lastUpdate) / 1000;
+			this.lastUpdate = now;
+			
+			
+			this.level.update(dt);
 		},
 		
 		destroy: function destroy()

@@ -17,6 +17,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			var action = InputCore.getAction("OnCameraMove");
 			var trigger = action.addMouseButtonTrigger(1, InputCore.MOUSEBUTTON_STATE_DOWN);
 			trigger.obligatory = true;
+			
 			trigger = action.addMouseMoveTrigger();
 			trigger.obligatory = true;
 		},

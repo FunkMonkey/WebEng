@@ -10,6 +10,10 @@ var ScriptLoader = {
 	 */
 	loadDebug: false,
 	
+	debugOptions: {
+		logLoading: true
+	},
+	
 	/**
 	 * {string} Blockfile used for synchronous debug loading
 	 */
@@ -83,7 +87,8 @@ var ScriptLoader = {
 		}
 		else // firefox only
 		{
-			log("loading file: " + filePath)
+			if(this.debugOptions.logLoading)
+				log("loading file: " + filePath)
 			
 			// create a script element and set the src-attribute for loading the code
 			var node = document.createElement("script");
@@ -109,6 +114,7 @@ var ScriptLoader = {
 			{
 				if((curr - begin) > this.timeout)
 				{
+					// todo: throw error
 					log("Could not load " + filePath);
 					break;
 				}

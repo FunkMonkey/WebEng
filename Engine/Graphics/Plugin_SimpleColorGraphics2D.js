@@ -20,10 +20,10 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 		
 		//pixelToWorldScaleFactor: 0.01,
 		
-		loadResources: function loadResources(callback)
-		{
-			callback(this);
-		},
+		//loadResources: function loadResources(callback)
+		//{
+		//	callback(this);
+		//},
 		
 
 		init: function init()

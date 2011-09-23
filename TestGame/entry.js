@@ -1,3 +1,5 @@
+ScriptLoader.debugOptions.logLoading = false;
+
 
 var Vector3 = require("Engine/Vector3").Vector3;
 
@@ -5,6 +7,8 @@ var GraphicsCore = null;
 var InputCore = null;
 var AudioCore = null;
 var Game = null;
+
+
 
 function onLoad()
 {
