@@ -3,62 +3,34 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 	
 	function BaseGame()
 	{
-		this.name = "foo";
 		this.updateInterval = 50;
 		this.updateTimer = null;
-		this.gameObjectsArray = [];
-		this.gameObjects = {};
+		this.level = null;
 	}
 	
 	BaseGame.functions = {
 		
-		addGameObject: function addGameObject(obj)
-		{
-			this.gameObjectsArray.push(obj);
-		},
-		
-		
 		create: function create()
 		{
-			 
+			
 		},
-		
 		
 		loadConfig: function loadConfig()
 		{
-			for(var i = 0; i < this.gameObjectsArray.length; ++i)
-				this.gameObjectsArray[i].loadConfig();
+			
 		},
 		
-		/* async 
-		   
-		*/
 		loadResources: function loadResources(callback)
 		{
-			if(this.gameObjectsArray.length === 0)
-				callback();
-			
-			this._goResLoaded = 0;
-			var goCallback = (function goCallback()
-				{
-					++this._goResLoaded;
-					if(this._goResLoaded === this.gameObjectsArray.length)
-						callback();
-				}).bind(this);
-			
-			for(var i = 0; i < this.gameObjectsArray.length; ++i)
-				this.gameObjectsArray[i].loadResources(goCallback);
+			callback();
 		},
 		
 		
-				
 		/* Initializes the game
 		 *
 		 */
 		init: function init()
 		{
-			for(var i = 0; i < this.gameObjectsArray.length; ++i)
-				this.gameObjectsArray[i].init();
 		},
 		
 		/* Updates the game
@@ -66,14 +38,12 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		 */
 		update: function update(deltaTime)
 		{
-			for(var i = 0; i < this.gameObjectsArray.length; ++i)
-				this.gameObjectsArray[i].update(deltaTime);
+			this.level.update(deltaTime);
 		},
 		
 		destroy: function destroy()
 		{
-			for(var i = 0; i < this.gameObjectsArray.length; ++i)
-				this.gameObjectsArray[i].destroy();
+			this.unloadCurrentLevel();
 		},
 		
 		/*
@@ -81,6 +51,29 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		{
 
 		},*/
+		
+		loadLevel: function loadLevel(moduleID, callback)
+		{
+			if(this.level)
+				this.unloadCurrentLevel();
+				
+			var LevelClass = require(moduleID).Level;
+			
+			this.level = new LevelClass();
+			this.level.create();
+			this.level.loadConfig();
+			this.level.init();
+			
+			this.level.loadResources(callback);
+		},
+		
+		unloadCurrentLevel: function unloadCurrentLevel()
+		{
+			this.level.destroy();
+			this.level = null;
+		},
+		
+		
 		
 		
 		startGameLoop: function startGameLoop()
@@ -91,7 +84,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			
 			this.updateTimer = window.setInterval(this.update.bind(this), this.updateInterval);
 			//this.updateTimer = window.setTimeout(this.update.bind(this), 100);
-		},
+		}
 	};
 	
 	Extension.inherit_auto(BaseGame, Object);

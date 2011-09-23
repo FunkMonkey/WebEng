@@ -31,6 +31,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		obj.addPlugin(new Plugin_WorldObject3D(obj));
 		obj.addPlugin(new Plugin_LogicCursor(obj));
 		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D(obj));
+		obj.pluginGraphics.width = 0.2;
+		obj.pluginGraphics.height = 0.2;
+		obj.pluginGraphics.color = GraphicsCore.Color.fromPool(1.0, 1.0, 0.0, 1.0);
 		return obj;
 	}
 	

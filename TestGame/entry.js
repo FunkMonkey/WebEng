@@ -23,9 +23,12 @@ function onLoad()
 	Game.create();
 	Game.loadConfig();
 	Game.loadResources(function(){
-		log("resources loaded");
 		Game.init();
-		Game.startGameLoop();
+		
+		Game.loadLevel("/TestGame/Scripts/Levels/Level1", function cb(){
+				log("level loaded");
+				Game.startGameLoop();
+			});
 	}); // async
 	
 }

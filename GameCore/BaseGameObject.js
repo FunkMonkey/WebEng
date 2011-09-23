@@ -11,6 +11,7 @@ ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports
 	BaseGameObject.prototype = {
 		constructor: BaseGameObject,
 		
+		// is needed?
 		loadConfig: function loadConfig()
 		{
 			for(var i = 0; i < this.plugins.length; ++i)

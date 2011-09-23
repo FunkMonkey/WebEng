@@ -90,6 +90,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 			
 			gl.drawArrays(gl.TRIANGLE_STRIP, 0, this.vertexPosBuffer.numItems);
 		},
+		
+		destroy: function destroy()
+		{
+			/* todo: remove from GraphicsCore */
+		},
 	};
 
 	

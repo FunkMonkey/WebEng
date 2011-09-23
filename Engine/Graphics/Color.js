@@ -18,7 +18,7 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 				this[2] = 0;
 				this[3] = 1;
 			}
-			else if(r === undefined)
+			else if(g === undefined)
 			{
 				this[0] = rOrColor[0];
 				this[1] = rOrColor[1];

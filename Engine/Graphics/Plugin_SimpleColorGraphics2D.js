@@ -101,6 +101,12 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 			
 			gl.drawArrays(gl.TRIANGLE_STRIP, 0, this.vertexPosBuffer.numItems);
 		},
+		
+		destroy: function destroy()
+		{
+			/* todo: remove from GraphicsCore */
+		},
+		
 	};
 
 	
