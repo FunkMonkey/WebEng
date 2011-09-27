@@ -14,6 +14,21 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
          	,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
          	,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
             ;
+			
+	b2Fixture.prototype.lastID = 0;
+	
+	b2Fixture.prototype._getID = function()
+	{
+		return this._id;
+	}
+	
+	// create id on first call
+	b2Fixture.prototype.getID = function()
+	{
+		this._id = ++(b2Fixture.prototype.lastID);
+		this.getID = this._getID;
+		return this._getID();
+	}
 	
 	var PhysicsCore = {
 		
@@ -23,6 +38,26 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			if(!gravity)
 				gravity = new b2Vec2(0, -4.81);
 			this.world = new b2World(gravity, true);
+			
+			this.contactCallbacks_BeginContact = {};
+		},
+		
+		/* 
+		 * 
+		 */
+		registerContactCallback: function registerContactCallback(fixture1, fixture2, type, callbackt)
+		{
+			if(!fixture1 && !fixture2)
+				throw "No fixtures given";
+			
+			if(fixture1 && fixture2)
+			{
+				
+			}
+			else
+			{
+				var fixture = fixture1 || fixture2;
+			}
 		},
 		
 		update: function update(dt)

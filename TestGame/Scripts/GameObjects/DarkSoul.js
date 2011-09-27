@@ -15,6 +15,11 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		this.dir = 1;
 		this.picked = false;
 		this._dead = false;
+		this.ran = Math.random();
+		this.timeTillDrop = 1500;
+		this.timeTillRePick = 1000;
+		this.timePicked = 0;
+		this.timeDropped = 0;
 	}
 	
 	Plugin_LogicDarkSoul.prototype = {
@@ -28,19 +33,27 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		set dead(val)
 		{
 			this._dead = val;
-			if(!val)
+			if(val)
 				Game.onDarkSoulDead();
 		},
 		
 		init: function init()
 		{
 			this.cursor = Game.level.gameObjects["Cursor"];
+			this.gameObj.pluginPickable.addEventListener("prePick", this.onPrePick.bind(this));
+			this.gameObj.pluginPickable.addEventListener("picked", this.onPick.bind(this));
 			this.gameObj.pluginPickable.addEventListener("dropped", this.onDrop.bind(this));
+		},
+		
+		onPrePick: function onPrePick()
+		{
+			return (Engine.getTimeInMS() - this.timeDropped > this.timeTillRePick);
 		},
 		
 		onPick: function onPick()
 		{
 			this.picked = true;
+			this.timePicked = Engine.getTimeInMS();
 		},
 		
 		
@@ -48,6 +61,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		{
 			this.picked = false;
 			this.physBody.SetLinearVelocity(new PhysicsCore.b2Vec2(0, 0));
+			this.timeDropped = Engine.getTimeInMS();
 		},
 		
 		
@@ -76,6 +90,12 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 				this._tmpImpulse.y = 0;
 				this.physBody.ApplyImpulse(this._tmpImpulse, this.physBody.GetWorldCenter());
 			}
+			else if (this.picked)
+			{
+				var now = Engine.getTimeInMS();
+				if(now - this.timePicked > this.timeTillDrop)
+					this.gameObj.pluginPickable.drop();
+			}
 		}
 		
 	};
@@ -85,19 +105,23 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		if(!size)
 			size = Vector3.fromPool(1, 1, 0);
 					
-		var obj = new BaseGameObject();
+		var obj = new BaseGameObject(id);
 		obj.addPlugin(new Plugin_WorldObject3D(obj));
 		if(pos)
 			obj.pos = pos;
-			
+		
+		// logic
 		obj.addPlugin(new Plugin_LogicDarkSoul(obj));
 		
+		// physics
 		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox(obj));
 		obj.pluginPhysics.size.x = size.x;
 		obj.pluginPhysics.size.y = size.y;
 		
+		// pickable
 		obj.addPlugin(new Plugin_Pickable(obj));
 		
+		// graphics
 		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D(obj));
 		if(color)
 			obj.pluginGraphics.color = color;

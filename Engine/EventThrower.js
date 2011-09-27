@@ -9,6 +9,7 @@ ModuleSystem.registerModule("Engine/EventThrower", function(require, exports, mo
 			obj._eventListeners = {};
 			obj.addEventListener = this.addEventListener;
 			obj.fireEvent = this.fireEvent;
+			obj.fireCancelableEvent = this.fireCancelableEvent;
 		},
 		
 		addEventListener: function addEventListener(eventID, func)
@@ -31,7 +32,17 @@ ModuleSystem.registerModule("Engine/EventThrower", function(require, exports, mo
 		
 		fireCancelableEvent: function fireCancelableEvent(eventID, data)
 		{
+			if(!this._eventListeners[eventID])
+				return;
 			
+			var arr = this._eventListeners[eventID];
+			for(var i=0; i < arr.length; i++)
+			{
+				if(!(arr[i](this, eventID, data)))
+					return false;
+			}
+				
+			return true;
 		},
 		
 	};
