@@ -29,6 +29,7 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 		{
 			this.world.Step(
 				dt//frame-rate
+				//1/60
 				,  10       //velocity iterations
 				,  10       //position iterations
 			);			

@@ -23,9 +23,20 @@ var Engine = {
 			}
 			
 			return xhrObj.responseText;
-		},
+		}
 		
 		
-	}
+	},
 	
+	getTimeInMS: function getTimeInMS()
+	{
+		return Date.now();
+	},
+	
+	getHRTimeInMS: function getHRTimeInMS()
+	{
+		return Date.now();
+	},
 };
+
+Engine.Timers = require("/Engine/Timers");

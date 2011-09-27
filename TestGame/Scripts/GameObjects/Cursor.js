@@ -15,7 +15,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 	}
 	
 	Plugin_LogicCursor.prototype = {
-		constructor: Plugin_WorldObject3D,
+		constructor: Plugin_LogicCursor,
 		
 		_tmpVec: Vector3.fromPool(),
 		_tmpLength:0,
@@ -44,9 +44,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		
 	};
 	
-	function createCursor()
+	function createCursor(id)
 	{
-		var obj = new BaseGameObject();
+		var obj = new BaseGameObject(id);
 		obj.addPlugin(new Plugin_WorldObject3D(obj));
 		obj.addPlugin(new Plugin_LogicCursor(obj));
 		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D(obj));

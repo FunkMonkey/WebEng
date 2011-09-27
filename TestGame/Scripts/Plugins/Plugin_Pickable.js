@@ -2,6 +2,8 @@
 
 ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function(require, exports){
 	
+	var EventThrower = require("/Engine/EventThrower").EventThrower;
+	
 	var updateCount = -1;
 	var pos = null;
 	var onMouseDown = null;
@@ -11,7 +13,10 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 	{
 		this.gameObj = gameObj;
 		gameObj.pluginPickable = this;
+		EventThrower.applyOn(this);
 	}
+	
+	Plugin_Pickable.pickedBody = null;
 	
 	Plugin_Pickable.prototype = {
 		constructor: Plugin_Pickable,
@@ -40,6 +45,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 				{
 					if(this.body.GetType() != PhysicsCore.b2Body.b2_staticBody && this.fixture.GetShape().TestPoint(this.body.GetTransform(), pos))
 					{
+						this.fireEvent("prePick");
 						var md = new PhysicsCore.b2MouseJointDef();
 						md.bodyA = PhysicsCore.world.GetGroundBody();
 						md.bodyB = this.body;
@@ -48,6 +54,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 						md.maxForce = 300.0 * this.body.GetMass();
 						joint = PhysicsCore.world.CreateJoint(md);
 						this.body.SetAwake(true);
+						this.fireEvent("picked");
+						Plugin_Pickable.pickedBody = this.body;
 					}
 				}
 				else
@@ -57,9 +65,12 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 			}
 			else if(joint !== null)
 			{
+				this.fireEvent("preDrop");
 				// destroy joint
 				PhysicsCore.world.DestroyJoint(joint);
 				joint = null;
+				Plugin_Pickable.pickedBody = null;
+				this.fireEvent("dropped");
 			}
 		},
 		

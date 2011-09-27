@@ -3,10 +3,11 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 	
 	function BaseGame()
 	{
-		this.updateInterval = 16;
+		this.updateInterval = 1/60;
 		this.updateTimer = null;
 		this.level = null;
-		this.lastUpdate = Date.now();
+		//this.lastUpdate = Date.now();
+		this.lastUpdate = window.mozAnimationStartTime;
 		this.updateCount = 0;
 	}
 	
@@ -43,15 +44,18 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			this.level.update(dt);
 		},
 		
-		_updateCall: function _updateCall()
+		_updateCall: function _updateCall(timestamp)
 		{
+			var timer = new Engine.Timers.PhaseTimer();
 			++this.updateCount;
-			var now = Date.now();
-			var dt = (now - this.lastUpdate) / 1000;
-			this.lastUpdate = now;
-			
+			var dt = (timestamp - this.lastUpdate) / 1000;
+			this.lastUpdate = timestamp;
 			
 			this.update(dt);
+			window.mozRequestAnimationFrame(this._boundUpdateCall);
+			//timer.finishPhase("All");
+			//timer.print(log);
+			//log("frame: " + this.updateCount);
 		},
 		
 		
@@ -92,7 +96,10 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			if(!this.update)
 				throw "No Update Function";
 			
-			this.updateTimer = window.setInterval(this._updateCall.bind(this), this.updateInterval);
+			this._boundUpdateCall = this._updateCall.bind(this);
+			window.mozRequestAnimationFrame(this._boundUpdateCall);
+			
+			//this.updateTimer = window.setInterval(this._updateCall.bind(this), this.updateInterval);
 			//this.updateTimer = window.setTimeout(this.update.bind(this), 100);
 		}
 	};

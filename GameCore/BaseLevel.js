@@ -14,6 +14,7 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 		
 		addGameObject: function addGameObject(obj)
 		{
+			this.gameObjects[obj.id] = obj;
 			this.gameObjectsArray.push(obj);
 		},
 		

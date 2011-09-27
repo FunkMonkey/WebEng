@@ -3,8 +3,9 @@
 
 ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports){
 	
-	function BaseGameObject()
+	function BaseGameObject(id)
 	{
+		this.id = id;
 		this.plugins = [];
 	}
 	

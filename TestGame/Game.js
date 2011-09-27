@@ -1,7 +1,8 @@
 ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 	
 	var BaseGame = require("/GameCore/BaseGame").BaseGame;
-
+	var PhaseTimer = require("/Engine/Timers").PhaseTimer;
+	var Plugin_Pickable = require("/TestGame/Scripts/Plugins/Plugin_Pickable").Plugin_Pickable;
 	
 	function Game()
 	{
@@ -35,23 +36,40 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		 */
 		update: function update(dt)
 		{
+			var timer = new PhaseTimer();
+			
 			InputCore.update(dt);
 			this.mouseWorldPos = GraphicsCore.screenPosToWorldPos(InputCore.mousePos, 0);
 			
+			
+			
+			timer.finishPhase("Input");
+			
+			PhysicsCore.update(dt);
+			timer.finishPhase("Physics");
+			
+			BaseGame.prototype.update.call(this, dt);
+			timer.finishPhase("Level");
+			
+			// moving camera
 			var onCameraMove = InputCore.actions["OnCameraMove"];
-			/*if(onCameraMove.isTriggered)
+			if(Plugin_Pickable.pickedBody === null && onCameraMove.isTriggered)
 			{
 				var pos = GraphicsCore.camera.pos;
 				pos.x += onCameraMove.result[0] / GraphicsCore.orthoFactor;
 				pos.y -= onCameraMove.result[1] / GraphicsCore.orthoFactor;
-			}*/
-			
-			PhysicsCore.update(dt);
-			
-			BaseGame.prototype.update.call(this, dt);
+			}
 			
 			GraphicsCore.update(dt);
+			timer.finishPhase("Graphics");
+			//timer.print(log);
 		},
+		
+		onDarkSoulDead: function onDarkSoulDead()
+		{
+			log("Game Over");
+		},
+		
 	};
 	
 	Extension.inherit_auto(Game, BaseGame);
