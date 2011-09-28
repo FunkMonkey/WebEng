@@ -70,6 +70,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				pos.x += onCameraMove.result[0] / GraphicsCore.orthoFactor;
 				pos.y -= onCameraMove.result[1] / GraphicsCore.orthoFactor;
 			}
+			timer.finishPhase("Camera");
 			
 			GraphicsCore.update(dt);
 			
@@ -80,7 +81,8 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			//this.debugDraw.context.translate(-lastTranslate.x, -lastTranslate.y);
 			
 			timer.finishPhase("Graphics");
-			//timer.print(log);
+			//if(timer.time > 10)
+			//	timer.print(log);
 		},
 		
 		onDarkSoulDead: function onDarkSoulDead()

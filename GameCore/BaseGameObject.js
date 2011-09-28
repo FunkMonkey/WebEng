@@ -7,6 +7,7 @@ ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports
 	{
 		this.id = id;
 		this.plugins = [];
+		this.updatablePlugins = [];
 	}
 	
 	BaseGameObject.prototype = {
@@ -51,11 +52,18 @@ ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports
 					this.plugins[i].init();
 		},
 		
-		update: function update(dt)
+		postInit: function postInit()
 		{
 			for(var i = 0; i < this.plugins.length; ++i)
-				if(this.plugins[i].update)	// TODO: performance
-					this.plugins[i].update(dt);
+				if(this.plugins[i].postInit)
+					this.plugins[i].postInit();
+		},
+		
+		update: function update(dt)
+		{
+			for(var i = 0; i < this.updatablePlugins.length; ++i)
+				//if(this.plugins[i].update)	// TODO: performance
+					this.updatablePlugins[i].update(dt);
 		},
 		
 		destroy: function destroy()
@@ -67,7 +75,12 @@ ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports
 		
 		addPlugin: function addPlugin(plugin)
 		{
-			this.plugins.push(plugin); 
+			this.plugins.push(plugin);
+			if(!plugin.dontCallUpdate)
+				this.updatablePlugins.push(plugin);
+			
+			if(plugin.onAddedTo)
+				plugin.onAddedTo(this);
 		},
 		
 	};

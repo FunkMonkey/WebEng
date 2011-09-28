@@ -9,10 +9,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 	var onMouseDown = null;
 	var joint = null;
 	
-	function Plugin_Pickable(gameObj)
+	function Plugin_Pickable()
 	{
-		this.gameObj = gameObj;
-		gameObj.pluginPickable = this;
 		EventThrower.applyOn(this);
 	}
 	
@@ -22,15 +20,26 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 	Plugin_Pickable.prototype = {
 		constructor: Plugin_Pickable,
 		
+		onAddedTo: function onAddedTo(gameObj)
+		{
+			this.gameObj = gameObj;
+			this.gameObj.pluginPickable = this;
+		},
+		
 		init: function init()
 		{
 			if(!this.gameObj.pluginPhysics)
 				throw "No physics-plugin detected"
 			
-			this.body = this.gameObj.pluginPhysics.body;
-			this.fixture = this.gameObj.pluginPhysics.fixture;
 			onMouseDown = InputCore.actions["OnMouseDown"];
 		},
+		
+		postInit: function postInit()
+		{
+			this.body = this.gameObj.pluginPhysics.body;
+			this.fixture = this.gameObj.pluginPhysics.fixture;
+		},
+		
 		
 		update: function update(dt)
 		{

@@ -81,6 +81,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			this.level.create();
 			this.level.loadConfig();
 			this.level.init();
+			this.level.postInit();
 			
 			this.level.loadResources(callback);
 		},

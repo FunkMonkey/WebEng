@@ -6,27 +6,39 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/BoxWithPhysics", funct
 	var BaseGameObject = require("/GameCore/BaseGameObject").BaseGameObject;
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	
-	function createBoxWithPhysics(id, pos, size, color, isStatic)
+	function createBoxWithPhysics(id, data)
 	{
-		if(!size)
-			size = Vector3.fromPool(1, 1, 0);
+		if(!data)
+			data = {};
+		
+		if(!data.size)
+			data.size = Vector3.fromPool(1, 1, 0);
 					
 		var obj = new BaseGameObject(id);
-		obj.addPlugin(new Plugin_WorldObject3D(obj));
-		if(pos)
-			obj.pos = pos;
 		
-		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox(obj));
-		obj.pluginPhysics.size.x = size.x;
-		obj.pluginPhysics.size.y = size.y;
-		if(isStatic)
+		// world-object
+		obj.addPlugin(new Plugin_WorldObject3D());
+		if(data.pos)
+			obj.pos = data.pos;
+		
+		// physics
+		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
+		obj.pluginPhysics.size.x = data.size.x;
+		obj.pluginPhysics.size.y = data.size.y;
+		if(data.isStatic)
 			obj.pluginPhysics.isStatic = true;
+		if(data.isSensor)
+			obj.pluginPhysics.isSensor = true;
 		
-		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D(obj));
-		if(color)
-			obj.pluginGraphics.color = color;
-		obj.pluginGraphics.width = size.x;
-		obj.pluginGraphics.height = size.y;
+		// graphics
+		if(!data.noGraphics)
+		{
+			obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
+			obj.pluginGraphics.width = data.size.x;
+			obj.pluginGraphics.height = data.size.y;
+			if(data.color)
+				obj.pluginGraphics.color = data.color;
+		}
 		
 		return obj;
 	}

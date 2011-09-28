@@ -33,7 +33,7 @@ function onLoad()
 	Game.loadResources(function(){
 		Game.init();
 		
-		Game.loadLevel("/TestGame/Scripts/Levels/Level1", function cb(){
+		Game.loadLevel("/TestGame/Scripts/Levels/Level1/Level", function cb(){
 				log("level loaded");
 				Game.startGameLoop();
 			});

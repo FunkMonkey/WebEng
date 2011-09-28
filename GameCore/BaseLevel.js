@@ -59,6 +59,12 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 				this.gameObjectsArray[i].init();
 		},
 		
+		postInit: function postInit()
+		{
+			for(var i = 0; i < this.gameObjectsArray.length; ++i)
+				this.gameObjectsArray[i].postInit();
+		},
+		
 		/* Updates the game
 		 *
 		 */

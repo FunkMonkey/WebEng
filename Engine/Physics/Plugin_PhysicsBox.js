@@ -4,19 +4,25 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 	
 	var PhysicsCore = null;
 	
-	function Plugin_PhysicsBox(gameObj)
+	function Plugin_PhysicsBox()
 	{
-		this.gameObj = gameObj;
-		gameObj.pluginPhysics = this;
 		this.density = 1.0;
 		this.friction = 1.0;
 		this.restitution = 0.2;
 		this.isStatic = false;
+		this.isSensor = false;
 		this.size = Vector3.fromPool(1, 1, 0);
 	}
 	
 	Plugin_PhysicsBox.prototype = {
 		constructor: Plugin_PhysicsBox,
+		
+		onAddedTo: function onAddedTo(gameObj)
+		{
+			this.gameObj = gameObj;
+			this.gameObj.pluginPhysics = this;
+		},
+		
 		
 		init: function init()
 		{
@@ -24,6 +30,7 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.fixDef.density = this.density;
 			this.fixDef.friction = this.friction;
 			this.fixDef.restitution = this.restitution;
+			this.fixDef.isSensor = this.isSensor;
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
 			this.fixDef.shape.SetAsBox(this.size.x / 2.0, this.size.y / 2.0);
 			
@@ -33,8 +40,11 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.bodyDef.position.y = this.gameObj.pos.y;
 			this.bodyDef.angle = this.gameObj.rot.z;
 			
-			this.body = PhysicsCore.world.CreateBody(this.bodyDef)
+			this.body = PhysicsCore.world.CreateBody(this.bodyDef);
+			this.body.gameObj = this.gameObj;
+			
 			this.fixture = this.body.CreateFixture(this.fixDef);
+			this.fixture.gameObj = this.gameObj;
 		},
 		
 		update: function update(dt)

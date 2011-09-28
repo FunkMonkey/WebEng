@@ -8,10 +8,9 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 	
 	// TODO: rename to Plugin_SimpleGraphicsObject
 	
-	function Plugin_SimpleTextureGraphics2D(gameObj)
+	function Plugin_SimpleTextureGraphics2D()
 	{
-		this.gameObj = gameObj;
-		gameObj.pluginGraphics = this;
+		this.dontCallUpdate = true;
 		this.textureID = "";
 	}
 	
@@ -19,6 +18,12 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 		constructor: Plugin_SimpleTextureGraphics2D,
 		
 		pixelToWorldScaleFactor: 0.01,
+		
+		onAddedTo: function onAddedTo(gameObj)
+		{
+			this.gameObj = gameObj;
+			this.gameObj.pluginGraphics = this;
+		},
 		
 		loadResources: function loadResources(callback)
 		{

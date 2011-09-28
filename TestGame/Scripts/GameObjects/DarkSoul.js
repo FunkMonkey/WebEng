@@ -7,15 +7,15 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	var Plugin_Pickable = require("/TestGame/Scripts/Plugins/Plugin_Pickable").Plugin_Pickable;
 	
-	function Plugin_LogicDarkSoul(gameObj)
+	function Plugin_LogicDarkSoul()
 	{
-		this.gameObj = gameObj;
-		gameObj.pluginLogic = this;
 		this.maxOwnVelocityX = 1;
 		this.dir = 1;
 		this.picked = false;
 		this._dead = false;
-		this.ran = Math.random();
+		this.isDarkSoul = true;
+		
+		
 		this.timeTillDrop = 1500;
 		this.timeTillRePick = 1000;
 		this.timePicked = 0;
@@ -24,6 +24,12 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 	
 	Plugin_LogicDarkSoul.prototype = {
 		constructor: Plugin_LogicDarkSoul,
+		
+		onAddedTo: function onAddedTo(gameObj)
+		{
+			this.gameObj = gameObj;
+			this.gameObj.pluginLogicDarkSoul = this;
+		},
 		
 		get dead()
 		{
@@ -45,6 +51,25 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			this.gameObj.pluginPickable.addEventListener("dropped", this.onDrop.bind(this));
 		},
 		
+		postInit: function postInit()
+		{
+			this.physBody = this.gameObj.pluginPhysics.body;
+			this.physFixture = this.gameObj.pluginPhysics.fixture;
+			
+			this.physFixture.pluginDarkSoul = this;
+			if(!this.physFixture.gameObj)
+				this.physFixture.gameObj = this.gameObj;
+			this.physFixture.onBeginContact = this.onBeginContact;
+		},
+		
+		onBeginContact: function onBeginContact(me, other)
+		{
+			//log("contact: " + other.gameObj.id)
+			if(other.deathZoneActive && !me.gameObj.pluginLogicDarkSoul.dead)
+				me.gameObj.pluginLogicDarkSoul.dead = true;
+		},
+		
+		
 		onPrePick: function onPrePick()
 		{
 			return (Engine.getTimeInMS() - this.timeDropped > this.timeTillRePick);
@@ -64,20 +89,12 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			this.timeDropped = Engine.getTimeInMS();
 		},
 		
-		
+		_tmpImpulse: new PhysicsCore.b2Vec2(),
 		update: function update(dt)
 		{
-			// because physics are initialized after logic
-			this.physBody = this.gameObj.pluginPhysics.body;
-			this.update = this._update;
+			if(this.dead)
+				return;
 			
-			this._update(dt);
-		},
-		
-		
-		_tmpImpulse: new PhysicsCore.b2Vec2(),
-		_update: function _update(dt)
-		{
 			var vel = this.physBody.GetLinearVelocity();
 			
 			var xDiff = this.cursor.pos.x - this.gameObj.pos.x;
@@ -93,41 +110,46 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			else if (this.picked)
 			{
 				var now = Engine.getTimeInMS();
-				if(now - this.timePicked > this.timeTillDrop)
+				if(!this.dead && now - this.timePicked > this.timeTillDrop)
 					this.gameObj.pluginPickable.drop();
 			}
 		}
 		
 	};
 	
-	function createDarkSoul(id, pos, size, color)
+	function createDarkSoul(id, data)
 	{
-		if(!size)
-			size = Vector3.fromPool(1, 1, 0);
+		if(!data)
+			data = {};
+		
+		if(!data.size)
+			data.size = Vector3.fromPool(1, 1, 0);
 					
 		var obj = new BaseGameObject(id);
-		obj.addPlugin(new Plugin_WorldObject3D(obj));
-		if(pos)
-			obj.pos = pos;
+		
+		// world-object
+		obj.addPlugin(new Plugin_WorldObject3D());
+		if(data.pos)
+			obj.pos = data.pos;
 		
 		// logic
-		obj.addPlugin(new Plugin_LogicDarkSoul(obj));
+		obj.addPlugin(new Plugin_LogicDarkSoul());
 		
 		// physics
-		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox(obj));
-		obj.pluginPhysics.size.x = size.x;
-		obj.pluginPhysics.size.y = size.y;
+		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
+		obj.pluginPhysics.size.x = data.size.x;
+		obj.pluginPhysics.size.y = data.size.y;
 		
 		// pickable
-		obj.addPlugin(new Plugin_Pickable(obj));
+		obj.addPlugin(new Plugin_Pickable());
 		
 		// graphics
-		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D(obj));
-		if(color)
-			obj.pluginGraphics.color = color;
+		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
+		if(data.color)
+			obj.pluginGraphics.color = data.color;
 			
-		obj.pluginGraphics.width = size.x;
-		obj.pluginGraphics.height = size.y;
+		obj.pluginGraphics.width = data.size.x;
+		obj.pluginGraphics.height = data.size.y;
 		
 		return obj;
 	}

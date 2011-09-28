@@ -39,25 +39,111 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 				gravity = new b2Vec2(0, -4.81);
 			this.world = new b2World(gravity, true);
 			
-			this.contactCallbacks_BeginContact = {};
+			this.contactCallbacks_1 = [];
+			this.contactCallbacks_1.push({});
+			this.contactCallbacks_1.push({});
+			this.contactCallbacks_1.push({});
+			this.contactCallbacks_1.push({});
+			
+			this.contactCallbacks_2 = [];
+			this.contactCallbacks_2.push({});
+			this.contactCallbacks_2.push({});
+			this.contactCallbacks_2.push({});
+			this.contactCallbacks_2.push({});
+			
+			this.world.SetContactListener(this.contactListener);
 		},
+		
+		contactListener:
+		{
+			BeginContact: function BeginContact(contact)
+			{
+				var fixA = contact.GetFixtureA();
+				var fixB = contact.GetFixtureB();
+				
+				if(fixA.onBeginContact)
+					fixA.onBeginContact(fixA, fixB, contact);
+					
+				if(fixB.onBeginContact)
+					fixB.onBeginContact(fixB, fixA, contact);
+			},
+			
+			EndContact: function EndContact(contact)
+			{
+				var fixA = contact.GetFixtureA();
+				var fixB = contact.GetFixtureB();
+				
+				if(fixA.onEndContact)
+					fixA.onEndContact(fixA, fixB, contact);
+					
+				if(fixB.onEndContact)
+					fixB.onEndContact(fixB, fixA, contact);
+			},
+			
+			PreSolve: function PreSolve(contact, oldManifold)
+			{
+				var fixA = contact.GetFixtureA();
+				var fixB = contact.GetFixtureB();
+				
+				if(fixA.onPreSolve)
+					fixA.onPreSolve(fixA, fixB, contact, oldManifold);
+					
+				if(fixB.onPreSolve)
+					fixB.onPreSolve(fixB, fixA, contact, oldManifold);
+			},
+			
+			PostSolve: function PostSolve(contact, impulse)
+			{
+				var fixA = contact.GetFixtureA();
+				var fixB = contact.GetFixtureB();
+				
+				if(fixA.onPostSolve)
+					fixA.onPostSolve(fixA, fixB, contact, impulse);
+					
+				if(fixB.onPostSolve)
+					fixB.onPostSolve(fixB, fixA, contact, impulse);
+			}
+		},
+		
+		BEGIN_CONTACT: 0,
+		END_CONTACT: 1,
+		PRE_SOLVE: 2,
+		POST_SOLVE: 3,
 		
 		/* 
 		 * 
 		 */
-		registerContactCallback: function registerContactCallback(fixture1, fixture2, type, callbackt)
+		registerContactCallback: function registerContactCallback(fixture1, fixture2, type, callback)
 		{
-			if(!fixture1 && !fixture2)
-				throw "No fixtures given";
-			
-			if(fixture1 && fixture2)
-			{
-				
-			}
-			else
-			{
-				var fixture = fixture1 || fixture2;
-			}
+			//if(type !== this.BEGIN_CONTACT && type !== this.END_CONTACT && type !== this.PRE_SOLVE && type !== this.POST_SOLVE)
+			//	throw "Unkwown Contact type";
+			//	
+			//if(!fixture1 && !fixture2)
+			//	throw "No fixtures given";
+			//
+			//if(fixture1 && fixture2)
+			//{
+			//	if(fixture1.getID() > fixture2.getID())
+			//	{
+			//		var tmp = fixture1;
+			//		fixture1 = fixture2;
+			//		fixture2 = tmp;
+			//	}
+			//	
+			//	var typeMap = this.contactCallbacks_2[type];
+			//	
+			//	if(!typeMap[fixture1.getID()])
+			//		var id1_map = typeMap[fixture1.getID()] = {};
+			//		
+			//	if(!id1_map[fixture2.getID()])
+			//		var id2_map = id1_map[fixture2.getID()] = [];
+			//		
+			//	id2_map.push(callback);
+			//}
+			//else
+			//{
+			//	var fixture = fixture1 || fixture2;
+			//}
 		},
 		
 		update: function update(dt)

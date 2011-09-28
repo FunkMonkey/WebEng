@@ -6,16 +6,20 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 	var BaseGameObject = require("/GameCore/BaseGameObject").BaseGameObject;
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	
-	function Plugin_LogicCursor(gameObj)
+	function Plugin_LogicCursor()
 	{
-		this.gameObj = gameObj;
-		gameObj.pluginLogic = this;
 		this._prevPos = Vector3.fromPool();
 		this.maxSpeed = 6;
 	}
 	
 	Plugin_LogicCursor.prototype = {
 		constructor: Plugin_LogicCursor,
+		
+		onAddedTo: function onAddedTo(gameObj)
+		{
+			this.gameObj = gameObj;
+			this.gameObj.pluginLogicCursor = this;
+		},
 		
 		_tmpVec: Vector3.fromPool(),
 		_tmpLength:0,
@@ -47,9 +51,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 	function createCursor(id)
 	{
 		var obj = new BaseGameObject(id);
-		obj.addPlugin(new Plugin_WorldObject3D(obj));
-		obj.addPlugin(new Plugin_LogicCursor(obj));
-		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D(obj));
+		obj.addPlugin(new Plugin_WorldObject3D());
+		obj.addPlugin(new Plugin_LogicCursor());
+		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
 		obj.pluginGraphics.width = 0.2;
 		obj.pluginGraphics.height = 0.2;
 		obj.pluginGraphics.color = GraphicsCore.Color.fromPool(1.0, 1.0, 0.0, 1.0);

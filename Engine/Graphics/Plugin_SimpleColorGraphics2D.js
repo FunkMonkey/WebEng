@@ -6,17 +6,22 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 	var GraphicsCore = null;
 	var zAxis = [0, 0, 1];
 	
-	function Plugin_SimpleColorGraphics2D(gameObj)
+	function Plugin_SimpleColorGraphics2D()
 	{
-		this.gameObj = gameObj;
-		gameObj.pluginGraphics = this;
 		this.width = 1;
 		this.height = 1;
 		this.color = GraphicsCore.Color.fromPool();
+		this.dontCallUpdate = true;
 	}
 	
 	Plugin_SimpleColorGraphics2D.prototype = {
 		constructor: Plugin_SimpleColorGraphics2D,
+		
+		onAddedTo: function onAddedTo(gameObj)
+		{
+			this.gameObj = gameObj;
+			this.gameObj.pluginGraphics = this;
+		},
 		
 		//pixelToWorldScaleFactor: 0.01,
 		
