@@ -1,7 +1,7 @@
 \input{Config/DocumentHeader}
 
 \author{André Selmanagic}
-\title{EventFinder}
+\title{Cursor Fans}
 
 % ################ Document Start ################
 \begin{document}
@@ -12,27 +12,14 @@
 % Abstract
 \include{Abstract}
 
-% decrease pagecount
-\addtocounter{page}{-2}
-
 % Table of contents
-\include{TOC}
+\input{TOC}
 
-% Parts
+% ----- Parts -----
+\input{Parts/P_Engine_Aufbau}
 
 
-%\newpage
-%\input{Annex}
-%
-%\newpage
-%\input{Lists}
-
-% todo: verschieben
-\newpage
-\listoffigures
-%\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
-\newpage
-\lstlistoflistings
-%\addcontentsline{toc}{chapter}{Quellcodeverzeichnis}
+% ----- Annex and lists -----
+\input{Annex_Lists}
 
 \end{document}
