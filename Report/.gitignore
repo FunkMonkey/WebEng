@@ -1,0 +1,10 @@
+Report.pdf
+*.aux
+*.idx
+*.lof
+*.lol
+*.log
+*.nlo
+*.gz
+*.toc
+*.out
