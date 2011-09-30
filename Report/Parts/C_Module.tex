@@ -1,1 +1,85 @@
 \chapter{Module}
+
+Der Programmcode der Game-Engine sowie des Spiels ist innerhalb von Modulen geordnet. Diesem Pattern folgend existieren zusammengehörige Programmteile innerhalb eines eigenen Scopes und stellen nur ein vom Programmierer definiertes Interface bereit. Diese Kapselung erleichtert die Wartung des Codes und bietet weitere Vorteile. Durch das Leben innerhalb eines eigenen Scopes, wird der globale Namensraum nicht unnötig verschmutzt. Daraus folgt zudem, dass ein Modul die eigenen Abhängigkeiten klar definieren muss, anstatt innerhalb des Codes auf eine beliebige globale Variable zuzugreifen.\\
+Ein weiterer Vorteil besteht darin, dass Module, sofern sie dasselbe Interface bereitstellen, austauschbar sind. 
+
+Ich habe das Modulsystem mit Blick auf die Anforderungen einer Game-Engine erstellt - es jedoch auch so entwickelt, dass es der CommonJS-Modulspezifikation\footnote{\url{http://wiki.commonjs.org/wiki/Modules}} folgt. Bei \textbf{\href{http://www.commonjs.org/}{CommonJS}}\footnote{\url{http://www.commonjs.org/}} handelt es sich um ein Projekt mit dem Ziel Javascript auch in Bereichen außerhalb des Webs (z. B. Server und Desktop-Applikationen) zu einer ebenbürtigen Programmiersprache mit vergleichbarem Ökosystem zu machen.
+
+Das Modulsystem stellt zwei wichtige Funktionen bereit: \textprog{registerModule} zum Registrieren eines Moduls sowie \textprog{require} zum Zugriff auf ein Modul.
+
+\section{registerModule}
+
+\begin{lstlisting}[language=JavaScript]
+registerModule([string] id, [function] factory) 
+\end{lstlisting}
+
+\textprog{registerModule} nimmt zwei Argumente. Zum einen die ID unter welcher das Modul registriert werden soll. Der zweite Parameter ist eine Factory-Funktion, welche, wenn aufgerufen, das Modul erzeugt. Diese Funktion wird erst bei der ersten Verwendung des Moduls durch \textprog{require} ausgeführt.
+
+\subsection{Die Factory-Funktion}
+
+\begin{lstlisting}[language=JavaScript]
+factory([function] require, [object] exports, [object] module)
+\end{lstlisting}
+
+Die Factory-Funktion dient der Initialisierung des Moduls. Sie erhält drei Argumente. \\
+Das Erste ist die \textprog{require}-Funktion, mit Hilfe derer das Modul auf andere Module zugreifen kann. \\
+Das Zweite ist das \textprog{exports}-Objekt. Dieses Objekt beschreibt das Interface, mit dem man auf das Modul zugreifen kann.
+Der dritte Parameter ist das Modul selbst.
+
+\subsection{Verwendung}
+
+Hier ein einfaches Beispiel zur Verwendung von \textprog{registerModule}:
+
+\begin{lstlisting}[language=JavaScript, caption=Verwendung von registerModule]
+ModuleSystem.registerModule("math/add", function(require, exports, module){
+	
+		exports.add = function add(a, b)
+			{
+				return a + b;
+			};
+		
+});
+\end{lstlisting}
+
+\section{require}
+
+\begin{lstlisting}[language=JavaScript]
+[object] require([string] id)
+\end{lstlisting}
+
+\textprog{require} dient dem Zugriff auf ein Modul. Als Rückgabewert besitzt es die API des Moduls in Form des \textprog{exports}-Objekts.
+
+Beim ersten Aufruf eines Moduls mit \textprog{require}, wird zunächst die Javascript-Datei entsprechend der übergebenen ID geladen und ausgeführt. Innerhalb dieser Datei wird \textprog{registerModule} aufgerufen um das Modul zu registrieren. Anschließend wird die Factory-Funktion des Moduls aufgerufen und das Modul somit initialisiert. Die API (das \textprog{exports}-Objekt) wird zwischengespeichert um es bei den künftigen Aufrufen von \textprog{require} zurückzuliefern.
+
+\textprog{require} kann sowohl mit relativen, als auch absoluten Pfaden arbeiten. Ein absoluter Pfad beginnt mit einem ''/'' und bezieht sich auf den Root-Pfad des Modulsystems.
+
+Die \textprog{require}-Funktion, welche der Factory-Funktion übergeben wird, lädt, sofern kein absoluter Pfad angegeben wird, die Module relativ zum Verzeichnis des aktuellen Moduls. Ist das Modul beispielsweise ''/dir/module'', so würde ''require('other')'' versuchen auf das Modul ''/dir/other'' zuzugreifen.
+
+\subsection{Verwendung}
+
+Hier ein einfaches Beispiel zur Verwendung von \textprog{require}:
+
+\begin{lstlisting}[language=JavaScript, caption=Verwendung von require]
+var add = require("/math/add").add;
+
+alert("7 + 3 = " + add(7, 3));
+\end{lstlisting}
+
+\section{Dynamisches Laden von JS-Skripten}
+
+Ein Aufruf von \textprog{require} ist immer synchron, unabhängig davon, ob das Modul zuvor schon geladen wurde oder nicht. Dies bedeutet, dass das dynamische Laden und Ausführen der entsprechenden Javascript-Dateien beim ersten Aufruf von \textprog{require} ebenso synchron, sprich: blockierend, erfolgen muss.
+
+Dieser Prozess geschieht durch das dynamische Erzeugen von HTML \textprog{script}-Tags. 
+Dabei gibt es zwei Möglichkeiten: \\
+\textbf{a)} man lädt den Text eines Skripts per \textbf{synchronem} HTTP-Request (damit blockiert wird) und setzt ihn als Inhalt eines neu erzeugten \textprog{script}-Tags.\\
+\textbf{b)} man erzeugt ein neues \textprog{script}-Element und setzt dessen \textprog{src}-Attribut auf den Pfad der zu ladenden Javascript-Datei.
+
+Variante \textbf{a} bietet den Vorteil, dass der Javascript-Code sofort bei Einfügen des Elements ins DOM blockierend ausgeführt wird. Leider geht jedoch die Information, woher der Code kommt, sprich der Dateipfad, verloren, was das Debugging des Programmcodes z. B. mit Hilfe der Firefox-Extension \textbf{\href{http://getfirebug.com/}{Firebug}}\footnote{\url{http://getfirebug.com/}} erschwert.
+
+Bei Variante \textbf{b} bleibt die Datei-Information erhalten, sodass man mit Hilfe von Firebug durch die Dateistruktur navigieren kann. Nach mehreren Tests und Variationen musste ich jedoch feststellen, dass ein blockierendes Ausführen des Codes mit dieser Variante nicht direkt möglich ist. Selbst das Fehlen des HTML5-\textprog{async}-Attributs des \textprog{script}-Elements, wodurch das Element angewiesen werden soll das Skript synchron zu laden, scheint beim dynamischen Erzeugen von \textprog{script}-Elementen keinen Unterschied zu machen, wahrscheinlich, weil dieses Attribut lediglich für den HTML-Parser beim initialen Parsen des Dokuments gedacht ist. \\
+Da ich nicht auf Debugging-Möglichkeiten in Form von Firebug verzichten wollte, entwickelte ich einen ''unschönen'' Workaround. Bei Erzeugung des \textprog{script}-Elements setze ich einen EventListener für das \textprog{load}-Event, welches die eigens hinzugefügte Eigenschaft \textprog{loaded} auf \textprog{true} setzt, sobald das Skript erfolgreich geladen und ausgeführt wurde. Sofort nach Erzeugung des Elements, welches in jenem Moment das asynchrone Laden der JS-Datei startet, beginne ich die weitere Ausführung des Codes zu blocken, so lange die \textprog{loaded}-Eigenschaft des Elements nicht \textprog{true} ist. Die einzige Möglichkeit, die Javascript mir dazu bietet, ist die wiederholte Erzeugung eines synchronen HTTP-Requests zu einer beliebigen Datei. Dieser Workaround wird nur zu Debugging-Zwecken verwendet.
+
+\subsection{Optimierung}
+Das rein dynamische Laden der Module ist für die prototypische Entwicklung zwar sehr bequem, kann jedoch zu einem unflüssigen Verlauf des Spiels führen, wenn der Code für Module erst mitten in der Ausführung durch einen Aufruf von \textprog{require} geladen und ausgeführt wird.
+
+Das Modulsystem lässt es daher zu die Modul-Dateien mit normalen \textprog{script}-Elementen im HTML-Code der Website zu laden und somit schon an dieser Stelle die Module zu registrieren, sodass beim ersten Aufruf von \textprog{require} die bereits geladene Modul-Factory-Funktion lediglich ausgeführt werden muss. Ist dieser Prozess immer noch zu zeitaufwendig, kann man selbstverständlich bereits zu Beginn der Applikation bzw. vor Start der GameLoop \textprog{require} für alle notwendigen Module aufrufen um diese korrekt zu initialisieren.

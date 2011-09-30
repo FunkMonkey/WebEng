@@ -14,6 +14,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 	var GO_DarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul");
 	var GO_DeathZone = require("/TestGame/Scripts/GameObjects/DeathZone");
 	
+	var GO_FallingBlock = require("GameObjects/FallingBlock");
+	
 	function Level()
 	{
 		BaseLevel.call(this);
@@ -38,9 +40,14 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 																			size: Vector3.fromPool(0.3, 0.3, 0),
 																			color: GraphicsCore.Color.fromPool(0, 0, 1, 1)}));
 			
-			this.addGameObject(GO_DarkSoul.createDarkSoul("DarkSoul2", {	pos: Vector3.fromPool(1, 2, 0),
+			this.addGameObject(GO_DarkSoul.createDarkSoul("DarkSoul2", {	pos: Vector3.fromPool(-1, 3, 0),
 																			size: Vector3.fromPool(0.3, 0.3, 0),
 																			color: GraphicsCore.Color.fromPool(0, 0, 1, 1)}));
+			
+			this.addGameObject(GO_FallingBlock.create("FallingBlock", { 	pos: Vector3.fromPool(2, 3, 0),
+																			size: Vector3.fromPool(1, 1, 0),
+																			color: GraphicsCore.Color.fromPool(0, 0, 0, 1)}));
+			
 			
 			//this.testObj.addPlugin(new Plugin_WorldObject3D(this.testObj));
 			//this.testObj.pos.z = 0;

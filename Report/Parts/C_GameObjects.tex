@@ -1,0 +1,47 @@
+\chapter{Spielobjekte}
+
+Objekte innerhalb der Spielwelt - egal ob sichtbar oder unsichtbar - sind Instanzen der Basisklasse \textprog{BaseGameObject}. 
+
+Ein Spielobjekt beherbergt hauptsächlich folgende Methoden und Eigenschaften:
+
+\begin{tabular}{|l|l|}
+\hline 
+Member & Beschreibung \\ 
+\hline 
+loadResources(cb) & Lädt die Ressourcen der Objekts (Texturen, etc.), asynchron \\ 
+\hline 
+init() & Initialisiert das Objekt \\ 
+\hline 
+postInit() & Eine weitere nachträgliche Initialisierungs-Methode \\ 
+\hline 
+update(dt) & Aktualisiert das Objekt (Parameter dt für die vergangene Zeit seit dem letzten Frame) \\ 
+\hline 
+destroy() & Zerstört das Objekt \\ 
+\hline
+id & ID des Objekts, damit man es mit Namen adressieren kann \\
+\hline
+plugins[] & Array von Plugins \\
+\hline
+addPlugin(plugin) & Fügt dem Objekt ein Plugin hinzu \\
+\hline 
+\end{tabular} 
+
+\section{Plugins}
+
+Spielobjekte sind mit Hilfe von Plugins erweiterbar. Diese Plugins fügen den Objekten Features wie Physik, Grafik und Logik hinzu. An sich ist jedes Spielobjekt lediglich eine leere Instanz von \textprog{BaseGameObject}, welcher die notwendigen Plugins hinzugefügt wurden. Plugins enthalten für gewöhnlich die meisten Methoden von \textprog{BaseGameObject}: \textprog{loadResources, init, postInit, update, destroy}. Die Spielobjekt-Instanz ruft innerhalb der gegebenen Methoden an sich lediglich die gleich benannten Methoden der ihr hinzugefügten Plugins auf:
+
+\todo{Code-Beispiel}
+
+Bei Hinzufügen eines Plugins, wird sofern vorhanden dessen \textprog{onAddedTo}-Funktion mit der Spielobjekt-Instanz als Parameter auf.
+
+Dadurch erhält das Plugin Zugriff auf das Spielobjekt, kann diesem Eigenschaften und Methoden hinzufügen und auf die anderen Plugins zugreifen. Eines der wohl wichtigsten Plugins ist das \textprog{Plugin\_WorldObject3D}, welches dem Spielobjekt Eigenschaften wie eine Position, Rotation und Skalierung verleiht, welche dann wiederum von z. B. von Grafik-, Physik- und Logikplugins verwendet werden.
+
+\todo{WorldObject3D-Beispiel}
+
+\section{BaseGameObject::loadResources}
+
+Da es sich um eine Web-Game-Engine handelt, sind die Ressourcen (Texturen, Shader, Sounds) nicht lokal vorhanden, sondern müssen aus dem Internet geladen werden. Damit dabei nicht der gesamte Browser blockiert wird, geschehen diese Vorgänge mit Hilfe von asynchronen HTTP-Requests (AJAX). Das bedeutet, dass man beim Laden einer Ressource einen Callback mitgeben muss, der aufgerufen wird, sobald die Ressource fertig geladen wurde. Der Programmcode läuft jedoch schon nach dem Aufruf zum Laden unblockiert weiter.
+
+Dadurch stellt die Funktion \textprog{loadResources} einen Sonderfall dar, da es sich um eine asynchrone Funktion handelt. Die Funktion erhält als Parameter eine Callback-Funktion, welche aufgerufen wird, sobald alle Ressourcen des Spielobjekts fertig geladen wurden. Innerhalb der Funktion werden die \textprog{loadResources}-Funktionen aller Plugins des Spielobjekts aufgerufen und dabei eine eigene temporäre Callback-Funktion übergeben. Wird Letztere aufgerufen, wird ein Counter verändert, der zählt, für wie viele Plugins der Callback schon aufgerufen wurde. Entspricht dieser Counter der Anzahl der Plugins des Spielobjekts, so wird die eigentliche Callback-Funktion, welche das fertige Laden der Ressourcen des Spielobjekts signalisiert, aufgerufen.
+
+\todo{Beispiel: loadResources}
