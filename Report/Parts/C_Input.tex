@@ -1,3 +1,13 @@
 \chapter{Input}
 
-Der Input eines WebGL-basierten Spiels geschieht mit Hilfe der HTML Keyboard- und Mouse-Events.
+Der Input eines WebGL-basierten Spiels geschieht mit Hilfe der HTML Keyboard- und Mouse-Events, welche mit Event-Listenern abgefangen werden müssen. Dies geschieht innerhalb des \textprog{InputCore}s. Der \textprog{InputCore} sammelt die Events und wertet sie pro Frame aus, sodass der Programmierer an jeder beliebigen Stelle des Programmcodes auf den aktuellen Zustand der Input-Devices zugreifen kann, anstatt wie in HTML üblich nur per Event über eine Veränderung des Inputs informiert zu werden.
+
+Der \textprog{InputCore} tracked die Mouse-Position sowie die Veränderung der Mouse seit dem letzten Frame. Für Keyboard- und Mouse-Tasten werden 4 Zustände gespeichert: up (Taste ist nicht gedrückt), down (Taste ist gedrückt), pressed (Taste wechselte Zustand von nicht gedrückt auf gedrückt) und released (Taste wechselte Zustand von gedrückt auf nicht gedrückt).
+
+Der Zustand lässt sich über Methoden wie \textprog{isKeyDown} abrufen.
+
+\section{InputActions}
+
+D
+
+\todo{InputActions}
