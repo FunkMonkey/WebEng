@@ -30,13 +30,30 @@ addPlugin(plugin) & Fügt dem Objekt ein Plugin hinzu \\
 
 Spielobjekte sind mit Hilfe von Plugins erweiterbar. Diese Plugins fügen den Objekten Features wie Physik, Grafik und Logik hinzu. An sich ist jedes Spielobjekt lediglich eine leere Instanz von \textprog{BaseGameObject}, welcher die notwendigen Plugins hinzugefügt wurden. Plugins enthalten für gewöhnlich die meisten Methoden von \textprog{BaseGameObject}: \textprog{loadResources, init, postInit, update, destroy}. Die Spielobjekt-Instanz ruft innerhalb der gegebenen Methoden an sich lediglich die gleich benannten Methoden der ihr hinzugefügten Plugins auf:
 
-\todo{Code-Beispiel}
+\begin{lstlisting}[language=JavaScript]
+init: function init()
+{
+	for(var i = 0; i < this.plugins.length; ++i)
+		if(this.plugins[i].init)
+			this.plugins[i].init();
+}
+\end{lstlisting}
 
 Bei Hinzufügen eines Plugins, wird sofern vorhanden dessen \textprog{onAddedTo}-Funktion mit der Spielobjekt-Instanz als Parameter auf.
 
 Dadurch erhält das Plugin Zugriff auf das Spielobjekt, kann diesem Eigenschaften und Methoden hinzufügen und auf die anderen Plugins zugreifen. Eines der wohl wichtigsten Plugins ist das \textprog{Plugin\_WorldObject3D}, welches dem Spielobjekt Eigenschaften wie eine Position, Rotation und Skalierung verleiht, welche dann wiederum von z. B. von Grafik-, Physik- und Logikplugins verwendet werden.
 
-\todo{WorldObject3D-Beispiel}
+\begin{lstlisting}[language=JavaScript]
+onAddedTo: function onAddedTo(gameObj)
+{
+	this.gameObj = gameObj;
+	this.gameObj.pluginWorldObject3D = this;
+	
+	this.gameObj.pos = Vector3.fromPool();
+	this.gameObj.rot = Vector3.fromPool();
+	this.gameObj.scale = Vector3.fromPool(1.0, 1.0, 1.0);
+}
+\end{lstlisting}
 
 \section{BaseGameObject::loadResources}
 
@@ -44,4 +61,30 @@ Da es sich um eine Web-Game-Engine handelt, sind die Ressourcen (Texturen, Shade
 
 Dadurch stellt die Funktion \textprog{loadResources} einen Sonderfall dar, da es sich um eine asynchrone Funktion handelt. Die Funktion erhält als Parameter eine Callback-Funktion, welche aufgerufen wird, sobald alle Ressourcen des Spielobjekts fertig geladen wurden. Innerhalb der Funktion werden die \textprog{loadResources}-Funktionen aller Plugins des Spielobjekts aufgerufen und dabei eine eigene temporäre Callback-Funktion übergeben. Wird Letztere aufgerufen, wird ein Counter verändert, der zählt, für wie viele Plugins der Callback schon aufgerufen wurde. Entspricht dieser Counter der Anzahl der Plugins des Spielobjekts, so wird die eigentliche Callback-Funktion, welche das fertige Laden der Ressourcen des Spielobjekts signalisiert, aufgerufen.
 
-\todo{Beispiel: loadResources}
+\begin{lstlisting}[language=JavaScript]
+loadResources: function loadResources(callback)
+{
+	this._plugResLoaded = 0;
+	
+	// if there are no plugins to load, just call the callback
+	if(this.plugins.length === 0)
+		callback(this);
+	
+	// callback for plugins
+	// counts and calls the given callback, when it has been called
+	// for every plugin
+	var plugCallback = (function plugCallback()
+		{
+			++this._plugResLoaded;
+			if(this._plugResLoaded === this.plugins.length)
+				callback(this);
+		}).bind(this);
+	
+	// call loadResources of plugin (if it has one)
+	for(var i = 0; i < this.plugins.length; ++i)
+		if(this.plugins[i].loadResources)
+			this.plugins[i].loadResources(plugCallback);
+		else
+			plugCallback(this.plugins[i]);
+}
+\end{lstlisting}

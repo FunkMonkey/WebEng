@@ -1,0 +1,18 @@
+\chapter{GameCore}
+
+Der Kern eines Spiels befindet sich innerhalb einer vom Programmierer erweiterten (oder geerbten) Instanz der Klasse \textprog{BaseGame}. Diese Klasse beherbergt Funktionen zum Laden eines Levels sowie zum Start und Update der Game-Loop.
+
+\section{Game-Loop}
+
+Anders als in anderen Programmiersprachen wie C++, wo man einr Game-Loop lediglich als \textprog{while}-Schleife implementieren würde, welche das jeweils nächste Update berechnet, brechen moderne Browser Schleifen, die eine gewisse Zeitdauer überschreiten, ab. Dies hat den Grund, dass diese sonst den Main-Thread und somit die UI des Browsers (bzw. zumindest das HTMLs innerhalb der Website) blockieren würden.
+
+Eine Möglichkeit in Javascript eine Funktion wie für eine Game-Loop nötig innerhalb eines gewissen Intervals aufzurufen, bietet die DOM-Funktion \textprog{setInterval}. 
+
+\todo{Code-Beispiel}
+
+Der Aufruf von \textprog{setInterval} ist aufgrund der Browser-Implementierung jedoch leider nicht sehr konstant und verzeichnet große Latenzen. \textprog{setInterval} ist daher nicht für die Implementierung einer Game-Loop geeignet.
+
+Seit HTML5 bieten einige Browser-Hersteller jedoch eine weitere Methode, und zwar den Aufruf einer Methode mit Hilfe von \textprog{requestFrame}. Übergibt man \textprog{requestFrame} eine Methode, so wird dieser beim nächsten Zeichnen aufgerufen und kann ihrerseits wiederum ein neues \textprog{requestFrame} aufrufen. Der Zeitpunkt des Aufrufs wird dabei vom Browser bestimmt und ist in der Regel sehr viel konstanter.
+
+\todo{Code-Beispiel}
+\todo{link und mehr info}

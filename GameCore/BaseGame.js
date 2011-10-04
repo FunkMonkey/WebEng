@@ -77,17 +77,23 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 				
 			var LevelClass = require(moduleID).Level;
 			
+			// creating the level
 			this.level = new LevelClass();
 			this.level.create();
-			this.level.loadConfig();
-			this.level.init();
-			this.level.postInit();
 			
-			this.level.loadResources(callback);
+			this.level.loadResources((function resCallBack(){
+					this.level.loadConfig();
+					this.level.init();
+					this.level.postInit();
+					callback();
+				}.bind(this)));
 		},
 		
 		unloadCurrentLevel: function unloadCurrentLevel()
 		{
+			if(!this.level)
+				return;
+			
 			this.level.destroy();
 			this.level = null;
 		},
