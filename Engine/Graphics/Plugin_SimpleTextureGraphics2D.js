@@ -13,6 +13,8 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 		this.dontCallUpdate = true;
 		this.textureID = "";
 		this.isVisible = true;
+		this.width = 0;
+		this.height = 0;
 	}
 	
 	Plugin_SimpleTextureGraphics2D.prototype = {
@@ -42,18 +44,27 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 			
 			this.shaderProgram = GraphicsCore.stdTextureShaderProgram;
 			
-			var width = this.texture.width * this.pixelToWorldScaleFactor;
-			var height = this.texture.height * this.pixelToWorldScaleFactor;
-			this.width = width;
-			this.height = height;
+			if(this.width === 0)
+			{
+				if(this.height === 0)
+				{
+					this.width = this.texture.width * this.pixelToWorldScaleFactor;
+					this.height = this.texture.height * this.pixelToWorldScaleFactor;
+				}
+				else
+					this.width = this.height * this.texture.ratio;
+			}
+			else if(this.height === 0)
+				this.height = this.width / this.texture.ratio;
+			
 			
 			/* Vertices */
 			
 			var vertices = 	[
-						-width / 2.0,  height / 2.0,  0.0,
-						 width / 2.0,  height / 2.0,  0.0,
-						-width / 2.0, -height / 2.0,  0.0,
-						 width / 2.0, -height / 2.0,  0.0
+						-this.width / 2.0,  this.height / 2.0,  0.0,
+						 this.width / 2.0,  this.height / 2.0,  0.0,
+						-this.width / 2.0, -this.height / 2.0,  0.0,
+						 this.width / 2.0, -this.height / 2.0,  0.0
 					];
 			
 			this.vertexPosBuffer = gl.createBuffer();
@@ -104,7 +115,7 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 		
 		destroy: function destroy()
 		{
-			/* todo: remove from GraphicsCore */
+			GraphicsCore.removeDrawableObject(this);
 		},
 	};
 

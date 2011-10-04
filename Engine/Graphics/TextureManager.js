@@ -48,6 +48,7 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 			texture.image = image;
 			texture.width = image.width;
 			texture.height = image.height;
+			texture.ratio = texture.width / texture.height;
 			
 			gl.bindTexture(gl.TEXTURE_2D, texture);
 			//gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);

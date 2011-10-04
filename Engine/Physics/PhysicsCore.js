@@ -39,7 +39,10 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 				gravity = new b2Vec2(0, -4.81);
 			this.world = new b2World(gravity, true);
 			
-			this.contactCallbacks_1 = [];
+			this.bodies = [];
+			this.joints = [];
+			
+			/*this.contactCallbacks_1 = [];
 			this.contactCallbacks_1.push({});
 			this.contactCallbacks_1.push({});
 			this.contactCallbacks_1.push({});
@@ -49,7 +52,7 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			this.contactCallbacks_2.push({});
 			this.contactCallbacks_2.push({});
 			this.contactCallbacks_2.push({});
-			this.contactCallbacks_2.push({});
+			this.contactCallbacks_2.push({});*/
 			
 			this.world.SetContactListener(this.contactListener);
 		},
@@ -103,6 +106,75 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 				if(fixB.onPostSolve)
 					fixB.onPostSolve(fixB, fixA, contact, impulse);
 			}
+		},
+		
+		createBody: function createBody(bodyDef)
+		{
+			var body = this.world.CreateBody(bodyDef);
+			this.bodies.push(body);
+			
+			return body;
+		},
+		
+
+		destroyBody: function destroyBody(body)
+		{
+			this.world.DestroyBody(body);
+			
+			for(var i = 0; i < this.bodies.length; i++)
+			{
+				if(this.bodies[i] === body)
+				{
+					this.bodies.splice(i, 1);
+					break;
+				}
+			}
+		},
+		
+		createJoint: function createJoint(jointDef)
+		{
+			var joint = this.world.CreateJoint(jointDef);
+			this.joints.push(joint);
+			
+			return joint;
+		},
+
+		destroyJoint: function destroyJoint(joint)
+		{
+			this.world.DestroyJoint(joint);
+			
+			for(var i = 0; i < this.joints.length; i++)
+			{
+				if(this.joints[i] === joint)
+				{
+					this.joints.splice(i, 1);
+					break;
+				}
+			}
+		},
+		
+		/* 
+		 * 
+		 */
+		destroyAllBodiesAndJoints: function destroyAllBodiesAndJoints()
+		{
+			for(var i = 0; i < this.bodies.length; i++)
+				this.world.DestroyBody(this.bodies[i]);
+				
+			this.bodies = [];
+			
+			for(var i = 0; i < this.joints.length; i++)
+				this.world.DestroyJoint(this.joints[i]);
+				
+			this.joints = [];
+		},
+		
+		/* 
+		 * 
+		 */
+		destroy: function destroy()
+		{
+			this.destroyAllBodiesAndJoints();
 		},
 		
 		BEGIN_CONTACT: 0,

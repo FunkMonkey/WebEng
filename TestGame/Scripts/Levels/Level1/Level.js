@@ -29,6 +29,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this.testObj.addPlugin(new Plugin_WorldObject3D());
 			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
 			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+			this.testObj.pluginGraphics.width = 2;
 			
 			this.addGameObject(this.testObj);
 			

@@ -82,6 +82,14 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			
 		},
 		
+		/* 
+		 * 
+		 */
+		removeAllDrawableObjects: function removeAllDrawableObjects()
+		{
+			this.drawableObjects = [];
+		},
+		
 		
 		/*
 		 *
@@ -113,6 +121,21 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		addDrawableObject: function addDrawableObject(obj)
 		{
 			this.drawableObjects.push(obj);
+		},
+		
+		/* 
+		 * 
+		 */
+		removeDrawableObject: function removeDrawableObject(obj)
+		{
+			for(var i = 0; i < this.drawableObjects.length; i++)
+			{
+				if(this.drawableObjects[i] === obj)
+				{
+					this.drawableObjects.splice(i, 1);
+					break;
+				}
+			}
 		},
 		
 		

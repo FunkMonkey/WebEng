@@ -115,7 +115,7 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 		
 		destroy: function destroy()
 		{
-			/* todo: remove from GraphicsCore */
+			GraphicsCore.removeDrawableObject(this);
 		},
 		
 	};

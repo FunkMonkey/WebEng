@@ -29,7 +29,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			trigger = action.addMouseMoveTrigger();
 			trigger.obligatory = true;
 			
-			// test
+			// todo: put into physicscore
 			//this.debugDraw = new PhysicsCore.b2DebugDraw();
 			//this.debugDraw.canvas = document.getElementById("canvas2");
 			//this.debugDraw.context = this.debugDraw.canvas.getContext("2d")
@@ -83,6 +83,36 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			timer.finishPhase("Graphics");
 			//if(timer.time > 10)
 			//	timer.print(log);
+		},
+		
+		/* 
+		 * 
+		 */
+		unloadCurrentLevel: function unloadCurrentLevel()
+		{
+			BaseGame.unloadCurrentLevel.call(this);
+			
+			if(PhysicsCore.bodies.length > 0)
+				log("There are still bodies that have not been destroyed").
+				
+			if(PhysicsCore.joints.length > 0)
+				log("There are still joints that have not been destroyed").
+			
+			PhysicsCore.destroyAllBodiesAndJoints();
+			
+			if(GraphicsCore.drawableObjects.length > 0)
+				log("There are still drawable objects that have not been destroyed").
+			
+			GraphicsCore.removeAllDrawableObjects();
+		},
+		
+		/* 
+		 * 
+		 */
+		destroy: function destroy()
+		{
+			BaseGame.destroy.call(this);
+			PhysicsCore.destroy();
 		},
 		
 		onDarkSoulDead: function onDarkSoulDead()

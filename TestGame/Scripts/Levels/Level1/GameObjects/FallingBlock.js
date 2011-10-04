@@ -34,7 +34,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.bodyDef.position.y = this.gameObj.pos.y;
 			this.bodyDef.angle = this.gameObj.rot.z;
 			
-			this.deathSensorBody = PhysicsCore.world.CreateBody(this.bodyDef);
+			this.deathSensorBody = PhysicsCore.createBody(this.bodyDef);
 			this.deathSensorBody.gameObj = this.gameObj;
 			
 			this.deathSensorFixture = this.deathSensorBody.CreateFixture(this.fixDef);
@@ -49,6 +49,14 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 				return;
 			
 			this.deathSensorBody.SetPosition(this.gameObj.pluginPhysics.body.GetPosition());
+		},
+		
+		/* 
+		 * 
+		 */
+		destroy: function destroy()
+		{
+			PhysicsCore.destroyBody(this.deathSensorBody);
 		},
 		
 	};

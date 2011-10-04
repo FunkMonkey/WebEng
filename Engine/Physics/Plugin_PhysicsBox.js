@@ -40,7 +40,7 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.bodyDef.position.y = this.gameObj.pos.y;
 			this.bodyDef.angle = this.gameObj.rot.z;
 			
-			this.body = PhysicsCore.world.CreateBody(this.bodyDef);
+			this.body = PhysicsCore.createBody(this.bodyDef);
 			this.body.gameObj = this.gameObj;
 			
 			this.fixture = this.body.CreateFixture(this.fixDef);
@@ -58,7 +58,7 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 		
 		destroy: function destroy()
 		{
-			/* todo: remove from PhysicsCore */
+			PhysicsCore.destroyBody(this.body);
 		},
 		
 	};

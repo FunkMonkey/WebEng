@@ -9,6 +9,8 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		//this.lastUpdate = Date.now();
 		this.lastUpdate = window.mozAnimationStartTime;
 		this.updateCount = 0;
+		
+		this.isInGameLoop = false;
 	}
 	
 	BaseGame.functions = {
@@ -46,6 +48,9 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		
 		_updateCall: function _updateCall(timestamp)
 		{
+			if(!this.isInGameLoop)
+				return;
+			
 			var timer = new Engine.Timers.PhaseTimer();
 			++this.updateCount;
 			var dt = (timestamp - this.lastUpdate) / 1000;
@@ -61,6 +66,9 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		
 		destroy: function destroy()
 		{
+			if(this.isInGameLoop)
+				throw "Stop GameLoop first";
+			
 			this.unloadCurrentLevel();
 		},
 		
@@ -72,6 +80,9 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		
 		loadLevel: function loadLevel(moduleID, callback)
 		{
+			if(this.isInGameLoop)
+				throw "Stop GameLoop first";
+			
 			if(this.level)
 				this.unloadCurrentLevel();
 				
@@ -91,6 +102,9 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		
 		unloadCurrentLevel: function unloadCurrentLevel()
 		{
+			if(this.isInGameLoop)
+				throw "Stop GameLoop first";
+			
 			if(!this.level)
 				return;
 			
@@ -103,12 +117,22 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			if(!this.update)
 				throw "No Update Function";
 			
+			this.isInGameLoop = true;
+			
 			this._boundUpdateCall = this._updateCall.bind(this);
 			window.mozRequestAnimationFrame(this._boundUpdateCall);
 			
 			//this.updateTimer = window.setInterval(this._updateCall.bind(this), this.updateInterval);
 			//this.updateTimer = window.setTimeout(this.update.bind(this), 100);
-		}
+		},
+		
+		/* 
+		 * 
+		 */
+		stopGameLoop: function stopGameLoop()
+		{
+			this.isInGameLoop = false;
+		},
 	};
 	
 	Extension.inherit_auto(BaseGame, Object);

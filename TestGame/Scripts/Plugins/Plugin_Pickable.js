@@ -16,6 +16,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 	
 	Plugin_Pickable.pickedBody = null;
 	Plugin_Pickable.lastDropTime = 0;
+	Plugin_Pickable.count = 0;
 	
 	Plugin_Pickable.prototype = {
 		constructor: Plugin_Pickable,
@@ -32,6 +33,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 				throw "No physics-plugin detected"
 			
 			onMouseDown = InputCore.actions["OnMouseDown"];
+			
+			Plugin_Pickable.count += 1;
 		},
 		
 		postInit: function postInit()
@@ -98,6 +101,10 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 		
 		destroy: function destroy()
 		{
+			Plugin_Pickable.count -= 1;
+			
+			if(Plugin_Pickable.count === 0 && joint)
+				PhysicsCore.world.DestroyJoint(joint);
 			/* todo: remove from PhysicsCore */
 		},
 		
