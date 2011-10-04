@@ -12,6 +12,7 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 		this.height = 1;
 		this.color = GraphicsCore.Color.fromPool();
 		this.dontCallUpdate = true;
+		this.isVisible = true;
 	}
 	
 	Plugin_SimpleColorGraphics2D.prototype = {
@@ -75,6 +76,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 		
 		draw: function draw(dt)
 		{
+			if(!this.isVisible)
+				return;
+			
+			this.shaderProgram.use();
+			
 			var mvMatrix = GraphicsCore.mvMatrix;
 			
 			mat4.identity(mvMatrix);

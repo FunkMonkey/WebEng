@@ -12,6 +12,7 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 	{
 		this.dontCallUpdate = true;
 		this.textureID = "";
+		this.isVisible = true;
 	}
 	
 	Plugin_SimpleTextureGraphics2D.prototype = {
@@ -67,6 +68,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 		
 		draw: function draw(dt)
 		{
+			if(!this.isVisible)
+				return;
+			
+			this.shaderProgram.use();
+			
 			var mvMatrix = GraphicsCore.mvMatrix;
 			
 			mat4.identity(mvMatrix);

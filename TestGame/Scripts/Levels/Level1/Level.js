@@ -25,6 +25,13 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 		
 		create: function create()
 		{
+			this.testObj = new BaseGameObject("TestObj");
+			this.testObj.addPlugin(new Plugin_WorldObject3D());
+			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
+			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+			
+			this.addGameObject(this.testObj);
+			
 			// creating objects
 			this.addGameObject(GO_DeathZone.create("DeathZone1", {	pos: Vector3.fromPool(-3, 1, 0),
 																	size: Vector3.fromPool(2, 2, 0)}));
@@ -44,16 +51,15 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 																			size: Vector3.fromPool(0.3, 0.3, 0),
 																			color: GraphicsCore.Color.fromPool(0, 0, 1, 1)}));
 			
+			
+			
+			
 			this.addGameObject(GO_FallingBlock.create("FallingBlock", { 	pos: Vector3.fromPool(2, 3, 0),
 																			size: Vector3.fromPool(1, 1, 0),
 																			color: GraphicsCore.Color.fromPool(0, 0, 0, 1)}));
 			
 			
-			//this.testObj.addPlugin(new Plugin_WorldObject3D(this.testObj));
-			//this.testObj.pos.z = 0;
-			//
-			//this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D(this.testObj));
-			//this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+			
 		},
 		
 	};
