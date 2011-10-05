@@ -21,12 +21,10 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 		
 		postInit: function postInit()
 		{
-			var pluginPhysics = this.gameObj.pluginPhysics;
-			
 			this.fixDef = new (PhysicsCore.b2FixtureDef)();
 			this.fixDef.isSensor = true;
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
-			this.fixDef.shape.SetAsBox(pluginPhysics.size.x / 2.0 * 0.9, pluginPhysics.size.y / 2.0 * 1.1);
+			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0 * 0.9, this.gameObj.size.y / 2.0 * 1.1);
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
 			this.bodyDef.type = PhysicsCore.b2Body.b2_dynamicBody;

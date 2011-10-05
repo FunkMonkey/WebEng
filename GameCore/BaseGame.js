@@ -88,6 +88,8 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 				
 			var LevelClass = require(moduleID).Level;
 			
+			this.levelModuleID = moduleID;
+			
 			// creating the level
 			this.level = new LevelClass();
 			this.level.create();
@@ -120,11 +122,14 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			this.isInGameLoop = true;
 			
 			this._boundUpdateCall = this._updateCall.bind(this);
+			
+			this.lastUpdate = window.mozAnimationStartTime;
 			window.mozRequestAnimationFrame(this._boundUpdateCall);
 			
 			//this.updateTimer = window.setInterval(this._updateCall.bind(this), this.updateInterval);
 			//this.updateTimer = window.setTimeout(this.update.bind(this), 100);
 		},
+				
 		
 		/* 
 		 * 

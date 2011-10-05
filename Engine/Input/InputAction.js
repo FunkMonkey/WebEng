@@ -5,13 +5,13 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	
 	var InputCore = null;
 	
-	function KeyboardTrigger(action, keyCode, state, input)
+	function KeyboardTrigger(action, keyCode, state, obligatory, input)
 	{
 		this.action = action;
 		this.keyCode = keyCode;
 		this.state = state;
 		this.input = input;
-		this.obligatory = false;
+		this.obligatory = (obligatory === true) ? true : false;
 		
 		if(this.input && action.result.length < input.length)
 		{
@@ -39,13 +39,13 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		}
 	};
 	
-	function MouseButtonTrigger(action, buttonCode, state, input)
+	function MouseButtonTrigger(action, buttonCode, state, obligatory, input)
 	{
 		this.action = action;
 		this.buttonCode = buttonCode;
 		this.state = state;
 		this.input = input;
-		this.obligatory = false;
+		this.obligatory = (obligatory === true) ? true : false;
 		
 		if(this.input && action.result.length < input.length)
 		{
@@ -72,11 +72,11 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		}
 	};
 	
-	function MouseMoveTrigger(action, input)
+	function MouseMoveTrigger(action, obligatory, input)
 	{
 		this.action = action;
 		this.input = input;
-		this.obligatory = false;
+		this.obligatory = (obligatory === true) ? true : false;
 		
 		action.result[0] = 0;
 		action.result[1] = 0;
@@ -166,23 +166,23 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		},
 		
 		
-		addKeyboardTrigger: function addKeyboardTrigger(keyCode, state, input)
+		addKeyboardTrigger: function addKeyboardTrigger(keyCode, state, obligatory, input)
 		{
-			var trigger = new KeyboardTrigger(this, keyCode, state, input);
+			var trigger = new KeyboardTrigger(this, keyCode, state, obligatory, input);
 			this.triggers.push(trigger);
 			return trigger;
 		},
 		
-		addMouseButtonTrigger: function addMouseButtonTrigger(mbCode, state, input)
+		addMouseButtonTrigger: function addMouseButtonTrigger(mbCode, state, obligatory, input)
 		{
-			var trigger = new MouseButtonTrigger(this, mbCode, state, input);
+			var trigger = new MouseButtonTrigger(this, mbCode, state, obligatory, input);
 			this.triggers.push(trigger);
 			return trigger;
 		},
 		
-		addMouseMoveTrigger: function addMouseMoveTrigger(input)
+		addMouseMoveTrigger: function addMouseMoveTrigger(obligatory, input)
 		{
-			var trigger = new MouseMoveTrigger(this, input);
+			var trigger = new MouseMoveTrigger(this, obligatory, input);
 			this.triggers.push(trigger);
 			return trigger;
 		},

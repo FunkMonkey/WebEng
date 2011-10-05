@@ -32,7 +32,13 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 				this[2] = b;
 				this[3] = a;
 			}
-		}
+		},
+		
+		clone: function clone()
+		{
+			return Color.fromPool(this.r, this.g, this.b, this.a);
+		},
+		
 	
 	};
 	

@@ -20,11 +20,10 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/BoxWithPhysics", funct
 		obj.addPlugin(new Plugin_WorldObject3D());
 		if(data.pos)
 			obj.pos = data.pos;
+		obj.size = data.size;
 		
 		// physics
 		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
-		obj.pluginPhysics.size.x = data.size.x;
-		obj.pluginPhysics.size.y = data.size.y;
 		if(data.isStatic)
 			obj.pluginPhysics.isStatic = true;
 		if(data.isSensor)
@@ -34,8 +33,6 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/BoxWithPhysics", funct
 		if(!data.noGraphics)
 		{
 			obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
-			obj.pluginGraphics.width = data.size.x;
-			obj.pluginGraphics.height = data.size.y;
 			if(data.color)
 				obj.pluginGraphics.color = data.color;
 		}

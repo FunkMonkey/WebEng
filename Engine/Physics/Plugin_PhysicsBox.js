@@ -11,7 +11,7 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 		this.restitution = 0.2;
 		this.isStatic = false;
 		this.isSensor = false;
-		this.size = Vector3.fromPool(1, 1, 0);
+		//this.size = Vector3.fromPool(1, 1, 0);
 	}
 	
 	Plugin_PhysicsBox.prototype = {
@@ -32,7 +32,7 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.fixDef.restitution = this.restitution;
 			this.fixDef.isSensor = this.isSensor;
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
-			this.fixDef.shape.SetAsBox(this.size.x / 2.0, this.size.y / 2.0);
+			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0, this.gameObj.size.y / 2.0);
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
 			this.bodyDef.type = (this.isStatic === true) ? PhysicsCore.b2Body.b2_staticBody : PhysicsCore.b2Body.b2_dynamicBody;

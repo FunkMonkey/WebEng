@@ -26,6 +26,8 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 		mouseButtonsPressed: {},
 		mouseButtonsReleased: {},
 		
+		MOUSEBUTTON_LEFT: 1,
+		
 		MOUSEBUTTON_STATE_DOWN: 0,
 		MOUSEBUTTON_STATE_UP: 1,
 		MOUSEBUTTON_STATE_PRESSED: 2,
@@ -40,7 +42,8 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 			this.jdomMouseEventReceiver = $(domMouseEventReceiver);
 			this.jdomMouseEventReceiver.mousedown(this.onMousedown.bind(this));
 			this.jdomMouseEventReceiver.mouseup(this.onMouseup.bind(this));
-			this.jdomMouseEventReceiver.mousemove(this.onMousemove.bind(this)); // TODO: bottleneck
+			//this.jdomMouseEventReceiver.mousemove(this.onMousemove.bind(this)); // TODO: bottleneck
+			domMouseEventReceiver.addEventListener("mousemove", this.onMousemove.bind(this), true);
 			this.jdomMouseEventReceiver.mouseenter(this.onMouseenter.bind(this));
 			this.jdomMouseEventReceiver.mouseleave(this.onMouseleave.bind(this));
 			
@@ -140,8 +143,11 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 		
 		onMousemove: function onMousemove(event)
 		{
-			this._mousePosCurr.x = event.pageX - this.jdomMouseEventReceiver.currPos.left;
-			this._mousePosCurr.y = event.pageY - this.jdomMouseEventReceiver.currPos.top;
+			// todo: crossbrowser
+			this._mousePosCurr.x = event.layerX;
+			this._mousePosCurr.y = event.layerY;
+			//log("" + this._mousePosCurr)
+			//log(event)
 		},
 		
 		onMouseenter: function onMouseenter(event)

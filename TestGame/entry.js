@@ -14,11 +14,11 @@ var Game = null;
 function onLoad()
 {
 	GraphicsCore = ModuleSystem.require("/Engine/Graphics/GraphicsCore").GraphicsCore;
-	GraphicsCore.init();
+	GraphicsCore.init(document.getElementById("game-viewport"));
 	
 	InputCore = ModuleSystem.require("/Engine/Input/InputCore").InputCore;
 	//InputCore.init(document.getElementById("glcanvas"));
-	InputCore.init(window, document.getElementById("glcanvas"));
+	InputCore.init(window, document.getElementById("game-viewport"));
 	
 	AudioCore = ModuleSystem.require("/Engine/Audio/AudioCore").AudioCore;
 	AudioCore.init();
@@ -33,13 +33,14 @@ function onLoad()
 	Game.loadResources(function(){
 		Game.init();
 		
-		Game.loadLevel("/TestGame/Scripts/Levels/Level1/Level", function cb(){
-				log("level loaded");
-				Game.startGameLoop();
-			});
+		// enabling menu
+		Game.jdomMenu.show();
+		
 	}); // async
 	
 }
+
+
 
 window.addEventListener("load", onLoad, false);
 

@@ -11,23 +11,37 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 	
 	Game.functions = {
 		
+		initControls: function initControls()
+		{
+			var action = null;
+			
+			action = InputCore.getAction("OnPauseGame");
+			action.addKeyboardTrigger(KeyboardEvent.DOM_VK_ESCAPE, InputCore.KEY_STATE_PRESSED, true);
+			
+			action = InputCore.getAction("OnMouseDown");
+			action.addMouseButtonTrigger(InputCore.MOUSEBUTTON_LEFT, InputCore.MOUSEBUTTON_STATE_DOWN, true);
+			
+			action = InputCore.getAction("OnCameraMove");
+			action.addMouseButtonTrigger(InputCore.MOUSEBUTTON_LEFT, InputCore.MOUSEBUTTON_STATE_DOWN, true);
+			action.addMouseMoveTrigger(true, [1.0 / GraphicsCore.orthoFactor, -1.0 / GraphicsCore.orthoFactor]);
+		},
+		
+		initMenu: function initMenu()
+		{
+			this.jdomMenu = $("#game-menu");
+			this.jdomMenuStart = $("#game-menu-start");
+			this.jdomMenuRestart = $("#game-menu-restart");
+			this.jdomMenuContinue = $("#game-menu-continue");
+		},
+		
+		
+		
 		init: function init()
 		{
 			BaseGame.prototype.init.call(this);
 			
-			var action = null;
-			var trigger = null;
-			
-			action = InputCore.getAction("OnMouseDown");
-			trigger = action.addMouseButtonTrigger(1, InputCore.MOUSEBUTTON_STATE_DOWN);
-			trigger.obligatory = true;
-			
-			action = InputCore.getAction("OnCameraMove");
-			trigger = action.addMouseButtonTrigger(1, InputCore.MOUSEBUTTON_STATE_DOWN);
-			trigger.obligatory = true;
-			
-			trigger = action.addMouseMoveTrigger();
-			trigger.obligatory = true;
+			this.initMenu();
+			this.initControls();
 			
 			// todo: put into physicscore
 			//this.debugDraw = new PhysicsCore.b2DebugDraw();
@@ -52,6 +66,14 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			InputCore.update(dt);
 			this.mouseWorldPos = GraphicsCore.screenPosToWorldPos(InputCore.mousePos, 0);
 			
+			var onPauseGame = InputCore.actions["OnPauseGame"];
+			if(onPauseGame.isTriggered)
+			{
+				this.stopGameLoop();
+				this.jdomMenu.show();
+				return;
+			}
+			
 			timer.finishPhase("Input");
 			
 			PhysicsCore.update(dt);
@@ -67,8 +89,8 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				onCameraMove.isTriggered)
 			{
 				var pos = GraphicsCore.camera.pos;
-				pos.x += onCameraMove.result[0] / GraphicsCore.orthoFactor;
-				pos.y -= onCameraMove.result[1] / GraphicsCore.orthoFactor;
+				pos.x += onCameraMove.result[0];
+				pos.y += onCameraMove.result[1];
 			}
 			timer.finishPhase("Camera");
 			
@@ -90,18 +112,18 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		 */
 		unloadCurrentLevel: function unloadCurrentLevel()
 		{
-			BaseGame.unloadCurrentLevel.call(this);
+			BaseGame.prototype.unloadCurrentLevel.call(this);
 			
 			if(PhysicsCore.bodies.length > 0)
-				log("There are still bodies that have not been destroyed").
+				log("There are still bodies that have not been destroyed");
 				
 			if(PhysicsCore.joints.length > 0)
-				log("There are still joints that have not been destroyed").
+				log("There are still joints that have not been destroyed");
 			
 			PhysicsCore.destroyAllBodiesAndJoints();
 			
 			if(GraphicsCore.drawableObjects.length > 0)
-				log("There are still drawable objects that have not been destroyed").
+				log("There are still drawable objects that have not been destroyed");
 			
 			GraphicsCore.removeAllDrawableObjects();
 		},
@@ -111,7 +133,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		 */
 		destroy: function destroy()
 		{
-			BaseGame.destroy.call(this);
+			BaseGame.prototype.destroy.call(this);
 			PhysicsCore.destroy();
 		},
 		
@@ -119,6 +141,34 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		{
 			log("Game Over");
 		},
+		
+		_start: function _start()
+		{
+			this.loadLevel("/TestGame/Scripts/Levels/Level1/Level", (function cb(){
+				this.jdomMenuStart.hide();
+				this.jdomMenuContinue.show();
+				this.jdomMenuRestart.show();
+				this.jdomMenu.hide();
+				this.startGameLoop();
+			}).bind(this));
+		},
+		
+		_restart: function _restart()
+		{
+			this.loadLevel("/TestGame/Scripts/Levels/Level1/Level", (function cb(){
+				this.jdomMenu.hide();
+				this.startGameLoop();
+			}).bind(this));
+		},
+		
+		_continue: function _continue()
+		{
+			this.jdomMenu.hide();
+			this.startGameLoop();
+		},
+		
+		
+		
 		
 	};
 	

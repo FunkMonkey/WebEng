@@ -8,6 +8,31 @@ Der Zustand lässt sich über Methoden wie \textprog{isKeyDown} abrufen.
 
 \section{InputActions}
 
-D
+Damit der Programmierer nicht direkt im Programmcode den Zustand einzelner Tasten überprüfen muss und um die Unterstützung der Steuerung mit verschiedenen Devices und anpassbaren Tasten zu unterstützen, gibt es die sogenannten InputActions.
+
+Dabei kann der Programmierer eine Aktion definieren und bestimmen welchen Zustand die Input-Devices haben müssen, damit die Aktion im aktuellen Frame als aktiviert\todo{anderes Wort} markiert wird. Dies geschieht mit Hilfe von sogenannten Triggern.
+
+Im Folgenden dargestellt ist eine Beispiel-Aktion zur Bewegung der Kamera, bei welcher die linke Mouse-Taste gedrückt und die Mouse bewegt worden sein muss:
+
+\begin{lstlisting}[language=JavaScript]
+action = InputCore.getAction("OnCameraMove");
+trigger = action.addMouseButtonTrigger(InputCore.MOUSEBUTTON_LEFT, InputCore.MOUSEBUTTON_STATE_DOWN);
+trigger.obligatory = true;
+			
+trigger = action.addMouseMoveTrigger([0.5, -0.5]);
+trigger.obligatory = true;
+\end{lstlisting}
+
+Die Funktion \textprog{getAction} erzeugt eine Aktion, sofern diese noch nicht existiert. Die Eigenschaft \textprog{obligatory} sagt aus, dass der Trigger erfüllt sein muss, damit die ganze Aktion als erfüllt gilt. Die Werte, die dem \textprog{MouseMoveTrigger} übergeben wurden manipulieren zudem das Ergebnis der Aktion, sprich halbieren die x- und y-Werte der Mouse-Bewegung.
+
+Hier die Auswertung einer Aktion:
+\begin{lstlisting}[language=JavaScript]
+var onCameraMove = InputCore.actions["OnCameraMove"];
+if(onCameraMove.isTriggered)
+{
+	GraphicsCore.camera.pos.x += onCameraMove.result[0];
+	GraphicsCore.camera.pos.y += onCameraMove.result[1];
+}
+\end{lstlisting}
 
 \todo{InputActions}

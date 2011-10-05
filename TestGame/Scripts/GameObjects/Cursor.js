@@ -52,10 +52,11 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 	{
 		var obj = new BaseGameObject(id);
 		obj.addPlugin(new Plugin_WorldObject3D());
+		obj.size.x = 0.2;
+		obj.size.y = 0.2;
+		
 		obj.addPlugin(new Plugin_LogicCursor());
 		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
-		obj.pluginGraphics.width = 0.2;
-		obj.pluginGraphics.height = 0.2;
 		obj.pluginGraphics.color = GraphicsCore.Color.fromPool(1.0, 1.0, 0.0, 1.0);
 		return obj;
 	}

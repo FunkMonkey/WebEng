@@ -4,6 +4,8 @@
     <head>
         <title>QuQu</title>
         
+        <link rel="stylesheet"  href="style/style.css" />
+        
         <script type="text/javascript" src="Dependencies/glMatrix-0.9.5.min.js"></script>
         <script type="text/javascript" src="Dependencies/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="Dependencies/box2dweb/Box2dWeb-2.1.a.3.js"></script>
@@ -29,12 +31,20 @@
     </head>
     
     <body>
-        <canvas id="glcanvas" width="640" height="480" style="border: 1px solid #000;">
+        <div id="game-container">
+            <canvas id="game-viewport" width="640" height="480">
+                Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
+            </canvas>
+            <div id="game-menu">
+                <input id="game-menu-start" type="button" value="Start Game!" onclick="Game._start();" />
+                <input id="game-menu-continue" type="button" value="Continue Game!" onclick="Game._continue();" style="display:none;" />
+                <input id="game-menu-restart" type="button" value="Restart Game!" onclick="Game._restart();" style="display:none;" />
+            </div>
+        </div>
+        
+        <!--<canvas id="canvas2" width="640" height="480" style="border: 1px solid #000;">
             Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
-        </canvas>
-        <canvas id="canvas2" width="640" height="480" style="border: 1px solid #000;">
-            Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
-        </canvas>
+        </canvas>-->
         <div id="foo">
             
         </div>

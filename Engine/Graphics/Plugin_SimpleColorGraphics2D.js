@@ -8,8 +8,6 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 	
 	function Plugin_SimpleColorGraphics2D()
 	{
-		this.width = 1;
-		this.height = 1;
 		this.color = GraphicsCore.Color.fromPool();
 		this.dontCallUpdate = true;
 		this.isVisible = true;
@@ -38,18 +36,13 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 			
 			this.shaderProgram = GraphicsCore.stdColorShaderProgram;
 			
-			//var width = this.texture.width * this.pixelToWorldScaleFactor;
-			//var height = this.texture.height * this.pixelToWorldScaleFactor;
-			//this.width = width;
-			//this.height = height;
-			
 			/* Vertices */
 			
 			var vertices = 	[
-						-this.width / 2.0,  this.height / 2.0,  0.0,
-						 this.width / 2.0,  this.height / 2.0,  0.0,
-						-this.width / 2.0, -this.height / 2.0,  0.0,
-						 this.width / 2.0, -this.height / 2.0,  0.0
+						-this.gameObj.size.x / 2.0,  this.gameObj.size.y / 2.0,  0.0,
+						 this.gameObj.size.x / 2.0,  this.gameObj.size.y / 2.0,  0.0,
+						-this.gameObj.size.x / 2.0, -this.gameObj.size.y / 2.0,  0.0,
+						 this.gameObj.size.x / 2.0, -this.gameObj.size.y / 2.0,  0.0
 					];
 			
 			this.vertexPosBuffer = gl.createBuffer();

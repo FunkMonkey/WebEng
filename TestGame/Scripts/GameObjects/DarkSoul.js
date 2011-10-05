@@ -15,7 +15,6 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		this._dead = false;
 		this.isDarkSoul = true;
 		
-		
 		this.timeTillDrop = 1500;
 		this.timeTillRePick = 1000;
 		this.timePicked = 0;
@@ -131,14 +130,13 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		obj.addPlugin(new Plugin_WorldObject3D());
 		if(data.pos)
 			obj.pos = data.pos;
+		obj.size = data.size;
 		
 		// logic
 		obj.addPlugin(new Plugin_LogicDarkSoul());
 		
 		// physics
 		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
-		obj.pluginPhysics.size.x = data.size.x;
-		obj.pluginPhysics.size.y = data.size.y;
 		
 		// pickable
 		obj.addPlugin(new Plugin_Pickable());
@@ -147,9 +145,6 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
 		if(data.color)
 			obj.pluginGraphics.color = data.color;
-			
-		obj.pluginGraphics.width = data.size.x;
-		obj.pluginGraphics.height = data.size.y;
 		
 		return obj;
 	}

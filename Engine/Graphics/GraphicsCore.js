@@ -18,7 +18,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		
 		orthoFactor: 100,
 		
-		init: function init()
+		init: function init(canvas)
 		{
 			this.drawableObjects = [];
 			
@@ -31,7 +31,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			this.camera = new Camera();
 			this.camera.pos.z = -10;
 			
-			this.canvas = document.getElementById("glcanvas");
+			this.canvas = canvas;
 			//this._viewportSize = Vector2.getFromPool(this.canvas.width, this.canvas.height);
 			//this._cameraPos = Vector2.getFromPool(0, 0);
 			

@@ -23,27 +23,41 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 	
 	Level.functions = {
 		
-		create: function create()
+		_createGround: function _createGround()
 		{
-			this.testObj = new BaseGameObject("TestObj");
-			this.testObj.addPlugin(new Plugin_WorldObject3D());
-			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
-			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
-			this.testObj.pluginGraphics.width = 2;
+			var groundColor = GraphicsCore.Color.fromPool(0, 0, 0, 1);
 			
-			this.addGameObject(this.testObj);
+			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("Ground_left_1", { 	pos: Vector3.fromPool(0, 0, 0),
+																							size: Vector3.fromPool(10, 1, 0),
+																							color: groundColor.clone(),
+																							isStatic: true}));
 			
-			// creating objects
+			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("Border_left", { 	pos: Vector3.fromPool(0, 0, 0),
+																						size: Vector3.fromPool(1, 10, 0),
+																						color: groundColor.clone(),
+																						isStatic	: true}));
+			
+		},
+		
+		_createItems: function _createItems()
+		{
+			this.addGameObject(GO_FallingBlock.create("FallingBlock", { 	pos: Vector3.fromPool(2, 3, 0),
+																			size: Vector3.fromPool(1, 1, 0),
+																			color: GraphicsCore.Color.fromPool(0, 0, 0, 1)}));
+			
+		},
+		
+		
+		_createDeathZones: function _createDeathZones()
+		{
 			this.addGameObject(GO_DeathZone.create("DeathZone1", {	pos: Vector3.fromPool(-3, 1, 0),
 																	size: Vector3.fromPool(2, 2, 0)}));
 			
-			
-			this.addGameObject(GO_Cursor.createCursor("Cursor"));
-			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("Ground", { 	pos: Vector3.fromPool(0, 0, 0),
-																					size: Vector3.fromPool(5, 0.5, 0),
-																					color: GraphicsCore.Color.fromPool(0, 0, 0, 1),
-																					isStatic: true}));
-			
+		},
+		
+		
+		_createLife: function _createLife()
+		{
 			this.addGameObject(GO_DarkSoul.createDarkSoul("DarkSoul1", {	pos: Vector3.fromPool(-1, 2, 0),
 																			size: Vector3.fromPool(0.3, 0.3, 0),
 																			color: GraphicsCore.Color.fromPool(0, 0, 1, 1)}));
@@ -53,14 +67,30 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 																			color: GraphicsCore.Color.fromPool(0, 0, 1, 1)}));
 			
 			
+			this.addGameObject(GO_Cursor.createCursor("Cursor"));
+		},
+		
+		
+		
+		create: function create()
+		{
+			/*this.testObj = new BaseGameObject("TestObj");
+			this.testObj.addPlugin(new Plugin_WorldObject3D());
+			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
+			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+			this.testObj.pluginGraphics.width = 2;
 			
+			this.addGameObject(this.testObj);*/
 			
-			this.addGameObject(GO_FallingBlock.create("FallingBlock", { 	pos: Vector3.fromPool(2, 3, 0),
-																			size: Vector3.fromPool(1, 1, 0),
-																			color: GraphicsCore.Color.fromPool(0, 0, 0, 1)}));
+			// creating objects
+			this._createGround();
+			this._createDeathZones();
+			this._createItems();
+			this._createLife();
 			
-			
-			
+			GraphicsCore.camera.pos.x = -1;
+			GraphicsCore.camera.pos.y = -1;
+
 		},
 		
 	};
