@@ -4,10 +4,13 @@
 ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingBlock", function(require, exports, module){
 	
 	var BoxWithPhysics = require("/TestGame/Scripts/GameObjects/BoxWithPhysics");
+	var Plugin_LogicDarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul").Plugin_LogicDarkSoul;
 	
 	function Plugin_LogicFallingBlock()
 	{
+		this.state = "start";
 		this.isFinished = false;
+		this.timeTillFall = 5;
 	}
 	
 	Plugin_LogicFallingBlock.prototype = {
@@ -38,6 +41,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.deathSensorFixture = this.deathSensorBody.CreateFixture(this.fixDef);
 			this.deathSensorFixture.gameObj = this.gameObj;
 			this.deathSensorFixture.deathZoneActive = true;
+			
+			this.posX = this.gameObj.pos.x - 0.5;
 		},
 		
 		
@@ -47,6 +52,35 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 				return;
 			
 			this.deathSensorBody.SetPosition(this.gameObj.pluginPhysics.body.GetPosition());
+			
+			switch(this.state)
+			{
+				case "start":
+				{
+					this.gameObj.pluginPhysics.body.SetAwake(false);
+					for(var i=0; i < Plugin_LogicDarkSoul.darksouls.length; ++i)
+					{
+						if(Plugin_LogicDarkSoul.darksouls[i].pos.x > this.posX)
+						{
+							this.state = "fall_initiated";
+							break;
+						}
+					}
+					
+					break;
+				}
+				case "fall_initiated":
+					{
+						this.timeTillFall -= dt;
+						if(this.timeTillFall < 0)
+						{
+							this.gameObj.pluginPhysics.body.SetAwake(true);
+							this.state = "falling";
+						}
+						break;
+					}
+				case "falling":  break;
+			}
 		},
 		
 		/* 

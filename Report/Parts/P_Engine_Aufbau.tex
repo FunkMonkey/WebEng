@@ -2,6 +2,8 @@
 
 Ein Spiel innerhalb der Web-Engine besteht aus verschiedenen Komponenten. Zunächst existiert eine \textprog{entry.js}-Datei, welche den Startpunkt des Spiels bestimmt. Innerhalb dieser werden die für bestimmte Aufgaben (Grafik, Physik, Input, Audio) zuständigen \textbf{Manager} erzeugt und konfiguriert. Diese sind global aus allen Teilen des Programmcodes erreichbar. Zusätzlich wird eine \textbf{Instanz der Spielklasse} erstellt, welche ebenfalls global erreichbar ist.
 
+\todo{Illustration}
+
 \include{Parts/C_GameCore}
 \include{Parts/C_GameObjects}
 \include{Parts/C_Level}
@@ -9,10 +11,10 @@ Ein Spiel innerhalb der Web-Engine besteht aus verschiedenen Komponenten. Zunäc
 % kommt in einen anderen Teil
 \include{Parts/C_GarbageCollection}
 \include{Parts/C_Input}
+\include{Parts/C_Physik}
 \include{Parts/C_Module}
 
 GraphicsCore, WebGL, canvas, Shader, Texturen, GraphicPlugins
-PhysicsCore, ContactListener sowie onBeginContact, etc.
 AudioCore
 
 EventThrower

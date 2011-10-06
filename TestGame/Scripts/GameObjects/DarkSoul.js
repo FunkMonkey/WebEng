@@ -19,15 +19,25 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		this.timeTillRePick = 1000;
 		this.timePicked = 0;
 		this.timeDropped = 0;
+		
+		this.jumpImpulseFactor = new (PhysicsCore.b2Vec2)(0, 0.1);
+		this.jumpTorque = 0.2;
+		this.minTimeSinceLastJump = 1;
+		this.timeSinceLastJump = 0;
 	}
+	
+	Plugin_LogicDarkSoul.darksouls = [];
 	
 	Plugin_LogicDarkSoul.prototype = {
 		constructor: Plugin_LogicDarkSoul,
+		
+		darksouls: [],
 		
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginLogicDarkSoul = this;
+			Plugin_LogicDarkSoul.darksouls.push(this.gameObj);
 		},
 		
 		get dead()
@@ -89,6 +99,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		},
 		
 		_tmpImpulse: new PhysicsCore.b2Vec2(),
+		_tmpJumpImpulse: new PhysicsCore.b2Vec2(),
 		update: function update(dt)
 		{
 			if(this.dead)
@@ -100,11 +111,30 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			this.dir = (xDiff > 0) ? 1 : -1;
 			
 			// if moving
-			if(!this.picked && Math.abs(xDiff) > 0.1 && Math.abs(vel.x) < this.maxOwnVelocityX)
+			if(!this.picked)
 			{
-				this._tmpImpulse.x = this.dir * this.physBody.GetMass() * (this.maxOwnVelocityX - Math.abs(vel.x));
-				this._tmpImpulse.y = 0;
-				this.physBody.ApplyImpulse(this._tmpImpulse, this.physBody.GetWorldCenter());
+				if(Math.abs(xDiff) > 0.1)
+				{
+					if(Math.abs(vel.x) < this.maxOwnVelocityX)
+					{
+						this._tmpImpulse.x = this.dir * this.physBody.GetMass() * (this.maxOwnVelocityX - Math.abs(vel.x));
+						this._tmpImpulse.y = 0;
+						this.physBody.ApplyImpulse(this._tmpImpulse, this.physBody.GetWorldCenter());
+					}
+				}
+				// random jump
+				else
+				{
+					this.timeSinceLastJump += dt;
+					if(this.timeSinceLastJump > this.minTimeSinceLastJump)
+					{
+						this._tmpJumpImpulse.x = this.dir * this.jumpImpulseFactor.x;
+						this._tmpJumpImpulse.y = this.jumpImpulseFactor.y;
+						this.physBody.ApplyImpulse(this._tmpJumpImpulse, this.physBody.GetWorldCenter());
+						this.physBody.ApplyTorque(this.jumpTorque);
+						this.timeSinceLastJump = 0;
+					}
+				}
 			}
 			else if (this.picked)
 			{
@@ -112,7 +142,20 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 				if(!this.dead && now - this.timePicked > this.timeTillDrop)
 					this.gameObj.pluginPickable.drop();
 			}
-		}
+		},
+		
+		destroy: function destroy()
+		{
+			for (var i=0; i < this.darksouls.length; i++)
+			{
+				if(this.darksouls[i] === this.gameObj)
+				{
+					Plugin_LogicDarkSoul.darksouls.splice(i, 1);
+					break;
+				}
+			}
+		},
+		
 		
 	};
 	
@@ -151,4 +194,5 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 	
 	
 	exports.createDarkSoul = createDarkSoul;
+	exports.Plugin_LogicDarkSoul = Plugin_LogicDarkSoul;
 });

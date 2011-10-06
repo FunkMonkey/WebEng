@@ -39,6 +39,9 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 															enumerable : true, configurable : true });
 			
 			this.gameObj.setPosRelativeTo = this.setPosRelativeTo;
+			
+			this.gameObj.setPosIn2D = this.functions.setPosIn2D;
+			this.gameObj.getPosIn2D = this.functions.getPosIn2D;
 		},
 		
 		settersAndGetters:
@@ -77,15 +80,56 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 				this._size.z = val.z;
 			},
 			
-			getSize: function getSize(){ return this._size;},
+			getSize: function getSize(){ return this._size;}
 		},
 		
-		setPosRelativeTo: function setPosRelativeTo(otherPos, offset)
-		{
-			this.pos.x = otherPos.x + offset.x;
-			this.pos.y = otherPos.y + offset.y;
-			this.pos.z = otherPos.z + offset.z;
+		functions: {
+			setPosIn2D: function setPosIn2D(pos, anchor)
+			{
+				var newPos = Vector3.fromPool(pos);
+				switch(anchor)
+				{
+					case "left-top": 
+					case "top-left":     newPos.x += this.size.x / 2.0; newPos.y -= this.size.y / 2.0; break;
+					case "left-bottom": 
+					case "bottom-left":  newPos.x += this.size.x / 2.0; newPos.y += this.size.y / 2.0; break;
+					case "right-top": 
+					case "top-right":    newPos.x -= this.size.x / 2.0; newPos.y -= this.size.y / 2.0; break;
+					case "right-bottom": 
+					case "bottom-right": newPos.x -= this.size.x / 2.0; newPos.y += this.size.y / 2.0; break;
+				}
+				
+				this.pos = newPos;
+			},
+			
+			getPosIn2D: function getPosIn2D(anchor)
+			{
+				var pos = Vector3.fromPool(this.pos);
+				
+				switch(anchor)
+				{
+					case "left-top": 
+					case "top-left":     pos.x -= this.size.x / 2.0; pos.y += this.size.y / 2.0; break;
+					case "left-bottom": 
+					case "bottom-left":  pos.x -= this.size.x / 2.0; pos.y -= this.size.y / 2.0; break;
+					case "right-top": 
+					case "top-right":    pos.x += this.size.x / 2.0; pos.y += this.size.y / 2.0; break;
+					case "right-bottom": 
+					case "bottom-right": pos.x += this.size.x / 2.0; pos.y -= this.size.y / 2.0; break;
+				}
+				
+				return pos;
+			},
+			
+			
 		},
+		
+		//setPosRelativeTo: function setPosRelativeTo(otherPos, offset)
+		//{
+		//	this.pos.x = otherPos.x + offset.x;
+		//	this.pos.y = otherPos.y + offset.y;
+		//	this.pos.z = otherPos.z + offset.z;
+		//}
 		
 	};
 
