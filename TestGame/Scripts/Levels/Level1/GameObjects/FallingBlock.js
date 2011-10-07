@@ -16,12 +16,20 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 	Plugin_LogicFallingBlock.prototype = {
 		constructor: Plugin_LogicFallingBlock,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginLogicFallingBlock = this;
 		},
 		
+		/**
+		 * Second initiliaze call
+		 */
 		postInit: function postInit()
 		{
 			this.fixDef = new (PhysicsCore.b2FixtureDef)();
@@ -45,7 +53,11 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.posX = this.gameObj.pos.x - 0.5;
 		},
 		
-		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		update: function update(dt)
 		{
 			if(this.isFinished)
@@ -63,6 +75,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 						if(Plugin_LogicDarkSoul.darksouls[i].pos.x > this.posX)
 						{
 							this.state = "fall_initiated";
+							log("initiated")
 							break;
 						}
 					}
@@ -83,8 +96,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			}
 		},
 		
-		/* 
-		 * 
+		/**
+		 * Destroys the plugin
 		 */
 		destroy: function destroy()
 		{

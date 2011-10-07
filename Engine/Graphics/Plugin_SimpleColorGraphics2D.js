@@ -9,7 +9,6 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 	function Plugin_SimpleColorGraphics2D()
 	{
 		this.color = GraphicsCore.Color.fromPool();
-		this.dontCallUpdate = true;
 		this.isVisible = true;
 	}
 	

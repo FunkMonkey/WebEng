@@ -22,6 +22,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		
 		this.jumpImpulseFactor = new (PhysicsCore.b2Vec2)(0, 0.1);
 		this.jumpTorque = 0.2;
+		this.moveTorque = 0.1;
 		this.minTimeSinceLastJump = 1;
 		this.timeSinceLastJump = 0;
 	}
@@ -30,8 +31,6 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 	
 	Plugin_LogicDarkSoul.prototype = {
 		constructor: Plugin_LogicDarkSoul,
-		
-		darksouls: [],
 		
 		onAddedTo: function onAddedTo(gameObj)
 		{
@@ -120,6 +119,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 						this._tmpImpulse.x = this.dir * this.physBody.GetMass() * (this.maxOwnVelocityX - Math.abs(vel.x));
 						this._tmpImpulse.y = 0;
 						this.physBody.ApplyImpulse(this._tmpImpulse, this.physBody.GetWorldCenter());
+						this.physBody.ApplyTorque(this.moveTorque * -this.dir);
 					}
 				}
 				// random jump
@@ -146,9 +146,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		
 		destroy: function destroy()
 		{
-			for (var i=0; i < this.darksouls.length; i++)
+			for (var i=0; i < Plugin_LogicDarkSoul.darksouls.length; i++)
 			{
-				if(this.darksouls[i] === this.gameObj)
+				if(Plugin_LogicDarkSoul.darksouls[i] === this.gameObj)
 				{
 					Plugin_LogicDarkSoul.darksouls.splice(i, 1);
 					break;
@@ -180,6 +180,8 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		
 		// physics
 		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
+		obj.pluginPhysics.categoryBits = 0x0002;
+		obj.pluginPhysics.maskBits = 0xFFFD;
 		
 		// pickable
 		obj.addPlugin(new Plugin_Pickable());

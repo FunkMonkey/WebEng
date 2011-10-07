@@ -45,6 +45,8 @@ ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports
 					plugCallback(this.plugins[i]);
 		},
 		
+		// TODO: preInit
+		
 		init: function init()
 		{
 			for(var i = 0; i < this.plugins.length; ++i)
@@ -76,7 +78,7 @@ ModuleSystem.registerModule("GameCore/BaseGameObject", function(require, exports
 		addPlugin: function addPlugin(plugin)
 		{
 			this.plugins.push(plugin);
-			if(!plugin.dontCallUpdate)
+			if(plugin.update)
 				this.updatablePlugins.push(plugin);
 			
 			if(plugin.onAddedTo)

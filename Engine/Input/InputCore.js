@@ -70,7 +70,7 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 			this.keysDown[event.keyCode] = true;
 			this._keysPressedCollector[event.keyCode] = true;
 			
-			log("key is down " + event.keyCode);
+			//log("key is down " + event.keyCode);
 		},
 		
 		onKeyup: function onKeyup(event)
@@ -78,7 +78,7 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 			this.keysDown[event.keyCode] = false;
 			this._keysReleasedCollector[event.keyCode] = true;
 			
-			log("key is up " + event.keyCode);
+			//log("key is up " + event.keyCode);
 		},
 		
 		isKeyDown: function isKeyDown(keyCode)

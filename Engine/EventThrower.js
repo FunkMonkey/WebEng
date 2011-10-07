@@ -33,7 +33,7 @@ ModuleSystem.registerModule("Engine/EventThrower", function(require, exports, mo
 		fireCancelableEvent: function fireCancelableEvent(eventID, data)
 		{
 			if(!this._eventListeners[eventID])
-				return;
+				return true;
 			
 			var arr = this._eventListeners[eventID];
 			for(var i=0; i < arr.length; i++)

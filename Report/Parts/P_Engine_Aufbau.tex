@@ -1,6 +1,10 @@
 \part{Engine: Aufbau}
 
-Ein Spiel innerhalb der Web-Engine besteht aus verschiedenen Komponenten. Zunächst existiert eine \textprog{entry.js}-Datei, welche den Startpunkt des Spiels bestimmt. Innerhalb dieser werden die für bestimmte Aufgaben (Grafik, Physik, Input, Audio) zuständigen \textbf{Manager} erzeugt und konfiguriert. Diese sind global aus allen Teilen des Programmcodes erreichbar. Zusätzlich wird eine \textbf{Instanz der Spielklasse} erstellt, welche ebenfalls global erreichbar ist.
+Ein Spiel innerhalb der Web-Engine besteht aus verschiedenen Komponenten.
+
+Da es sich um ein Browser-Spiel handelt, existiert eine HTML-Datei, welche das darzustellende Dokument beschreibt. Diese inkludiert verschiedene Skripte, unter Anderem die \textprog{entry.js}-Datei, welche den Startpunkt des Spiels bestimmt. Innerhalb dieser werden die für bestimmte Aufgaben (Grafik, Physik, Input, Audio) zuständigen \textbf{Manager} erzeugt und konfiguriert. Diese sind global aus allen Teilen des Programmcodes erreichbar. Zusätzlich wird eine \textbf{Instanz der Spielklasse} erstellt, welche ebenfalls global erreichbar ist.
+
+Die HTML-Datei enthält zudem ein HTML5-\textprog{canvas}-Element, welches den Viewport des Spiels darstellt, in welchen mit Hilfe von WebGL gezeichnet wird.
 
 \todo{Illustration}
 
@@ -12,13 +16,12 @@ Ein Spiel innerhalb der Web-Engine besteht aus verschiedenen Komponenten. Zunäc
 \include{Parts/C_GarbageCollection}
 \include{Parts/C_Input}
 \include{Parts/C_Physik}
+\include{Parts/C_Grafik}
 \include{Parts/C_Module}
 
 GraphicsCore, WebGL, canvas, Shader, Texturen, GraphicPlugins
 AudioCore
 
-EventThrower
-
-Testgame, Spielprinzip
+Testgame, Spielprinzip, GUI-Menu
 
 Auswertung

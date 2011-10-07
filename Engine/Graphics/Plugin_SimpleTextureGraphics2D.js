@@ -10,7 +10,6 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 	
 	function Plugin_SimpleTextureGraphics2D()
 	{
-		this.dontCallUpdate = true;
 		this.textureID = "";
 		this.isVisible = true;
 		this.width = 0;

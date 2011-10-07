@@ -4,6 +4,9 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 	
 	var PhysicsCore = null;
 	
+	/**
+	 * Plugin for adding a physical box to a gameobject
+	 */
 	function Plugin_PhysicsBox()
 	{
 		this.density = 1.0;
@@ -11,19 +14,29 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 		this.restitution = 0.2;
 		this.isStatic = false;
 		this.isSensor = false;
+		this.categoryBits = 0x0001;
+		this.groupIndex = 0;
+		this.maskBits = 0xFFFF;
 		//this.size = Vector3.fromPool(1, 1, 0);
 	}
 	
 	Plugin_PhysicsBox.prototype = {
 		constructor: Plugin_PhysicsBox,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginPhysics = this;
 		},
 		
-		
+		/**
+		 * Initializes the plugin
+		 */
 		init: function init()
 		{
 			this.fixDef = new (PhysicsCore.b2FixtureDef)();
@@ -33,6 +46,9 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.fixDef.isSensor = this.isSensor;
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
 			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0, this.gameObj.size.y / 2.0);
+			this.fixDef.filter.categoryBits = this.categoryBits;
+			this.fixDef.filter.groupIndex = this.groupIndex;
+			this.fixDef.filter.maskBits = this.maskBits;
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
 			this.bodyDef.type = (this.isStatic === true) ? PhysicsCore.b2Body.b2_staticBody : PhysicsCore.b2Body.b2_dynamicBody;
@@ -47,6 +63,11 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.fixture.gameObj = this.gameObj;
 		},
 		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		update: function update(dt)
 		{
 			var physPos = this.body.GetPosition();
@@ -55,7 +76,9 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.gameObj.rot.z = this.body.GetAngle();
 		},
 		
-		
+		/**
+		 * Destroys the plugin
+		 */
 		destroy: function destroy()
 		{
 			PhysicsCore.destroyBody(this.body);
@@ -63,12 +86,17 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 		
 	};
 
-	
+	/**
+	 * Initialises this module
+	 * 
+	 * @param   {PhysicsCore} physicsCore The PhysicsCore
+	 */
 	Plugin_PhysicsBox.initModule = function initModule(physicsCore)
 		{
 			PhysicsCore = physicsCore;
 		}
 	
+	// module exports
 	exports.Plugin_PhysicsBox = Plugin_PhysicsBox;
 	
 });

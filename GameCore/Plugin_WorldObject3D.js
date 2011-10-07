@@ -4,13 +4,17 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 	
 	function Plugin_WorldObject3D()
 	{
-		this.dontCallUpdate = true;
 	}
 	
 	
 	Plugin_WorldObject3D.prototype = {
 		constructor: Plugin_WorldObject3D,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			var self = this;
@@ -46,6 +50,11 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 		
 		settersAndGetters:
 		{
+			/**
+			* Sets the position of the gameobject
+			* 
+			* @param   {Vector3} val New Position
+			*/
 			setPos: function setPos(val)
 			{
 				this._pos.x = val.x;
