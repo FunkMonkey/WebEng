@@ -20,9 +20,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		this.timePicked = 0;
 		this.timeDropped = 0;
 		
-		this.jumpImpulseFactor = new (PhysicsCore.b2Vec2)(0, 0.1);
-		this.jumpTorque = 0.2;
-		this.moveTorque = 0.1;
+		this.jumpImpulseFactor = new (PhysicsCore.b2Vec2)(0, 0.2);
+		this.jumpTorque = 0.4;
+		this.moveTorque = 0.2;
 		this.minTimeSinceLastJump = 1;
 		this.timeSinceLastJump = 0;
 	}
@@ -164,8 +164,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		if(!data)
 			data = {};
 		
-		if(!data.size)
-			data.size = Vector3.fromPool(1, 1, 0);
+		data.size = Vector3.fromPool(0.4, 0.4 * 37/40, 0);
 					
 		var obj = new BaseGameObject(id);
 		
@@ -187,9 +186,15 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		obj.addPlugin(new Plugin_Pickable());
 		
 		// graphics
-		obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
+		/*obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
 		if(data.color)
-			obj.pluginGraphics.color = data.color;
+			obj.pluginGraphics.color = data.color;*/
+		
+		obj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
+		obj.pluginGraphics.textureID = "TestGame/Content/darksoul.png";
+		obj.pluginGraphics.width = data.size.x;
+		obj.pluginGraphics.width = data.size.y;
+		
 		
 		return obj;
 	}

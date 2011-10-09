@@ -227,7 +227,36 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 				,  10       //position iterations
 			);			
 			this.world.ClearForces();
-		},		
+		},
+		
+		/* 
+		 * 
+		 */
+		initDebugDraw: function initDebugDraw(canvas)
+		{
+			// todo: put into physicscore
+			this.debugDraw = new this.b2DebugDraw();
+			this.debugDraw.canvas = canvas;
+			this.debugDraw.context = this.debugDraw.canvas.getContext("2d")
+			this.debugDraw.SetSprite(this.debugDraw.context);
+			this.debugDraw.SetDrawScale(100.0);
+			this.debugDraw.SetFillAlpha(0.5);
+			this.debugDraw.SetLineThickness(1.0);
+			this.debugDraw.SetFlags(this.b2DebugDraw.e_shapeBit | this.b2DebugDraw.e_jointBit);
+			this.world.SetDebugDraw(this.debugDraw);
+		},
+		
+		/* 
+		 * 
+		 */
+		drawDebug: function drawDebug(dt)
+		{
+			//var lastTranslate = Vector3.fromPool(50,50);
+			//
+			//this.debugDraw.context.translate(lastTranslate.x, lastTranslate.y);
+			this.world.DrawDebugData();
+			//this.debugDraw.context.translate(-lastTranslate.x, -lastTranslate.y);
+		},
 	};
 	
 	PhysicsCore.b2Vec2 = Box2D.Common.Math.b2Vec2

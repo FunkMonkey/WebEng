@@ -46,6 +46,9 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			this.gl.clearDepth(1.0);                 		// Clear everything
 			this.gl.enable(this.gl.DEPTH_TEST);           // Enable depth testing
 			this.gl.depthFunc(this.gl.LEQUAL);            // Near things obscure far things
+			this.gl.enable(gl.BLEND);
+			this.gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+			
 			
 			this.gl.enable(this.gl.TEXTURE_2D);
 			

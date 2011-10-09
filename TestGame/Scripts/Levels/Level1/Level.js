@@ -64,6 +64,15 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			StaticSep2.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(StaticSep2);
 			
+			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("test3", {	pos: Vector3.fromPool(2, 2, 0),
+																							size: Vector3.fromPool(1, 1, 0),
+																							color: GraphicsCore.Color.fromPool(0, 1, 0, 1),
+																							isStatic: true}));
+			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("test4", {	pos: Vector3.fromPool(3, 3, 0),
+																							size: Vector3.fromPool(1, 1, 0),
+																							color: GraphicsCore.Color.fromPool(0, 1, 0, 1),
+																							isStatic: true}));
+			
 		},
 		
 		_createItems: function _createItems()
@@ -108,13 +117,13 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 		
 		create: function create()
 		{
-			/*this.testObj = new BaseGameObject("TestObj");
+			this.testObj = new BaseGameObject("TestObj");
 			this.testObj.addPlugin(new Plugin_WorldObject3D());
 			this.testObj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
-			this.testObj.pluginGraphics.textureID = "TestGame/Content/1.jpg";
+			this.testObj.pluginGraphics.textureID = "TestGame/Content/darksoul.png";
 			this.testObj.pluginGraphics.width = 2;
 			
-			this.addGameObject(this.testObj);*/
+			this.addGameObject(this.testObj);
 			
 			// creating objects
 			this._createGround();

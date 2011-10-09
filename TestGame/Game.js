@@ -43,16 +43,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			this.initMenu();
 			this.initControls();
 			
-			// todo: put into physicscore
-			//this.debugDraw = new PhysicsCore.b2DebugDraw();
-			//this.debugDraw.canvas = document.getElementById("canvas2");
-			//this.debugDraw.context = this.debugDraw.canvas.getContext("2d")
-			//this.debugDraw.SetSprite(this.debugDraw.context);
-			//this.debugDraw.SetDrawScale(30.0);
-			//this.debugDraw.SetFillAlpha(0.5);
-			//this.debugDraw.SetLineThickness(1.0);
-			//this.debugDraw.SetFlags(PhysicsCore.b2DebugDraw.e_shapeBit | PhysicsCore.b2DebugDraw.e_jointBit);
-			//PhysicsCore.world.SetDebugDraw(this.debugDraw);
+			//PhysicsCore.initDebugDraw(document.getElementById("canvas2"));
 		},
 		
 		
@@ -96,11 +87,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			
 			GraphicsCore.update(dt);
 			
-			//var lastTranslate = Vector3.fromPool(50,50);
-			//
-			//this.debugDraw.context.translate(lastTranslate.x, lastTranslate.y);
-			//PhysicsCore.world.DrawDebugData();
-			//this.debugDraw.context.translate(-lastTranslate.x, -lastTranslate.y);
+			//PhysicsCore.drawDebug(dt);
 			
 			timer.finishPhase("Graphics");
 			//if(timer.time > 10)
