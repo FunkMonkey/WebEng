@@ -17,6 +17,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		vpHalfHeight: 0,
 		
 		orthoFactor: 100,
+		orthoPixelToMeterRatio: 0.01,
 		
 		init: function init(canvas)
 		{
@@ -37,8 +38,13 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			
 			this.initWebGL();
 			
+			this.orthoFactor = 1000;
+			
+			//this.orthoPixelToMeterRatio = 1;
 			//mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, this.pMatrix);
-			mat4.ortho(-this.vpWidth / this.orthoFactor / 2, this.vpWidth / this.orthoFactor / 2, -this.vpHeight / this.orthoFactor / 2, this.vpHeight / this.orthoFactor / 2, 0.1, 100.0, this.pMatrix);
+			//mat4.ortho(-this.vpWidth / this.orthoFactor / 2, this.vpWidth / this.orthoFactor / 2, -this.vpHeight / this.orthoFactor / 2, this.vpHeight / this.orthoFactor / 2, 0.1, 100.0, this.pMatrix);
+			mat4.ortho(-this.vpHalfWidth * this.orthoPixelToMeterRatio, this.vpHalfWidth * this.orthoPixelToMeterRatio, -this.vpHalfHeight * this.orthoPixelToMeterRatio, this.vpHalfHeight * this.orthoPixelToMeterRatio, 0.1, 100.0, this.pMatrix);
+			
 			//mat4.ortho(-10, 10, -10, 10, 0.1, 100.0, this.pMatrix);
 			mat4.inverse(this.pMatrix, this.ipMatrix);
 			
@@ -183,13 +189,9 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram.webglShaderProgram, "aVertexPosition");
 			gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
 			
-			shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram.webglShaderProgram, "aVertexColor");
-			gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
-			
 			shaderProgram.registerUniform("pMatrix", "uPMatrix", "uniformMatrix4fv");
 			shaderProgram.registerUniform("mvMatrix", "uMVMatrix", "uniformMatrix4fv");
-			
-			//shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram.webglShaderProgram, "uSampler");
+			shaderProgram.registerUniform("color", "uColor", "uniform4fv");
 			
 			return shaderProgram;
 		},
@@ -199,8 +201,8 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			if(!outWorldPos)
 				outWorldPos = Vector3.fromPool();
 				
-			outWorldPos.x = -this.camera.pos.x + ((screenPos.x - this.vpHalfWidth) / this.orthoFactor);
-			outWorldPos.y = -this.camera.pos.y + ((-screenPos.y + this.vpHalfHeight) / this.orthoFactor);
+			outWorldPos.x = -this.camera.pos.x + ((screenPos.x - this.vpHalfWidth) * this.orthoPixelToMeterRatio);
+			outWorldPos.y = -this.camera.pos.y + ((-screenPos.y + this.vpHalfHeight) * this.orthoPixelToMeterRatio);
 			
 			return outWorldPos;
 		},

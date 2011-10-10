@@ -23,7 +23,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			
 			action = InputCore.getAction("OnCameraMove");
 			action.addMouseButtonTrigger(InputCore.MOUSEBUTTON_LEFT, InputCore.MOUSEBUTTON_STATE_DOWN, true);
-			action.addMouseMoveTrigger(true, [1.0 / GraphicsCore.orthoFactor, -1.0 / GraphicsCore.orthoFactor]);
+			action.addMouseMoveTrigger(true, [GraphicsCore.orthoPixelToMeterRatio, -GraphicsCore.orthoPixelToMeterRatio]);
 		},
 		
 		initMenu: function initMenu()
@@ -76,7 +76,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			// moving camera
 			var onCameraMove = InputCore.actions["OnCameraMove"];
 			if( Plugin_Pickable.pickedBody === null &&
-			    (this.lastUpdate - Plugin_Pickable.lastDropTime) > 1000 &&
+			    (Plugin_Pickable.userDrop || (this.lastUpdate - Plugin_Pickable.lastDropTime) > 1000) &&
 				onCameraMove.isTriggered)
 			{
 				var pos = GraphicsCore.camera.pos;
@@ -90,7 +90,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			//PhysicsCore.drawDebug(dt);
 			
 			timer.finishPhase("Graphics");
-			//if(timer.time > 10)
+			//if(timer.time > 16)
 			//	timer.print(log);
 		},
 		

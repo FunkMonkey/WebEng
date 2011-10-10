@@ -25,12 +25,19 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		this.moveTorque = 0.2;
 		this.minTimeSinceLastJump = 1;
 		this.timeSinceLastJump = 0;
+		
+		this.loneDeadTimeToDie = 2;
+		this._loneDeadStartTime = 0;
+		this._loneDeadStarted = false;
 	}
 	
 	Plugin_LogicDarkSoul.darksouls = [];
+	Plugin_LogicDarkSoul.maxDistToCursor = 0;
 	
 	Plugin_LogicDarkSoul.prototype = {
 		constructor: Plugin_LogicDarkSoul,
+		
+		deathRange: 10,
 		
 		onAddedTo: function onAddedTo(gameObj)
 		{
@@ -103,6 +110,32 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		{
 			if(this.dead)
 				return;
+			
+			this._distToCursor = this.gameObj.pos.distanceTo(this.cursor.pos);
+			if(this._distToCursor > Plugin_LogicDarkSoul.maxDistToCursor)
+				Plugin_LogicDarkSoul.maxDistToCursor = this._distToCursor;
+					
+			if(this._distToCursor > this.deathRange)
+			{
+				if(this._loneDeadStarted)
+				{
+					if(Game.lastUpdateInS - this._loneDeadStartTime > this.loneDeadTimeToDie)
+						this.dead = true;
+				}
+				else
+				{
+					this._loneDeadStartTime = Game.lastUpdateInS;
+					this._loneDeadStarted = true;
+					log("death sequence initiated");
+				}
+			}
+			else
+			{
+				if(this._loneDeadStarted)
+				{
+					this._loneDeadStarted = false;
+				}
+			}
 			
 			var vel = this.physBody.GetLinearVelocity();
 			
@@ -186,9 +219,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		obj.addPlugin(new Plugin_Pickable());
 		
 		// graphics
-		/*obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
-		if(data.color)
-			obj.pluginGraphics.color = data.color;*/
+		//obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
+		//if(data.color)
+		//	obj.pluginGraphics.color = data.color;
 		
 		obj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
 		obj.pluginGraphics.textureID = "TestGame/Content/darksoul.png";

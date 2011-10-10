@@ -28,7 +28,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 		{
 			var groundColor = GraphicsCore.Color.fromPool(0, 0, 0, 1);
 			
-			var Ground_left_1 = GO_BoxWithPhysics.createBoxWithPhysics("Ground_left_1", { 	size: Vector3.fromPool(20, 1, 0),
+			var Ground_left_1 = GO_BoxWithPhysics.createBoxWithPhysics("Ground_left_1", { 	size: Vector3.fromPool(15, 1, 0),
 																							color: groundColor.clone(),
 																							isStatic: true});
 			Ground_left_1.setPosIn2D(Vector3.fromPool(0, 0, 0), "left-bottom");
@@ -40,11 +40,11 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			Border_left.setPosIn2D(Ground_left_1.getPosIn2D("left-top"), "left-bottom");
 			this.addGameObject(Border_left);
 			
-			var StaticSep1 = GO_BoxWithPhysics.createBoxWithPhysics("StaticSep1", { 	size: Vector3.fromPool(0.5, 2, 0),
+			var StaticSep1 = GO_BoxWithPhysics.createBoxWithPhysics("StaticSep1", { 	size: Vector3.fromPool(0.5, 1, 0),
 																							color: groundColor.clone(),
 																							isStatic	: true})
 			var newPos = Ground_left_1.getPosIn2D("right-top")
-			newPos.x -= 8;
+			newPos.x -= 3;
 			StaticSep1.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(StaticSep1);
 			
@@ -52,27 +52,27 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 																							color: groundColor.clone(),
 																							isStatic	: true})
 			var newPos = Ground_left_1.getPosIn2D("right-top")
-			newPos.x += 3;
+			newPos.x += 2;
 			Ground_left_2.setPosIn2D(newPos, "left-top");
 			this.addGameObject(Ground_left_2);
 			
-			var StaticSep2 = GO_BoxWithPhysics.createBoxWithPhysics("StaticSep2", { 	size: Vector3.fromPool(0.5, 2, 0),
+			var StaticSep2 = GO_BoxWithPhysics.createBoxWithPhysics("StaticSep2", { 	size: Vector3.fromPool(0.5, 1, 0),
 																							color: groundColor.clone(),
 																							isStatic	: true})
 			var newPos = Ground_left_2.getPosIn2D("left-top")
-			newPos.x += 4;
+			newPos.x += 2;
 			StaticSep2.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(StaticSep2);
 			
-			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("test3", {	pos: Vector3.fromPool(2, 2, 0),
-																							size: Vector3.fromPool(1, 1, 0),
-																							color: GraphicsCore.Color.fromPool(0, 1, 0, 1),
-																							isStatic: true}));
-			this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("test4", {	pos: Vector3.fromPool(3, 3, 0),
-																							size: Vector3.fromPool(1, 1, 0),
-																							color: GraphicsCore.Color.fromPool(0, 1, 0, 1),
-																							isStatic: true}));
-			
+			//this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("test3", {	pos: Vector3.fromPool(2, 2, 0),
+			//																				size: Vector3.fromPool(1, 1, 0),
+			//																				color: GraphicsCore.Color.fromPool(0, 1, 0, 1),
+			//																				isStatic: true}));
+			//this.addGameObject(GO_BoxWithPhysics.createBoxWithPhysics("test4", {	pos: Vector3.fromPool(3, 3, 0),
+			//																				size: Vector3.fromPool(1, 1, 0),
+			//																				color: GraphicsCore.Color.fromPool(0, 1, 0, 1),
+			//																				isStatic: true}));
+			//
 		},
 		
 		_createItems: function _createItems()

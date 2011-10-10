@@ -50,18 +50,6 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 			this.vertexPosBuffer.itemSize = 3;
 			this.vertexPosBuffer.numItems = 4;
-			
-			var colors = [];
-			for(var i = 0; i < 4; ++i)
-				for(var j = 0; j < 4; ++j)
-					colors.push(this.color[j]);
-					
-			this.vertexColorBuffer = gl.createBuffer();
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexColorBuffer);
-			
-			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-			this.vertexColorBuffer.itemSize = 4;
-			this.vertexColorBuffer.numItems = 4;
 		},
 		
 		_tmpFinalPos: Vector3.fromPool(),
@@ -77,10 +65,6 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 			
 			mat4.identity(mvMatrix);
 			
-			//gl.activeTexture(gl.TEXTURE0);
-			//gl.bindTexture(gl.TEXTURE_2D, this.texture);
-			//gl.uniform1i(this.shaderProgram.samplerUniform, 0);
-			
 			this._tmpFinalPos.x = GraphicsCore.camera.pos.x + this.gameObj.pos.x;
 			this._tmpFinalPos.y = GraphicsCore.camera.pos.y + this.gameObj.pos.y;
 			this._tmpFinalPos.z = GraphicsCore.camera.pos.z + this.gameObj.pos.z;
@@ -92,11 +76,8 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPosBuffer);
 			gl.vertexAttribPointer(this.shaderProgram.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
 			
-			//gl.bindBuffer(gl.ARRAY_BUFFER, GraphicsCore.TextureManager.standardTexBuffer);
-			//gl.vertexAttribPointer(this.shaderProgram.textureCoordAttribute, GraphicsCore.TextureManager.standardTexBuffer.itemSize, gl.FLOAT, false, 0, 0);
-			
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexColorBuffer);
-			gl.vertexAttribPointer(this.shaderProgram.vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
+			// setting color
+			this.shaderProgram.color = this.color._color;
 			
 			// setting projection and modelview matrix
 			this.shaderProgram.pMatrix = GraphicsCore.pMatrix;

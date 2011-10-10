@@ -100,14 +100,35 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 			this.uniformLocations[callName] = location;
 			uniformValues[callName] = null;
 			
-			// TODO: optimize
-			// TODO: readonly
-			Object.defineProperty(this, callName, {
-					get: function(){ return uniformValues[callName];},
-					set: function(val){ uniformValues[callName] = val; gl[type](location, false, val); },
-					configurable: true,
-					enumerable: true
-			});
+			switch(type)
+			{
+				case "uniformMatrix4fv":
+					{
+						// TODO: optimize
+						// TODO: readonly
+						Object.defineProperty(this, callName, {
+								get: function(){ return uniformValues[callName];},
+								set: function(val){ uniformValues[callName] = val; gl[type](location, false, val); },
+								configurable: true,
+								enumerable: true
+						});
+						break;
+					}
+				case "uniform4fv":
+					{
+						// TODO: optimize
+						// TODO: readonly
+						Object.defineProperty(this, callName, {
+								get: function(){ return uniformValues[callName];},
+								set: function(val){ uniformValues[callName] = val; gl[type](location, val); },
+								configurable: true,
+								enumerable: true
+						});
+						break;
+					}
+			}
+			
+			
 			
 		},
 		

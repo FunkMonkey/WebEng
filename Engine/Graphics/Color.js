@@ -4,6 +4,7 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 	
 	function Color(rOrColor, g, b, a)
 	{
+		this._color = new Float32Array(4);
 		this.set(rOrColor, g, b, a);
 	}
 	
@@ -13,24 +14,24 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 		{
 			if(rOrColor === undefined)
 			{
-				this[0] = 0;
-				this[1] = 0;
-				this[2] = 0;
-				this[3] = 1;
+				this._color[0] = 0;
+				this._color[1] = 0;
+				this._color[2] = 0;
+				this._color[3] = 1;
 			}
 			else if(g === undefined)
 			{
-				this[0] = rOrColor[0];
-				this[1] = rOrColor[1];
-				this[2] = rOrColor[2];
-				this[3] = rOrColor[3];
+				this._color[0] = rOrColor._color[0];
+				this._color[1] = rOrColor._color[1];
+				this._color[2] = rOrColor._color[2];
+				this._color[3] = rOrColor._color[3];
 			}
 			else
 			{
-				this[0] = rOrColor;
-				this[1] = g;
-				this[2] = b;
-				this[3] = a;
+				this._color[0] = rOrColor;
+				this._color[1] = g;
+				this._color[2] = b;
+				this._color[3] = a;
 			}
 		},
 		
@@ -43,26 +44,26 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 	};
 	
 	Color.properties = {
-			r: 	{	get : function(){ return this[0]; },
-					set : function(newValue){ this[0] = newValue; },
+			r: 	{	get : function(){ return this._color[0]; },
+					set : function(newValue){ this._color[0] = newValue; },
 					enumerable : true,
 					configurable : true
 				},
 				
-			g: 	{	get : function(){ return this[1]; },
-					set : function(newValue){ this[1] = newValue; },
+			g: 	{	get : function(){ return this._color[1]; },
+					set : function(newValue){ this._color[1] = newValue; },
 					enumerable : true,
 					configurable : true
 				},
 				
-			b: 	{	get : function(){ return this[2]; },
-					set : function(newValue){ this[2] = newValue; },
+			b: 	{	get : function(){ return this._color[2]; },
+					set : function(newValue){ this._color[2] = newValue; },
 					enumerable : true,
 					configurable : true
 				},
 				
-			a: 	{	get : function(){ return this[3]; },
-					set : function(newValue){ this[3] = newValue; },
+			a: 	{	get : function(){ return this._color[3]; },
+					set : function(newValue){ this._color[3] = newValue; },
 					enumerable : true,
 					configurable : true
 				}

@@ -36,6 +36,15 @@ ModuleSystem.registerModule("Engine/Vector3", function(require, exports, module)
 			return "(" + this[0] + ", " + this[1] + ", " + this[2] + ")";
 		},
 		
+		distanceTo: function distanceTo(other)
+		{
+			var diff0 = this[0] - other[0];
+			var diff1 = this[1] - other[1];
+			var diff2 = this[2] - other[2];
+			return (Math.sqrt(diff0 * diff0 + diff1*diff1 + diff2*diff2));
+		},
+		
+		
 	
 	};
 	

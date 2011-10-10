@@ -70,6 +70,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 						joint = PhysicsCore.world.CreateJoint(md);
 						this.body.SetAwake(true);
 						Plugin_Pickable.pickedBody = this.body;
+						Plugin_Pickable.userDrop = false;
 						this.fireEvent("picked");
 					}
 				}
@@ -81,6 +82,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 			else if(joint !== null && Plugin_Pickable.pickedBody === this.body)
 			{
 				this.drop();
+				Plugin_Pickable.userDrop = true;
 			}
 		},
 		

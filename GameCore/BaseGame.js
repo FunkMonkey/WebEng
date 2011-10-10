@@ -55,6 +55,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			++this.updateCount;
 			var dt = (timestamp - this.lastUpdate) / 1000;
 			this.lastUpdate = timestamp;
+			this.lastUpdateInS = timestamp / 1000;
 			
 			this.update(dt);
 			window.mozRequestAnimationFrame(this._boundUpdateCall);
