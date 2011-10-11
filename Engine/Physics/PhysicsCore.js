@@ -232,14 +232,18 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 		/* 
 		 * 
 		 */
-		initDebugDraw: function initDebugDraw(canvas)
+		initDebugDraw: function initDebugDraw(canvas, scale)
 		{
 			// todo: put into physicscore
 			this.debugDraw = new this.b2DebugDraw();
 			this.debugDraw.canvas = canvas;
-			this.debugDraw.context = this.debugDraw.canvas.getContext("2d")
+			this.debugDraw.context = this.debugDraw.canvas.getContext("2d");
+			this.debugDraw.context.scale(1, -1);
 			this.debugDraw.SetSprite(this.debugDraw.context);
+			
 			this.debugDraw.SetDrawScale(100.0);
+			this.debugDraw.context.translate(this.debugDraw.canvas.width / 2, -this.debugDraw.canvas.height);
+			
 			this.debugDraw.SetFillAlpha(0.5);
 			this.debugDraw.SetLineThickness(1.0);
 			this.debugDraw.SetFlags(this.b2DebugDraw.e_shapeBit | this.b2DebugDraw.e_jointBit);
@@ -249,13 +253,16 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 		/* 
 		 * 
 		 */
-		drawDebug: function drawDebug(dt)
+		drawDebug: function drawDebug(dt, translate)
 		{
-			//var lastTranslate = Vector3.fromPool(50,50);
 			//
-			//this.debugDraw.context.translate(lastTranslate.x, lastTranslate.y);
+			this.debugDraw.context.save();
+			this.debugDraw.context.translate(translate.x, translate.y);
+			this.debugDraw.context.fillStyle = 'white';
+			this.debugDraw.context.fillRect ( -5000 , -5000 , 10000 , 10000 );
 			this.world.DrawDebugData();
-			//this.debugDraw.context.translate(-lastTranslate.x, -lastTranslate.y);
+			
+			this.debugDraw.context.restore();
 		},
 	};
 	

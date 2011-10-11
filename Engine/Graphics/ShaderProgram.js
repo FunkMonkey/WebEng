@@ -79,7 +79,8 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 			
 			if (!gl.getProgramParameter(this.webglShaderProgram, gl.LINK_STATUS))
 			{
-				alert("Could not initialise shaders");
+				// todo: more info
+				log("Could not initialise shaders");
 			} 
 		},
 		

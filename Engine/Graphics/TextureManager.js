@@ -20,20 +20,25 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 		
 		loadImage: function loadImage(path, callback)
 		{
+			
 			if(this.images[path])
 			{
 				callback(this.images[path]);
 			}
 			else
 			{
+				var self = this;
 				var image = new Image();
 				image.onload = function () {
+					image.path = path;
+					
+					// todo fix
+					if(self.images[path])
+						log("double loaded image")
+					self.images[path] = image;
 					callback(image);
 				};
-				
-				image.path = path;
 				image.src = path;
-				this.images[path] = image;
 			}
 		},
 		

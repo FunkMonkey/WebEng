@@ -87,7 +87,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			
 			GraphicsCore.update(dt);
 			
-			//PhysicsCore.drawDebug(dt);
+			//PhysicsCore.drawDebug(dt, Vector3.fromPool(GraphicsCore.camera.pos.x / GraphicsCore.orthoPixelToMeterRatio, GraphicsCore.camera.pos.y / GraphicsCore.orthoPixelToMeterRatio));
 			
 			timer.finishPhase("Graphics");
 			//if(timer.time > 16)

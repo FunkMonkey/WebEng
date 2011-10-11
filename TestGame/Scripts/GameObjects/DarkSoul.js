@@ -226,7 +226,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		obj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
 		obj.pluginGraphics.textureID = "TestGame/Content/darksoul.png";
 		obj.pluginGraphics.width = data.size.x;
-		obj.pluginGraphics.width = data.size.y;
+		//obj.pluginGraphics.width = data.size.y;
 		
 		
 		return obj;

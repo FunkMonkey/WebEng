@@ -116,7 +116,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		{
 			gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
 			
-			this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
+			this.gl.clearColor(0.603, 0.76, 0.804, 1.0);
 			this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 			
 			mat4.identity(this.mvMatrix);
@@ -150,11 +150,11 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		
 		createStdTextureShaderProgram: function createStdTextureShaderProgram()
 		{
-			this.ShaderManager.loadShaderCode("fs", "Engine/Graphics/Std_Texture_fs.shader", "x-shader/x-fragment");
-			this.ShaderManager.loadShaderCode("vs", "Engine/Graphics/Std_Texture_vs.shader", "x-shader/x-vertex");
+			this.ShaderManager.loadShaderCode("std_texture_fs", "Engine/Graphics/Std_Texture_fs.shader", "x-shader/x-fragment");
+			this.ShaderManager.loadShaderCode("std_texture_vs", "Engine/Graphics/Std_Texture_vs.shader", "x-shader/x-vertex");
 			
-			var fragmentShader = this.ShaderManager.createGLSLShader("fs");
-			var vertexShader = this.ShaderManager.createGLSLShader("vs");
+			var fragmentShader = this.ShaderManager.createGLSLShader("std_texture_fs");
+			var vertexShader = this.ShaderManager.createGLSLShader("std_texture_vs");
 			
 			var shaderProgram = new this.ShaderProgram([vertexShader, fragmentShader], true);
 			
@@ -176,11 +176,11 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		
 		createStdColorShaderProgram: function createStdColorShaderProgram()
 		{
-			this.ShaderManager.loadShaderCode("fs", "Engine/Graphics/Std_Color_fs.shader", "x-shader/x-fragment");
-			this.ShaderManager.loadShaderCode("vs", "Engine/Graphics/Std_Color_vs.shader", "x-shader/x-vertex");
+			this.ShaderManager.loadShaderCode("std_color_fs", "Engine/Graphics/Std_Color_fs.shader", "x-shader/x-fragment");
+			this.ShaderManager.loadShaderCode("std_color_vs", "Engine/Graphics/Std_Color_vs.shader", "x-shader/x-vertex");
 			
-			var fragmentShader = this.ShaderManager.createGLSLShader("fs");
-			var vertexShader = this.ShaderManager.createGLSLShader("vs");
+			var fragmentShader = this.ShaderManager.createGLSLShader("std_color_fs");
+			var vertexShader = this.ShaderManager.createGLSLShader("std_color_vs");
 			
 			var shaderProgram = new this.ShaderProgram([vertexShader, fragmentShader], true);
 			

@@ -51,7 +51,7 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderManager", function(require, e
 			
 			if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
 			{
-				alert(gl.getShaderInfoLog(shader));
+				log(gl.getShaderInfoLog(shader));
 				return null;
 			}
 			
