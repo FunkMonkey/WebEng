@@ -10,7 +10,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 	{
 		this.state = "start";
 		this.isFinished = false;
-		this.timeTillFall = 5;
+		this.timeTillFall = 2;
+		this._tmpPos = new PhysicsCore.b2Vec2;
 	}
 	
 	Plugin_LogicFallingBlock.prototype = {
@@ -35,7 +36,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.fixDef = new (PhysicsCore.b2FixtureDef)();
 			this.fixDef.isSensor = true;
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
-			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0 * 0.9, this.gameObj.size.y / 2.0 * 1.1);
+			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0 * 0.9, this.gameObj.size.y / 2.0);
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
 			this.bodyDef.type = PhysicsCore.b2Body.b2_dynamicBody;
@@ -63,7 +64,10 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			if(this.isFinished)
 				return;
 			
-			this.deathSensorBody.SetPosition(this.gameObj.pluginPhysics.body.GetPosition());
+			var pos = this.gameObj.pluginPhysics.body.GetPosition();
+			this._tmpPos.x = pos.x;
+			this._tmpPos.y = pos.y - 0.2;
+			this.deathSensorBody.SetPosition(this._tmpPos);
 			
 			switch(this.state)
 			{

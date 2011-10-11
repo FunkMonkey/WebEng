@@ -17,7 +17,10 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		this._idlePauseStart = 0;
 		
 		this.multColor = GraphicsCore.Color.fromPool(1, 1, 1, 1.0);
-		this.postAddColor = GraphicsCore.Color.fromPool(0.5, 0.5, 0.5, 0);
+		this.postAddColor = GraphicsCore.Color.fromPool(0, 0, 0, 0);
+		
+		this.alpha = 1;
+		this.alphaDir = 1;
 	}
 	
 	Plugin_LogicCursor.prototype = {
@@ -74,15 +77,27 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		_tmpLengthFactor: 0,
 		update: function update(dt)
 		{
+			this.alpha += dt * this.alphaDir;
+			if(this.alpha > 1)
+			{
+				this.alpha = 1;
+				this.alphaDir = -this.alphaDir;
+			}
+			else if(this.alpha < 0.5)
+			{
+				this.alpha = 0.5;
+				this.alphaDir = -this.alphaDir;
+			}
+			
 			this.gameObj.rot.z += dt * 0.5;
 			// coloring
 			var range = Plugin_LogicDarkSoul.maxDistToCursor - Plugin_LogicDarkSoul.prototype.deathRange + 2;
 			if(range < 0)
-				this.multColor.set(1, 1, 0, 1);
+				this.multColor.set(1, 1, 1, this.alpha);
 			else if(range > 2)
-				this.multColor.set(1, 0, 0, 1);
+				this.multColor.set(1, 0, 0, this.alpha);
 			else
-				this.multColor.set(1, 1 - (range / 2.0), 0, 1);
+				this.multColor.set(1, 1 - (range / 2.0), 1 - (range / 2.0), this.alpha);
 			
 			Plugin_LogicDarkSoul.maxDistToCursor = 0;
 			
@@ -136,8 +151,8 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 	{
 		var obj = new BaseGameObject(id);
 		obj.addPlugin(new Plugin_WorldObject3D());
-		obj.size.x = 0.2;
-		obj.size.y = 0.2;
+		obj.size.x = 0.5;
+		obj.size.y = 0.5;
 		
 		obj.addPlugin(new Plugin_LogicCursor());
 		

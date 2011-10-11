@@ -47,8 +47,8 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 			{
 				if(this.height === 0)
 				{
-					this.width = this.texture.width * this.pixelToWorldScaleFactor;
-					this.height = this.texture.height * this.pixelToWorldScaleFactor;
+					this.width = this.gameObj.size.x;
+					this.height = this.gameObj.size.y;
 				}
 				else
 					this.width = this.height * this.texture.ratio;
