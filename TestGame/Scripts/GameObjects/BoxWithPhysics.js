@@ -23,18 +23,29 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/BoxWithPhysics", funct
 		obj.size = data.size;
 		
 		// physics
-		obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
-		if(data.isStatic)
-			obj.pluginPhysics.isStatic = true;
-		if(data.isSensor)
-			obj.pluginPhysics.isSensor = true;
+		if(!data.noPhysics)
+		{
+			obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
+			if(data.isStatic)
+				obj.pluginPhysics.isStatic = true;
+			if(data.isSensor)
+				obj.pluginPhysics.isSensor = true;
+		}
 		
 		// graphics
 		if(!data.noGraphics)
 		{
-			obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
-			if(data.color)
-				obj.pluginGraphics.color = data.color;
+			if(data.texturePath)
+			{
+				obj.addPlugin(new GraphicsCore.Plugin_SimpleTextureGraphics2D());
+				obj.pluginGraphics.textureID = data.texturePath;
+			}
+			else
+			{
+				obj.addPlugin(new GraphicsCore.Plugin_SimpleColorGraphics2D());
+				if(data.color)
+					obj.pluginGraphics.color = data.color;
+			}
 		}
 		
 		return obj;

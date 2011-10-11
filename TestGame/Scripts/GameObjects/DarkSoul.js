@@ -37,7 +37,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 	Plugin_LogicDarkSoul.prototype = {
 		constructor: Plugin_LogicDarkSoul,
 		
-		deathRange: 10,
+		deathRange: 9,
 		
 		onAddedTo: function onAddedTo(gameObj)
 		{

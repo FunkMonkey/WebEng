@@ -4,10 +4,18 @@
 	/*margin-left: 10em;*/
 }
 
+#viewport_helper
+{
+	position: absolute;
+	width: 640px;
+	height: 480px;
+	border: 1px solid #ff0000;
+}
+
 #game-viewport
 {
-	width: 1800px;
-	height: 800px;
+	/*width: 1800px;*/
+	/*height: 800px;*/
 	border: 1px solid #000;
 	/*cursor: url("cursor.png") crosshair;*/
 }
