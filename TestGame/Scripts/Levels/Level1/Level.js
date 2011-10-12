@@ -42,14 +42,14 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			Island_1_Border_Left.setPosIn2D(Island_1.getPosIn2D("left-bottom"), "right-bottom");
 			this.addGameObject(Island_1_Border_Left);
 			
-			var Island_1_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign1", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
+			var Island_1_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign1", { 	size: Vector3.fromPool(2.5, 3.0, 0),
+																								texturePath: "TestGame/Content/Level1/Island_1_Sign1.png",
 																								noPhysics: true,
 																								isStatic	: true});
 			newPos = Island_1.getPosIn2D("left-top");
-			newPos.x += 3;
-			newPos.y += 2;
-			Island_1_Sign1.pos = newPos;
+			newPos.x += 2
+			newPos.y -= 0.01;
+			Island_1_Sign1.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Island_1_Sign1);
 			
 			var Island_1_Sign2 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign2", {		pos: Vector3.fromPool(9, 2, 0),
@@ -147,6 +147,16 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 																											isStatic	: true});
 			Island_3_Border_Right.setPosIn2D(Island_3.getPosIn2D("right-bottom"), "left-bottom");
 			this.addGameObject(Island_3_Border_Right);
+			
+			var Island_3_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_3_Sign1", { 	size: Vector3.fromPool(0.1, 0.1, 0),
+																								color: GraphicsCore.Color.fromPool(1,0,0,1),
+																								noPhysics: true,
+																								isStatic	: true});
+			newPos = this.gameObjects["Island_3"].getPosIn2D("right-top");
+			newPos.x -= 3;
+			newPos.y += 1;
+			Island_3_Sign1.pos = newPos;
+			this.addGameObject(Island_3_Sign1);
 			
 			
 			
