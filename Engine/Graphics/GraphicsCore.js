@@ -73,7 +73,7 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		 */
 		initWebGL: function initWebGL()
 		{
-			this.gl = this.canvas.getContext("experimental-webgl");
+			this.gl = this.canvas.getContext("experimental-webgl", { antialias: true});
 			gl = this.gl;
 			
 			gl.viewportWidth = this.canvas.width;

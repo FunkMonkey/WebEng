@@ -1,6 +1,14 @@
 
 ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, module){
 	
+	if(!window.requestAnimationFrame)
+	{
+		if(window.mozRequestAnimationFrame)
+			window.requestAnimationFrame = window.mozRequestAnimationFrame;
+		else if(window.webkitRequestAnimationFrame)
+			window.requestAnimationFrame = window.webkitRequestAnimationFrame
+	}
+	
 	function BaseGame()
 	{
 		this.updateInterval = 1/60;
@@ -58,7 +66,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			this.lastUpdateInS = timestamp / 1000;
 			
 			this.update(dt);
-			window.mozRequestAnimationFrame(this._boundUpdateCall);
+			window.requestAnimationFrame(this._boundUpdateCall);
 			//timer.finishPhase("All");
 			//timer.print(log);
 			//log("frame: " + this.updateCount);
@@ -125,7 +133,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			this._boundUpdateCall = this._updateCall.bind(this);
 			
 			this.lastUpdate = window.mozAnimationStartTime;
-			window.mozRequestAnimationFrame(this._boundUpdateCall);
+			window.requestAnimationFrame(this._boundUpdateCall);
 			
 			//this.updateTimer = window.setInterval(this._updateCall.bind(this), this.updateInterval);
 			//this.updateTimer = window.setTimeout(this.update.bind(this), 100);
