@@ -26,10 +26,25 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/BoxWithPhysics", funct
 		if(!data.noPhysics)
 		{
 			obj.addPlugin(new PhysicsCore.Plugin_PhysicsBox());
-			if(data.isStatic)
-				obj.pluginPhysics.isStatic = true;
+			if(data.physType)
+			{
+				obj.pluginPhysics.type = data.physType;
+			}
+			else
+			{
+				if(data.isStatic)
+					obj.pluginPhysics.type = PhysicsCore.b2Body.b2_staticBody;
+				else
+					obj.pluginPhysics.type = PhysicsCore.b2Body.b2_dynamicBody;
+			}
+			
 			if(data.isSensor)
 				obj.pluginPhysics.isSensor = true;
+				
+			if(data.maskBits)
+				obj.pluginPhysics.maskBits = data.maskBits;
+			if(data.categoryBits)
+				obj.pluginPhysics.categoryBits = data.categoryBits;
 		}
 		
 		// graphics

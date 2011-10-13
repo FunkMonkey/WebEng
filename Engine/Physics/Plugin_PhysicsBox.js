@@ -12,7 +12,8 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 		this.density = 1.0;
 		this.friction = 1.0;
 		this.restitution = 0.2;
-		this.isStatic = false;
+		//this.isStatic = false;
+		this.type = PhysicsCore.b2Body.b2_dynamicBody;
 		this.isSensor = false;
 		this.categoryBits = 0x0001;
 		this.groupIndex = 0;
@@ -51,7 +52,7 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 			this.fixDef.filter.maskBits = this.maskBits;
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
-			this.bodyDef.type = (this.isStatic === true) ? PhysicsCore.b2Body.b2_staticBody : PhysicsCore.b2Body.b2_dynamicBody;
+			this.bodyDef.type = this.type;
 			this.bodyDef.position.x = this.gameObj.pos.x;
 			this.bodyDef.position.y = this.gameObj.pos.y;
 			this.bodyDef.angle = this.gameObj.rot.z;

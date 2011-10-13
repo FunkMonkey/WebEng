@@ -16,6 +16,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 	var GO_DeathZone = require("/TestGame/Scripts/GameObjects/DeathZone");
 	
 	var GO_FallingBlock = require("GameObjects/FallingBlock");
+	var GO_MovingBlock = require("GameObjects/MovingBlock");
 	
 	function Level()
 	{
@@ -43,7 +44,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this.addGameObject(Island_1_Border_Left);
 			
 			var Island_1_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign1", { 	size: Vector3.fromPool(2.5, 3.0, 0),
-																								texturePath: "TestGame/Content/Level1/Island_1_Sign1b.png",
+																								texturePath: "TestGame/Content/Level1/Island_1_Sign1.png",
 																								noPhysics: true,
 																								isStatic	: true});
 			newPos = Island_1.getPosIn2D("left-top");
@@ -53,10 +54,13 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this.addGameObject(Island_1_Sign1);
 			
 			var Island_1_Sign2 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign2", {		pos: Vector3.fromPool(9, 2, 0),
-																								size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
+																								size: Vector3.fromPool(2.5, 3, 0),
+																								texturePath: "TestGame/Content/Level1/Island_1_Sign2.png",
 																								noPhysics: true,
 																								isStatic	: true});
+			newPos = Island_1.getPosIn2D("left-top");
+			newPos.x += 7.75;
+			Island_1_Sign2.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Island_1_Sign2);
 			
 			var Island_1_SS_1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_SS_1", { 	size: Vector3.fromPool(0.5, 1, 0),
@@ -67,25 +71,25 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			Island_1_SS_1.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Island_1_SS_1);
 			
-			var Island_1_Sign3 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign3", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
+			var Island_1_Sign3 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign3", { 	size: Vector3.fromPool(2.5, 3, 0),
+																								texturePath: "TestGame/Content/Level1/Island_1_Sign3.png",
 																								noPhysics: true,
 																								isStatic	: true});
-			newPos = Island_1_SS_1.getPosIn2D("center");
-			newPos.y += 2;
-			Island_1_Sign3.pos = newPos;
+			newPos = Island_1_SS_1.getPosIn2D("left-bottom");
+			newPos.x -= 2;
+			Island_1_Sign3.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Island_1_Sign3);
 			
 			var Island_1_DZ_1 = GO_DeathZone.create("Island_1_DZ_1", { 	size: Vector3.fromPool(2, 1, 0)});
 			Island_1_DZ_1.setPosIn2D(Island_1.getPosIn2D("right-bottom"), "left-top");
 			this.addGameObject(Island_1_DZ_1);
 			
-			var Island_1_Sign4 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign4", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
+			var Island_1_Sign4 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign4", { 	size: Vector3.fromPool(2.5, 2.5, 0),
+																								texturePath: "TestGame/Content/Level1/Island_1_Sign4.png",
 																								noPhysics: true,
 																								isStatic	: true});
 			newPos = Island_1_DZ_1.getPosIn2D("center");
-			newPos.y += 2;
+			newPos.y += 3.5;
 			Island_1_Sign4.pos = newPos;
 			this.addGameObject(Island_1_Sign4);
 			
@@ -105,14 +109,13 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			Island_2_SS_1.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Island_2_SS_1);
 			
-			var Island_2_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_2_Sign1", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
+			var Island_2_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_2_Sign1", { 	size: Vector3.fromPool(2.5, 3, 0),
+																								texturePath: "TestGame/Content/Level1/Island_2_Sign1.png",
 																								noPhysics: true,
 																								isStatic	: true});
 			newPos = this.gameObjects["Island_2"].getPosIn2D("left-top");
-			newPos.x += 10;
-			newPos.y += 2;
-			Island_2_Sign1.pos = newPos;
+			newPos.x += 3;
+			Island_2_Sign1.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Island_2_Sign1);
 			
 			var Island_2_SS_2 = GO_BoxWithPhysics.createBoxWithPhysics("Island_2_SS_2", { 	size: Vector3.fromPool(0.5, 1, 0),
@@ -148,14 +151,13 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			Island_3_Border_Right.setPosIn2D(Island_3.getPosIn2D("right-bottom"), "left-bottom");
 			this.addGameObject(Island_3_Border_Right);
 			
-			var Island_3_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_3_Sign1", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
+			var Island_3_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_3_Sign1", { 	size: Vector3.fromPool(2.5, 3, 0),
+																								texturePath: "TestGame/Content/Level1/Island_3_Sign1.png",
 																								noPhysics: true,
 																								isStatic	: true});
 			newPos = this.gameObjects["Island_3"].getPosIn2D("right-top");
 			newPos.x -= 3;
-			newPos.y += 1;
-			Island_3_Sign1.pos = newPos;
+			Island_3_Sign1.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Island_3_Sign1);
 			
 			
@@ -186,25 +188,12 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 		{
 			var newPos = null;
 			
-			this.addGameObject(GO_FallingBlock.create("FallingBlock", { 	pos: Vector3.fromPool(9, 8, 0),
-																			size: Vector3.fromPool(2, 2, 0),
-																			texturePath: "TestGame/Content/Block.png"}));
-			
-			var MovingBlock = GO_BoxWithPhysics.createBoxWithPhysics("MovingBlock", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																						color: GraphicsCore.Color.fromPool(1,0,0,1),
-																						noPhysics: true,
-																						isStatic	: true});
-			newPos = this.gameObjects["Island_2"].getPosIn2D("left-top");
-			newPos.x += 6;
-			MovingBlock.pos = newPos;
-			this.addGameObject(MovingBlock);
-			
 			var Blocker = GO_SeparatingBlock.create("Blocker", { 	pos: Vector3.fromPool(1, 2, 0),
 																	size: Vector3.fromPool(0.5, 0.5, 0),
 																	texturePath: "TestGame/Content/Blocker.png"});
 			
 			newPos = this.gameObjects["Island_2"].getPosIn2D("left-top");
-			newPos.x += 10;
+			newPos.x += 4;
 			Blocker.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Blocker);
 			
@@ -239,11 +228,29 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this.addGameObject(GO_DarkSoul.createDarkSoul("DarkSoul2", {	pos: Vector3.fromPool(2, 3, 0),
 																			size: Vector3.fromPool(0.3, 0.3, 0),
 																			color: GraphicsCore.Color.fromPool(0, 0, 1, 1)}));
-			
-			
-			this.addGameObject(GO_Cursor.createCursor("Cursor"));
 		},
 		
+		_createFrontItems: function _createFrontItems()
+		{
+			var newPos = null;
+			
+			this.addGameObject(GO_FallingBlock.create("FallingBlock", { 	pos: Vector3.fromPool(9, 8, 0),
+																			size: Vector3.fromPool(2, 2, 0),
+																			texturePath: "TestGame/Content/Block.png"}));
+			
+			var MovingBlock = GO_MovingBlock.create("MovingBlock", { 	size: Vector3.fromPool(2, 2, 0),
+																		texturePath: "TestGame/Content/Block.png"});
+			newPos = this.gameObjects["Island_2"].getPosIn2D("left-top");
+			newPos.x += 9;
+			newPos.y += 4;
+			MovingBlock.pos = newPos;
+			this.addGameObject(MovingBlock);
+		},
+		
+		_createFrontLife: function _createFrontLife()
+		{
+			this.addGameObject(GO_Cursor.createCursor("Cursor"));
+		},
 		
 		
 		create: function create()
@@ -253,6 +260,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this._createDeathZones();
 			this._createItems();
 			this._createLife();
+			this._createFrontItems();
+			this._createFrontLife();
 			
 			GraphicsCore.camera.pos.x = -3.8;
 			GraphicsCore.camera.pos.y = -3.1;

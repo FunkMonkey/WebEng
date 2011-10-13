@@ -1,21 +1,19 @@
 
 "use strict";
 
-ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingBlock", function(require, exports, module){
+ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBlock", function(require, exports, module){
 	
 	var BoxWithPhysics = require("/TestGame/Scripts/GameObjects/BoxWithPhysics");
 	var Plugin_LogicDarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul").Plugin_LogicDarkSoul;
 	
-	function Plugin_LogicFallingBlock()
+	function Plugin_LogicMovingBlock()
 	{
-		this.state = "start";
-		this.isFinished = false;
-		this.timeTillFall = 2;
 		this._tmpPos = new PhysicsCore.b2Vec2;
+		this._tmpVel = new (PhysicsCore.b2Vec2)(0, -1);
 	}
 	
-	Plugin_LogicFallingBlock.prototype = {
-		constructor: Plugin_LogicFallingBlock,
+	Plugin_LogicMovingBlock.prototype = {
+		constructor: Plugin_LogicMovingBlock,
 		
 		/**
 		 * Called, when plugin was added to a gameobject
@@ -36,7 +34,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.fixDef = new (PhysicsCore.b2FixtureDef)();
 			this.fixDef.isSensor = true;
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
-			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0 * 0.9, this.gameObj.size.y / 2.0);
+			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0 * 0.95, this.gameObj.size.y / 2.0);
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
 			this.bodyDef.type = PhysicsCore.b2Body.b2_dynamicBody;
@@ -51,7 +49,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.deathSensorFixture.gameObj = this.gameObj;
 			this.deathSensorFixture.deathZoneActive = true;
 			
-			this.posX = this.gameObj.pos.x - 0.5;
+			this.bigBody = this.gameObj.pluginPhysics.body;
+			this.bigBody.SetLinearVelocity(this._tmpVel);
 		},
 		
 		/**
@@ -61,43 +60,21 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 		 */
 		update: function update(dt)
 		{
-			if(this.isFinished)
-				return;
+			if(this.gameObj.pos.y > 4)
+			{
+				this._tmpVel.y = -2;
+				this.bigBody.SetLinearVelocity(this._tmpVel);
+			}
+			else if(this.gameObj.pos.y < 2)
+			{
+				this._tmpVel.y = 1;
+				this.bigBody.SetLinearVelocity(this._tmpVel);
+			}
 			
 			var pos = this.gameObj.pluginPhysics.body.GetPosition();
 			this._tmpPos.x = pos.x;
 			this._tmpPos.y = pos.y - 0.2;
 			this.deathSensorBody.SetPosition(this._tmpPos);
-			
-			switch(this.state)
-			{
-				case "start":
-				{
-					this.gameObj.pluginPhysics.body.SetAwake(false);
-					for(var i=0; i < Plugin_LogicDarkSoul.darksouls.length; ++i)
-					{
-						if(Plugin_LogicDarkSoul.darksouls[i].pos.x > this.posX)
-						{
-							this.state = "fall_initiated";
-							log("initiated")
-							break;
-						}
-					}
-					
-					break;
-				}
-				case "fall_initiated":
-					{
-						this.timeTillFall -= dt;
-						if(this.timeTillFall < 0)
-						{
-							this.gameObj.pluginPhysics.body.SetAwake(true);
-							this.state = "falling";
-						}
-						break;
-					}
-				case "falling":  break;
-			}
 		},
 		
 		/**
@@ -115,10 +92,11 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 	{
 		if(!data)
 			data = {};
-			
+		
+		data.physType = PhysicsCore.b2Body.b2_kinematicBody;
 		var obj = BoxWithPhysics.createBoxWithPhysics(id, data);
 		obj.pluginPhysics.maskBits = 0xFFFD;
-		obj.addPlugin(new Plugin_LogicFallingBlock());
+		obj.addPlugin(new Plugin_LogicMovingBlock());
 		
 		
 		return obj;
