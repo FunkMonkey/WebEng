@@ -188,12 +188,12 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			
 			this.addGameObject(GO_FallingBlock.create("FallingBlock", { 	pos: Vector3.fromPool(9, 8, 0),
 																			size: Vector3.fromPool(2, 2, 0),
-																			color: GraphicsCore.Color.fromPool(0, 0, 0, 1)}));
+																			texturePath: "TestGame/Content/Block.png"}));
 			
 			var MovingBlock = GO_BoxWithPhysics.createBoxWithPhysics("MovingBlock", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
-																								noPhysics: true,
-																								isStatic	: true});
+																						color: GraphicsCore.Color.fromPool(1,0,0,1),
+																						noPhysics: true,
+																						isStatic	: true});
 			newPos = this.gameObjects["Island_2"].getPosIn2D("left-top");
 			newPos.x += 6;
 			MovingBlock.pos = newPos;
@@ -201,7 +201,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			
 			var Blocker = GO_SeparatingBlock.create("Blocker", { 	pos: Vector3.fromPool(1, 2, 0),
 																	size: Vector3.fromPool(0.5, 0.5, 0),
-																	color: GraphicsCore.Color.fromPool(0, 1, 0, 1)});
+																	texturePath: "TestGame/Content/Blocker.png"});
 			
 			newPos = this.gameObjects["Island_2"].getPosIn2D("left-top");
 			newPos.x += 10;
