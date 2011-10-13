@@ -51,6 +51,19 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 			
 			this.bigBody = this.gameObj.pluginPhysics.body;
 			this.bigBody.SetLinearVelocity(this._tmpVel);
+			
+			this.gameObj.pluginPhysics.fixture.onPreSolve = function(me, other, contact)
+			{
+				if(other.pluginDarkSoul)
+				{
+					var otherPos = other.gameObj.pos;
+					var mePos = me.gameObj.pos;
+					var meSize = me.gameObj.size;
+					var otherSize = other.gameObj.size;
+					if(otherPos.y < mePos.y && (otherPos.x + otherSize.x / 2.1) > (mePos.x - meSize.x/2.0) && (otherPos.x - otherSize.x / 2.1) < (mePos.x + meSize.x/2.0))
+						contact.SetEnabled(false);
+				}
+			}
 		},
 		
 		/**
@@ -60,7 +73,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 		 */
 		update: function update(dt)
 		{
-			if(this.gameObj.pos.y > 4)
+			if(this.gameObj.pos.y > 4.5)
 			{
 				this._tmpVel.y = -2;
 				this.bigBody.SetLinearVelocity(this._tmpVel);
@@ -73,7 +86,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 			
 			var pos = this.gameObj.pluginPhysics.body.GetPosition();
 			this._tmpPos.x = pos.x;
-			this._tmpPos.y = pos.y - 0.2;
+			this._tmpPos.y = pos.y - 0.05;
 			this.deathSensorBody.SetPosition(this._tmpPos);
 		},
 		
@@ -95,7 +108,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 		
 		data.physType = PhysicsCore.b2Body.b2_kinematicBody;
 		var obj = BoxWithPhysics.createBoxWithPhysics(id, data);
-		obj.pluginPhysics.maskBits = 0xFFFD;
+		//obj.pluginPhysics.maskBits = 0xFFFD;
 		obj.addPlugin(new Plugin_LogicMovingBlock());
 		
 		

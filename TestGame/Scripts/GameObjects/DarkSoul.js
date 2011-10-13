@@ -55,7 +55,18 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		{
 			this._dead = val;
 			if(val)
+			{
 				Game.onDarkSoulDead();
+				this.gameObj.pluginGraphics.texture = this.deadTexture;
+			}
+		},
+		
+		loadResources: function loadResources(callback)
+		{
+			GraphicsCore.TextureManager.createTexture("TestGame/Content/darksoul_dead.png", (function(texture){
+					this.deadTexture = texture;
+					callback(this);
+				}).bind(this));
 		},
 		
 		init: function init()

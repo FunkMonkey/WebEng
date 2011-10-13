@@ -189,7 +189,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			var newPos = null;
 			
 			var Blocker = GO_SeparatingBlock.create("Blocker", { 	pos: Vector3.fromPool(1, 2, 0),
-																	size: Vector3.fromPool(0.5, 0.5, 0),
+																	size: Vector3.fromPool(1, 1, 0),
 																	texturePath: "TestGame/Content/Blocker.png"});
 			
 			newPos = this.gameObjects["Island_2"].getPosIn2D("left-top");

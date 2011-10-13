@@ -51,6 +51,19 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.deathSensorFixture.gameObj = this.gameObj;
 			this.deathSensorFixture.deathZoneActive = true;
 			
+			this.gameObj.pluginPhysics.fixture.onPreSolve = function(me, other, contact)
+			{
+				if(other.pluginDarkSoul)
+				{
+					var otherPos = other.gameObj.pos;
+					var mePos = me.gameObj.pos;
+					var meSize = me.gameObj.size;
+					var otherSize = other.gameObj.size;
+					if(otherPos.y < mePos.y && (otherPos.x + otherSize.x / 2.1) > (mePos.x - meSize.x/2.0) && (otherPos.x - otherSize.x / 2.1) < (mePos.x + meSize.x/2.0))
+						contact.SetEnabled(false);
+				}
+			}
+			
 			this.posX = this.gameObj.pos.x - 0.5;
 		},
 		
@@ -117,7 +130,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			data = {};
 			
 		var obj = BoxWithPhysics.createBoxWithPhysics(id, data);
-		obj.pluginPhysics.maskBits = 0xFFFD;
+		//obj.pluginPhysics.maskBits = 0xFFFD;
 		obj.addPlugin(new Plugin_LogicFallingBlock());
 		
 		
