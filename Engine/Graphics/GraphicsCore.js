@@ -48,8 +48,8 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			//mat4.ortho(-10, 10, -10, 10, 0.1, 100.0, this.pMatrix);
 			mat4.inverse(this.pMatrix, this.ipMatrix);
 			
-			this.gl.clearColor(0.0, 0.0, 0.0, 1.0);  		// Set clear color to black, fully opaque
-			this.gl.clearDepth(1.0);                 		// Clear everything
+			//this.gl.clearColor(0.0, 0.0, 0.0, 1.0);  		// Set clear color to black, fully opaque
+			//this.gl.clearDepth(1.0);                 		// Clear everything
 			this.gl.enable(this.gl.DEPTH_TEST);           // Enable depth testing
 			this.gl.depthFunc(this.gl.LEQUAL);            // Near things obscure far things
 			this.gl.enable(gl.BLEND);
@@ -116,8 +116,9 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		{
 			gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
 			
-			this.gl.clearColor(0.603, 0.76, 0.804, 1.0);
-			this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+			gl.clearColor(0.603, 0.76, 0.804, 1.0);
+			gl.clearDepth(1.0); 
+			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 			
 			mat4.identity(this.mvMatrix);
 			

@@ -43,7 +43,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this.addGameObject(Island_1_Border_Left);
 			
 			var Island_1_Sign1 = GO_BoxWithPhysics.createBoxWithPhysics("Island_1_Sign1", { 	size: Vector3.fromPool(2.5, 3.0, 0),
-																								texturePath: "TestGame/Content/Level1/Island_1_Sign1.png",
+																								texturePath: "TestGame/Content/Level1/Island_1_Sign1b.png",
 																								noPhysics: true,
 																								isStatic	: true});
 			newPos = Island_1.getPosIn2D("left-top");
