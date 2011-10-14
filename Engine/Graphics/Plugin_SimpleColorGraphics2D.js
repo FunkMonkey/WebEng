@@ -6,6 +6,10 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 	var GraphicsCore = null;
 	var zAxis = [0, 0, 1];
 	
+	/**
+	 * Plugin_SimpleColorGraphics2D: Plugin for adding a colored graphical
+	 * representation to a gameobject
+	 */
 	function Plugin_SimpleColorGraphics2D()
 	{
 		this.color = GraphicsCore.Color.fromPool();
@@ -15,20 +19,20 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 	Plugin_SimpleColorGraphics2D.prototype = {
 		constructor: Plugin_SimpleColorGraphics2D,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginGraphics = this;
 		},
 		
-		//pixelToWorldScaleFactor: 0.01,
-		
-		//loadResources: function loadResources(callback)
-		//{
-		//	callback(this);
-		//},
-		
-
+		/**
+		 * Initializes the plugin
+		 */
 		init: function init()
 		{
 			GraphicsCore.addDrawableObject(this);
@@ -54,6 +58,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 		
 		_tmpFinalPos: Vector3.fromPool(),
 		
+		/**
+		 * Draws the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		draw: function draw(dt)
 		{
 			if(!this.isVisible)
@@ -86,6 +95,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 			gl.drawArrays(gl.TRIANGLE_STRIP, 0, this.vertexPosBuffer.numItems);
 		},
 		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		destroy: function destroy()
 		{
 			GraphicsCore.removeDrawableObject(this);
@@ -93,7 +107,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleColorGraphics2D", func
 		
 	};
 
-	
+	/**
+	 * Initializes the module
+	 * 
+	 * @param   {GraphicsCore} graphicsCore  The GraphicsCore
+	 */
 	Plugin_SimpleColorGraphics2D.initModule = function initModule(graphicsCore)
 		{
 			gl = graphicsCore.gl;

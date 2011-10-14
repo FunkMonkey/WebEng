@@ -7,6 +7,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	var Plugin_Pickable = require("/TestGame/Scripts/Plugins/Plugin_Pickable").Plugin_Pickable;
 	
+	/**
+	 * Plugin_LogicDarkSoul: Plugin for adding gamelogic of a darksoul to a gameobject
+	 */
 	function Plugin_LogicDarkSoul()
 	{
 		this.maxOwnVelocityX = 1;
@@ -39,6 +42,11 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		
 		deathRange: 9,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
@@ -46,6 +54,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			Plugin_LogicDarkSoul.darksouls.push(this.gameObj);
 		},
 		
+		/**
+		 * Property: dead-state of darksoul
+		 */
 		get dead()
 		{
 			return this._dead;
@@ -61,14 +72,23 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			}
 		},
 		
+		/**
+		 * Loads the plugins resources
+		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
+		 */
 		loadResources: function loadResources(callback)
 		{
+			// load the dead-texture
 			GraphicsCore.TextureManager.createTexture("TestGame/Content/darksoul_dead.png", (function(texture){
 					this.deadTexture = texture;
 					callback(this);
 				}).bind(this));
 		},
 		
+		/**
+		 * Initializes the plugin
+		 */
 		init: function init()
 		{
 			this.cursor = Game.level.gameObjects["Cursor"];
@@ -77,6 +97,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			this.gameObj.pluginPickable.addEventListener("dropped", this.onDrop.bind(this));
 		},
 		
+		/**
+		 * Post-Initializes the plugin
+		 */
 		postInit: function postInit()
 		{
 			this.physBody = this.gameObj.pluginPhysics.body;
@@ -88,26 +111,42 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			this.physFixture.onBeginContact = this.onBeginContact;
 		},
 		
+		/**
+		 * Called, when darksoul collides with other object
+		 * 
+		 * @param   {b2Fixture} me    Fixture for darksoul
+		 * @param   {b2Fixture} other Fixture for outher object
+		 */
 		onBeginContact: function onBeginContact(me, other)
 		{
-			//log("contact: " + other.gameObj.id)
+			// kill darksoul, if in deathzone
 			if(other.deathZoneActive && !me.gameObj.pluginLogicDarkSoul.dead)
 				me.gameObj.pluginLogicDarkSoul.dead = true;
 		},
 		
-		
+		/**
+		 * Called before darksoul has been picked
+		 * 
+		 * @returns {boolean} True if continue picking, false to abort
+		 */
 		onPrePick: function onPrePick()
 		{
+			// don't allow picking if not enough time has passed since last pick
 			return (Engine.getTimeInMS() - this.timeDropped > this.timeTillRePick);
 		},
 		
+		/**
+		 * Called, when darksoul has been picked up
+		 */
 		onPick: function onPick()
 		{
 			this.picked = true;
 			this.timePicked = Engine.getTimeInMS();
 		},
 		
-		
+		/**
+		 * Called, when darksoul has been dropped
+		 */
 		onDrop: function onDrop()
 		{
 			this.picked = false;
@@ -117,6 +156,12 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		
 		_tmpImpulse: new PhysicsCore.b2Vec2(),
 		_tmpJumpImpulse: new PhysicsCore.b2Vec2(),
+		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		update: function update(dt)
 		{
 			if(this.dead)
@@ -188,6 +233,11 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			}
 		},
 		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		destroy: function destroy()
 		{
 			for (var i=0; i < Plugin_LogicDarkSoul.darksouls.length; i++)
@@ -203,6 +253,14 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		
 	};
 	
+	/**
+	 * Creates a darksoul with the given id
+	 * 
+	 * @param   {string} id    ID of the gameobject
+	 * @param   {Object} data  Additional creation-data
+	 * 
+	 * @returns {BaseGameObject} A new darksoul
+	 */
 	function createDarkSoul(id, data)
 	{
 		if(!data)

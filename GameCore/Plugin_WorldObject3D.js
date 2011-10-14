@@ -2,6 +2,9 @@
 
 ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, exports){
 	
+	/**
+	 * Plugin_WorldObject3D: constructor function for the WorldObject3D-plugin
+	 */
 	function Plugin_WorldObject3D()
 	{
 	}
@@ -53,7 +56,7 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 			/**
 			* Sets the position of the gameobject
 			* 
-			* @param   {Vector3} val New Position
+			* @param   {Vector3} val New position
 			*/
 			setPos: function setPos(val)
 			{
@@ -62,8 +65,18 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 				this._pos.z = val.z;
 			},
 			
+			/**
+			 * Returns the position of the object (as a reference)
+			 * 
+			 * @returns {Vector3} Position of the object
+			 */
 			getPos: function getPos(){ return this._pos;},
 			
+			/**
+			* Sets the rotation of the gameobject
+			* 
+			* @param   {Vector3} val New rotation
+			*/
 			setRot: function setRot(val)
 			{
 				this._rot.x = val.x;
@@ -71,8 +84,19 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 				this._rot.z = val.z;
 			},
 			
+			/**
+			 * Returns the rotation of the object (as a reference)
+			 * 
+			 * @returns {Vector3} Rotation of the object
+			 */
+
 			getRot: function getRot(){ return this._rot;},
 			
+			/**
+			* Sets the scale of the gameobject
+			* 
+			* @param   {Vector3} val New scale
+			*/
 			setScale: function setScale(val)
 			{
 				this._scale.x = val.x;
@@ -80,8 +104,19 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 				this._scale.z = val.z;
 			},
 			
+			/**
+			 * Returns the scale of the object (as a reference)
+			 * 
+			 * @returns {Vector3} Scale of the object
+			 */
+
 			getScale: function getScale(){ return this._scale;},
 			
+			/**
+			* Sets the size of the gameobject
+			* 
+			* @param   {Vector3} val New size
+			*/
 			setSize: function setSize(val)
 			{
 				this._size.x = val.x;
@@ -89,10 +124,22 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 				this._size.z = val.z;
 			},
 			
+			/**
+			 * Returns the size of the object (as a reference)
+			 * 
+			 * @returns {Vector3} Size of the object
+			 */
 			getSize: function getSize(){ return this._size;}
 		},
 		
 		functions: {
+			
+			/**
+			 * Sets the position of the object regarding the given anchor
+			 *
+			 * @param   {Vector3} pos     Position to set
+			 * @param   {string}  anchor  string-classified anchor
+			 */
 			setPosIn2D: function setPosIn2D(pos, anchor)
 			{
 				var newPos = Vector3.fromPool(pos);
@@ -111,6 +158,13 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 				this.pos = newPos;
 			},
 			
+			/**
+			 * Returns the position of the object regarding the given anchor
+			 * 
+			 * @param   {string} anchor string-classified anchor
+			 * 
+			 * @returns {Vector3} Position (new object)
+			 */
 			getPosIn2D: function getPosIn2D(anchor)
 			{
 				var pos = Vector3.fromPool(this.pos);

@@ -3,6 +3,9 @@
 
 ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, module){
 	
+	/**
+	 * BaseLevel: constructor function for a level
+	 */
 	function BaseLevel()
 	{
 		this.gameObjectsArray = [];
@@ -12,27 +15,37 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 	BaseLevel.prototype = {
 		constructor: BaseLevel,
 		
+		/**
+		 * Adds the given gameobject to the level
+		 * 
+		 * @param   {BaseGameObject} obj  GameObject to add
+		 */
 		addGameObject: function addGameObject(obj)
 		{
 			this.gameObjects[obj.id] = obj;
 			this.gameObjectsArray.push(obj);
 		},
 		
-		
+		/**
+		 * Creates the content of the level
+		 */
 		create: function create()
 		{
 			 
 		},
 		
+		// TODO: remove
 		loadConfig: function loadConfig()
 		{
 			for(var i = 0; i < this.gameObjectsArray.length; ++i)
 				this.gameObjectsArray[i].loadConfig();
 		},
 		
-		/* async 
-		   
-		*/
+		/**
+		 * Loads the levels resources (asynchron)
+		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
+		 */
 		loadResources: function loadResources(callback)
 		{
 			if(this.gameObjectsArray.length === 0)
@@ -50,8 +63,8 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 				this.gameObjectsArray[i].loadResources(goCallback);
 		},
 		
-		/* Initializes the game
-		 *
+		/**
+		 * Initializes the level
 		 */
 		init: function init()
 		{
@@ -59,14 +72,19 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 				this.gameObjectsArray[i].init();
 		},
 		
+		/**
+		 * Post-Initializes the level
+		 */
 		postInit: function postInit()
 		{
 			for(var i = 0; i < this.gameObjectsArray.length; ++i)
 				this.gameObjectsArray[i].postInit();
 		},
 		
-		/* Updates the game
-		 *
+		/**
+		 * Updates the level
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
 		 */
 		update: function update(deltaTime)
 		{
@@ -74,6 +92,9 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 				this.gameObjectsArray[i].update(deltaTime);
 		},
 		
+		/**
+		 * Destroys the level
+		 */
 		destroy: function destroy()
 		{
 			for(var i = 0; i < this.gameObjectsArray.length; ++i)

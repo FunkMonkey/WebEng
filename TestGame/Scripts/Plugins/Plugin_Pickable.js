@@ -9,6 +9,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 	var onMouseDown = null;
 	var joint = null;
 	
+	/**
+	 * Plugin_Pickable: constructor function for the pickable-plugin
+	 */
 	function Plugin_Pickable()
 	{
 		EventThrower.applyOn(this);
@@ -21,12 +24,20 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 	Plugin_Pickable.prototype = {
 		constructor: Plugin_Pickable,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginPickable = this;
 		},
 		
+		/**
+		 * Initializes the plugin
+		 */
 		init: function init()
 		{
 			if(!this.gameObj.pluginPhysics)
@@ -37,13 +48,20 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 			Plugin_Pickable.count += 1;
 		},
 		
+		/**
+		 * Post-Initializes the plugin
+		 */
 		postInit: function postInit()
 		{
 			this.body = this.gameObj.pluginPhysics.body;
 			this.fixture = this.gameObj.pluginPhysics.fixture;
 		},
 		
-		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		update: function update(dt)
 		{
 			if(Game.updateCount !== updateCount)
@@ -87,7 +105,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 		},
 		
 		/* 
-		 * 
+		 * Drops the picked object
 		 */
 		drop: function drop()
 		{
@@ -100,7 +118,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_Pickable", function
 			this.fireEvent("dropped");
 		},
 		
-		
+		/**
+		 * Destroys the plugin
+		 */
 		destroy: function destroy()
 		{
 			Plugin_Pickable.count -= 1;

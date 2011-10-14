@@ -2,6 +2,9 @@
 
 ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_DeathZone", function(require, exports){
 	
+	/**
+	 * Plugin_DeathZone: constructor function for the deathzone-plugin
+	 */
 	function Plugin_DeathZone()
 	{
 	}
@@ -10,6 +13,11 @@ ModuleSystem.registerModule("TestGame/Scripts/Plugins/Plugin_DeathZone", functio
 	Plugin_DeathZone.prototype = {
 		constructor: Plugin_DeathZone,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;

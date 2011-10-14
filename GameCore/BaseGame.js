@@ -33,6 +33,11 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			
 		},
 		
+		/**
+		 * Loads the games resources
+		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
+		 */
 		loadResources: function loadResources(callback)
 		{
 			callback();
@@ -46,8 +51,10 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		{
 		},
 		
-		/* Updates the game
-		 *
+		/**
+		 * Updates the game
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
 		 */
 		update: function update(dt)
 		{

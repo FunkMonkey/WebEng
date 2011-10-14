@@ -5,7 +5,7 @@ ModuleSystem.registerModule("Engine/Physics/Plugin_PhysicsBox", function(require
 	var PhysicsCore = null;
 	
 	/**
-	 * Plugin for adding a physical box to a gameobject
+	 * Plugin_PhysicsBox: Plugin for adding a physical box to a gameobject
 	 */
 	function Plugin_PhysicsBox()
 	{

@@ -6,8 +6,10 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 	var GraphicsCore = null;
 	var zAxis = [0, 0, 1];
 	
-	// TODO: rename to Plugin_SimpleGraphicsObject
-	
+	/**
+	 * Plugin_SimpleTextureGraphics2D: Plugin for adding a textured graphical
+	 * representation to a gameobject
+	 */
 	function Plugin_SimpleTextureGraphics2D()
 	{
 		this.textureID = "";
@@ -21,12 +23,22 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 		
 		pixelToWorldScaleFactor: 0.01,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginGraphics = this;
 		},
 		
+		/**
+		 * Loads the plugins resources (asynchron)
+		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
+		 */
 		loadResources: function loadResources(callback)
 		{
 			/* Textures */			
@@ -36,7 +48,9 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 				}).bind(this));
 		},
 		
-
+		/**
+		 * Initializes the plugin
+		 */
 		init: function init()
 		{
 			GraphicsCore.addDrawableObject(this);
@@ -76,6 +90,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 		
 		_tmpFinalPos: Vector3.fromPool(),
 		
+		/**
+		 * Draws the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		draw: function draw(dt)
 		{
 			if(!this.isVisible)
@@ -112,6 +131,11 @@ ModuleSystem.registerModule("Engine/Graphics/Plugin_SimpleTextureGraphics2D", fu
 			gl.drawArrays(gl.TRIANGLE_STRIP, 0, this.vertexPosBuffer.numItems);
 		},
 		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		destroy: function destroy()
 		{
 			GraphicsCore.removeDrawableObject(this);

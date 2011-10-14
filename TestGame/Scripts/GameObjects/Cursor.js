@@ -7,6 +7,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	var Plugin_LogicDarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul").Plugin_LogicDarkSoul;
 	
+	/**
+	 * Plugin_LogicCursor: Plugin for adding gamelogic of the cursor to a gameobject
+	 */
 	function Plugin_LogicCursor()
 	{
 		this._prevPos = Vector3.fromPool();
@@ -26,12 +29,20 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 	Plugin_LogicCursor.prototype = {
 		constructor: Plugin_LogicCursor,
 		
+		/**
+		 * Called, when plugin was added to a gameobject
+		 * 
+		 * @param   {BaseGameObject} gameObj The gameobject
+		 */
 		onAddedTo: function onAddedTo(gameObj)
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginLogicCursor = this;
 		},
 		
+		/**
+		 * Post-Initializes the plugin
+		 */
 		postInit: function postInit()
 		{
 			GraphicsCore.ShaderManager.loadShaderCode("std_texture_mult_fs", "Engine/Graphics/Std_Texture_Mult_fs.shader", "x-shader/x-fragment");
@@ -75,6 +86,12 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		_tmpVec: Vector3.fromPool(),
 		_tmpLength:0,
 		_tmpLengthFactor: 0,
+		
+		/**
+		 * Updates the plugin
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		update: function update(dt)
 		{
 			this.alpha += dt * this.alphaDir;
@@ -147,6 +164,13 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		
 	};
 	
+	/**
+	 * Creates a cursor with the given id
+	 * 
+	 * @param   {string} id ID of the gameobject
+	 * 
+	 * @returns {BaseGameObject} A new cursor
+	 */
 	function createCursor(id)
 	{
 		var obj = new BaseGameObject(id);
