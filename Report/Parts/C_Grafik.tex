@@ -1,1 +1,39 @@
 \chapter{Grafik}
+
+Der \textprog{GraphicsCore} nutzt als Grafik-API das in Google Chrome sowie Mozilla Firefox integrierte WebGL. Dabei handelt es sich um eine abgespeckte Browser-Variante von OpenGL-ES. 
+
+Als Viewport fungiert dabei der WebGL-Kontext eins HTML5-\textprog{canvas}-Elements. Für Matrizen-Operationen wird die XXX \todo{link} -Bibliothek genutzt.
+
+Der \textprog{GraphicsCore} verwaltet eine Liste von zeichenbaren Objekten. Ein zeichenbares Objekt muss eine \textprog{draw}-Funktion implementieren um sich selbst zeichnen zu können.
+
+\section{Shader}
+
+Der \textprog{GraphicsCore} verfügt über einen Shader-Manager, welcher das Laden und Kompilieren von GLSL-Shader-Code, sowie die Erzeugung von Shader-Instanzen (\textprog{ShaderProgram}) übernimmt. Ein Shader besteht dabei für gewöhnlich aus einem Fragment-Shader und einem Vertex-Shader. 
+
+\textprog{ShaderProgram} ist ein von mir implementierter Wrapper für WebGL-Shaderprogramme, der so aufgebaut ist, dass man beispielsweise die \textprog{uniform}-Eigenschaften eines Shaders einfach per JS-Eigenschaft setzen kann, wie beispielsweise im folgenden Beispiel für die Farbe eines einfachen Shaders:
+
+\todo{Code-Beispiel}
+
+Innerhalb des Projekts gibt es zwei einfache Shader-Programme: eins zum Zeichnen beliebig-farbiger Rechtecke und ein weiteres zum Zeichnen von Texturen. 
+
+\section{Texturen}
+
+Der \textprog{GraphicsCore} verfügt zusätzlich über einen \textprog{TextureManager}, welcher sich um die Erzeugung und Verwaltung von Texturen kümmert. Das WebGL ist dabei so eingestellt, dass NPOT (non-power-of-two)-Texturen erlaubt sind. NPOT-Texturen haben innerhalb von WebGL einige Beschränkungen, welche aber innerhalb dieses Projekts keine Rolle spielten.
+
+\section{Plugins}
+
+Um Spielobjekten Grafik-Attribute und die Möglichkeit sich selbst zu zeichnen zu geben, existieren zwei Plugins, welche eine \textprog{draw}-Funktion bieten und bei Initialisierung sich selbst als zeichenbare Objekte beim \textprog{GraphicsCore} registrieren. Die Position und Größe des zu zeichnenden Objektes holen sich die Plugins vom Spielobjekt selbst. Basierend auf der Kamera-Position und der Position des Objekts wird eine Model-View-Matrix erzeugt und an das entsprechende Shader-Programm übergeben.
+
+Das \textprog{Plugin\_SimpleColorGraphics2D} zeichnet ein einfaches Rechteck mit einer beliebigen Farbe. Das \textprog{Plugin\_SimpleTextureGraphics2D} zeichnet ein einfaches Rechteck mit einer beliebigen Textur.
+
+\section{Probleme}
+
+Aktuell gibt es noch zwei größere Grafik-Bugs. Der ''Alpha-Bug'' soll im folgenden kurz vorgestellt werden. Der ''Physics-Bug'' wird im Physik-Abschnitt dieses Berichts besprochen.
+
+\subsection{''Alpha-Bug''}
+
+Aus mir immer noch nicht verständlichen Gründen, gibt es Probleme mit Texturen, die alpha-Werte größer 0 und kleiner 1 besitzen. Je näher sich der alpha-Wert dem Wert 0.5 nähert, umso stärker wird die resultierende Farbe des Pixels zu einem Weißton, anstatt zu einer Mischfarbe der Textur und der darunterliegenden Layer. Selbst wenn der Hintergrund eine andere Farbe als weiß besitzt und wir lediglich eine Textur zeichnen, entsteht dieser Effekt.
+
+\todo{Screenshot}
+
+Dieser Bug drückt sich häufig durch weiße Ränder rund um den nicht-transparenten Teil von Texturen aus.

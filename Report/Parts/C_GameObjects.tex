@@ -41,7 +41,7 @@ init: function init()
 
 Bei Hinzufügen eines Plugins, wird sofern vorhanden dessen \textprog{onAddedTo}-Funktion mit der Spielobjekt-Instanz als Parameter auf.
 
-Dadurch erhält das Plugin Zugriff auf das Spielobjekt, kann diesem Eigenschaften und Methoden hinzufügen und auf die anderen Plugins zugreifen. Eines der wohl wichtigsten Plugins ist das \textprog{Plugin\_WorldObject3D}, welches dem Spielobjekt Eigenschaften wie eine Position, Rotation und Skalierung verleiht, welche dann wiederum von z. B. von Grafik-, Physik- und Logikplugins verwendet werden.
+Dadurch erhält das Plugin Zugriff auf das Spielobjekt, kann diesem Eigenschaften und Methoden hinzufügen und auf die anderen Plugins zugreifen. Eines der wohl wichtigsten Plugins ist das \textprog{Plugin\_WorldObject3D}, welches dem Spielobjekt Eigenschaften wie eine Position, Rotation. Größe und Skalierung verleiht, welche dann wiederum von z. B. von Grafik-, Physik- und Logikplugins verwendet werden.
 
 \begin{lstlisting}[language=JavaScript]
 onAddedTo: function onAddedTo(gameObj)

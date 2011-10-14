@@ -34,3 +34,16 @@ BeginContact: function BeginContact(contact)
 },
 \end{lstlisting}
 \todo{Caption}
+
+\section{Probleme}
+
+Aktuell gibt es noch einen Grafik-Bug, welcher mit der Physik zu tun hat. So liegen dynamische Physik-Objekte oft nicht direkt auf anderen Physik-Objekten auf - es gibt Lücken. Diese resultieren daher, dass Box2D eine kleine Schutzschicht um dynamische Objekte legt um Tunneling zu verhindern. So berühren sich diese Objekte an sich nie direkt, welches sich selbstverständlich in der grafischen Repräsentation niederschlägt.
+
+\todo{Abbildung}
+
+Eine Möglichkeit zur Lösung dieses Problems, wäre es die Grafikobjekte leicht größer zu zeichnen als sie sind. Box2D bietet zudem eine Eigenschaft, mit der festgestellt werden kann, wie groß die Schutzschicht um ein dynamisches Physik-Objekt herum ist. Basierend darauf könnte man die zu zeichnende Größe des Grafik-Objekts bestimmen. Diese Aufgabe wurde jedoch noch nicht erledigt.
+
+\subsection{Anti-Aliasing}
+
+Bei Überprüfung dieses Lücken-Zustandes in der box2dweb-Debug-Ansicht, sieht es so aus, als ob die Lücken dort kleiner wären. Dies hat damit zu tun, dass dort ein 2D-\textprog{canvas}-Kontext genutzt wird, bei dem - im Gegensatz zu WebGL - anti-aliasing aktiviert ist.
+
