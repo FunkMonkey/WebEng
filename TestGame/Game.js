@@ -22,7 +22,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			var action = null;
 			
 			action = InputCore.getAction("OnPauseGame");
-			action.addKeyboardTrigger(KeyboardEvent.DOM_VK_ESCAPE, InputCore.KEY_STATE_PRESSED, true);
+			action.addKeyboardTrigger(KeyEvent.DOM_VK_ESCAPE, InputCore.KEY_STATE_PRESSED, true);
 			
 			action = InputCore.getAction("OnMouseDown");
 			action.addMouseButtonTrigger(InputCore.MOUSEBUTTON_LEFT, InputCore.MOUSEBUTTON_STATE_DOWN, true);
