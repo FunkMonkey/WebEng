@@ -5,6 +5,15 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	
 	var InputCore = null;
 	
+	/**
+	 * KeyboardTrigger: Constructor function for a keyboard trigger
+	 * 
+	 * @param   {InputAction} action      Action, trigger belongs to
+	 * @param   {number}      keyCode     KeyCode for the trigger
+	 * @param   {number}      state       KeyState for the trigger
+	 * @param   {boolean}     obligatory  If it is obligatory trigger (necessary for action to succeed)
+	 * @param   {Array}       input       Additional input data
+	 */
 	function KeyboardTrigger(action, keyCode, state, obligatory, input)
 	{
 		this.action = action;
@@ -23,6 +32,11 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	KeyboardTrigger.prototype = {
 		constructor: KeyboardTrigger,
 		
+		/**
+		 * Checks if the trigger is active
+		 * 
+		 * @returns {boolean} True if active, otherwise false
+		 */
 		check: function check()
 		{
 			if(InputCore.isKey(this.keyCode, this.state))
@@ -39,6 +53,15 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		}
 	};
 	
+	/**
+	 * MouseButtonTrigger: Constructor function for a mousebutton trigger
+	 * 
+	 * @param   {InputAction} action         Action, trigger belongs to
+	 * @param   {number}      buttonCode     MouseButtonState for the trigger
+	 * @param   {number}      state          KeyState for the trigger
+	 * @param   {boolean}     obligatory     If it is obligatory trigger (necessary for action to succeed)
+	 * @param   {Array}       input          Additional input data
+	 */
 	function MouseButtonTrigger(action, buttonCode, state, obligatory, input)
 	{
 		this.action = action;
@@ -57,6 +80,11 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	MouseButtonTrigger.prototype = {
 		constructor: MouseButtonTrigger,
 		
+		/**
+		 * Checks if the trigger is active
+		 * 
+		 * @returns {boolean} True if active, otherwise false
+		 */
 		check: function check()
 		{
 			if(InputCore.isMouseButton(this.buttonCode, this.state))
@@ -72,6 +100,13 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		}
 	};
 	
+	/**
+	 * MouseMoveTrigger: Constructor function for a mousemove trigger
+	 * 
+	 * @param   {InputAction} action         Action, trigger belongs to
+	 * @param   {boolean}     obligatory     If it is obligatory trigger (necessary for action to succeed)
+	 * @param   {Array}       input          Additional input data
+	 */
 	function MouseMoveTrigger(action, obligatory, input)
 	{
 		this.action = action;
@@ -85,6 +120,11 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	MouseMoveTrigger.prototype = {
 		constructor: MouseMoveTrigger,
 		
+		/**
+		 * Checks if the trigger is active
+		 * 
+		 * @returns {boolean} True if active, otherwise false
+		 */
 		check: function check()
 		{
 			var mouseRel = InputCore.mousePosRel;
@@ -126,17 +166,22 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 		}
 	};
 	
-	function TriggerGroup()
-	{
-		
-	}
+	//function TriggerGroup()
+	//{
+	//	
+	//}
+	//
+	//TriggerGroup.prototype = {
+	//	constructor: TriggerGroup,
+	//	
+	//	
+	//};
 	
-	TriggerGroup.prototype = {
-		constructor: TriggerGroup,
-		
-		
-	};
-	
+	/**
+	 * InputAction: Constructor function for an InputAction with the given name
+	 * 
+	 * @param   {string} name Name of the action
+	 */
 	function InputAction(name)
 	{
 		this.name = name;
@@ -153,19 +198,36 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	InputAction.prototype = {
 		constructor: InputAction,
 		
+		/**
+		 * Runs the callbacks of this action
+		 */
 		runCallbacks: function runCallbacks()
 		{
 			for(var i = 0; i < this.callbacks.length; ++i)
 				this.callbacks[i](action, this.result);
 		},
 		
+		/**
+		 * Adds a trigger to the action
+		 * 
+		 * @param   {InputTrigger} trigger  Trigger to add
+		 * 
+		 * @returns {InputTrigger} The added trigger
+		 */
 		addTrigger: function addTrigger(trigger)
 		{
 			this.triggers.push(trigger);
 			return trigger;
 		},
 		
-		
+		/**
+		* Adds a keyboard-trigger to the action
+		* 
+		* @param   {number}      keyCode     KeyCode for the trigger
+		* @param   {number}      state       KeyState for the trigger
+		* @param   {boolean}     obligatory  If it is obligatory trigger (necessary for action to succeed)
+		* @param   {Array}       input       Additional input data
+		*/
 		addKeyboardTrigger: function addKeyboardTrigger(keyCode, state, obligatory, input)
 		{
 			var trigger = new KeyboardTrigger(this, keyCode, state, obligatory, input);
@@ -173,6 +235,14 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 			return trigger;
 		},
 		
+		/**
+		* Adds a mousebutton-trigger to the action
+		* 
+		* @param   {number}      buttonCode     MouseButtonState for the trigger
+		* @param   {number}      state          KeyState for the trigger
+		* @param   {boolean}     obligatory     If it is obligatory trigger (necessary for action to succeed)
+		* @param   {Array}       input          Additional input data
+		*/
 		addMouseButtonTrigger: function addMouseButtonTrigger(mbCode, state, obligatory, input)
 		{
 			var trigger = new MouseButtonTrigger(this, mbCode, state, obligatory, input);
@@ -180,6 +250,12 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 			return trigger;
 		},
 		
+		/**
+		* Adds a mousemove-trigger to the action
+		* 
+		* @param   {boolean}     obligatory     If it is obligatory trigger (necessary for action to succeed)
+		* @param   {Array}       input          Additional input data
+		*/
 		addMouseMoveTrigger: function addMouseMoveTrigger(obligatory, input)
 		{
 			var trigger = new MouseMoveTrigger(this, obligatory, input);
@@ -187,6 +263,11 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 			return trigger;
 		},
 		
+		/**
+		 * Checks if the action succeeds
+		 * 
+		 * @returns {boolean} True if active, otherwise false
+		 */
 		check: function check()
 		{
 			this.isTriggered = false;
@@ -216,8 +297,6 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 			if(this.isTriggered)
 				this.runCallbacks();
 		},
-		
-		
 		
 	};
 	
