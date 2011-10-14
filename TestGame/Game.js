@@ -10,6 +10,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 	function Game()
 	{
 		BaseGame.call(this);
+		this.deathReason = "";
 	}
 	
 	Game.functions = {

@@ -1,7 +1,15 @@
+body
+{
+	background-color: #000;
+}
+
 #game-container
 {
+	width: 640px;
+	margin-top: 2em;
 	position: relative;
-	/*margin-left: 10em;*/
+	left: 50%;
+	margin-left: -320px;
 }
 
 #viewport_helper
@@ -16,7 +24,8 @@
 {
 	/*width: 1800px;*/
 	/*height: 800px;*/
-	border: 1px solid #000;
+	border: 1px solid #fff;
+	background-color: #000;
 	/*cursor: url("cursor.png") crosshair;*/
 }
 

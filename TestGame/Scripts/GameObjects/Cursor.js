@@ -95,26 +95,29 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/Cursor", function(requ
 		update: function update(dt)
 		{
 			this.alpha += dt * this.alphaDir;
-			if(this.alpha > 1)
+			if(this.alpha > 0.7)
 			{
-				this.alpha = 1;
+				this.alpha = 0.7;
 				this.alphaDir = -this.alphaDir;
 			}
-			else if(this.alpha < 0.5)
+			else if(this.alpha < 0)
 			{
-				this.alpha = 0.5;
+				this.alpha = 0;
 				this.alphaDir = -this.alphaDir;
 			}
+			this.postAddColor.set(0, 0, 0, this.alpha);
 			
 			this.gameObj.rot.z += dt * 0.5;
 			// coloring
 			var range = Plugin_LogicDarkSoul.maxDistToCursor - Plugin_LogicDarkSoul.prototype.deathRange + 2;
 			if(range < 0)
-				this.multColor.set(1, 1, 1, this.alpha);
+			{
+				this.multColor.set(1, 1, 1, 1);
+			}
 			else if(range > 2)
-				this.multColor.set(1, 0, 0, this.alpha);
+				this.multColor.set(1, 0, 0, 1);
 			else
-				this.multColor.set(1, 1 - (range / 2.0), 1 - (range / 2.0), this.alpha);
+				this.multColor.set(1, 1 - (range / 2.0), 1 - (range / 2.0), 1);
 			
 			Plugin_LogicDarkSoul.maxDistToCursor = 0;
 			

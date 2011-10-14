@@ -11,6 +11,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DeathZone", function(r
 	function newPostInit()
 	{
 		this.pluginPhysics.fixture.deathZoneActive = true;
+		this.pluginPhysics.fixture.deathReason = "fall";
 		this._postInit();
 	}
 	

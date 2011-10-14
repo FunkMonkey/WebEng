@@ -121,7 +121,10 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		{
 			// kill darksoul, if in deathzone
 			if(other.deathZoneActive && !me.gameObj.pluginLogicDarkSoul.dead)
+			{
+				Game.deathReason = other.deathReason;
 				me.gameObj.pluginLogicDarkSoul.dead = true;
+			}
 		},
 		
 		/**

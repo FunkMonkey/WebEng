@@ -51,6 +51,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 			this.deathSensorFixture = this.deathSensorBody.CreateFixture(this.fixDef);
 			this.deathSensorFixture.gameObj = this.gameObj;
 			this.deathSensorFixture.deathZoneActive = true;
+			this.deathSensorFixture.deathReason = "smashed_moving";
 			
 			this.bigBody = this.gameObj.pluginPhysics.body;
 			this.bigBody.SetLinearVelocity(this._tmpVel);

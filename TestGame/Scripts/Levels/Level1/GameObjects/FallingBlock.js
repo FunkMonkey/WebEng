@@ -53,6 +53,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.deathSensorFixture = this.deathSensorBody.CreateFixture(this.fixDef);
 			this.deathSensorFixture.gameObj = this.gameObj;
 			this.deathSensorFixture.deathZoneActive = true;
+			this.deathSensorFixture.deathReason = "smashed_sign";
 			
 			this.gameObj.pluginPhysics.fixture.onPreSolve = function(me, other, contact)
 			{
