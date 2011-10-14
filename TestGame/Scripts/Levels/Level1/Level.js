@@ -315,8 +315,8 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this._createFrontItems();
 			this._createFrontLife();
 			
-			GraphicsCore.camera.pos.x = -3.8;
-			GraphicsCore.camera.pos.y = -3.1;
+			GraphicsCore.camera.pos.x = -2.6;
+			GraphicsCore.camera.pos.y = -2.82;
 
 		},
 		

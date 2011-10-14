@@ -32,8 +32,10 @@ Aktuell gibt es noch zwei größere Grafik-Bugs. Der ''Alpha-Bug'' soll im folge
 
 \subsection{''Alpha-Bug''}
 
-Aus mir immer noch nicht verständlichen Gründen, gibt es Probleme mit Texturen, die alpha-Werte größer 0 und kleiner 1 besitzen. Je näher sich der alpha-Wert dem Wert 0.5 nähert, umso stärker wird die resultierende Farbe des Pixels zu einem Weißton, anstatt zu einer Mischfarbe der Textur und der darunterliegenden Layer. Selbst wenn der Hintergrund eine andere Farbe als weiß besitzt und wir lediglich eine Textur zeichnen, entsteht dieser Effekt.
+Während der Implementierungs-Phase gab es Probleme mit Texturen, die alpha-Werte größer 0 und kleiner 1 besitzen. Je näher sich der alpha-Wert dem Wert 0.5 nähert, umso stärker wurde die resultierende Farbe des Pixels zu einem Weißton, anstatt zu einer Mischfarbe der Textur und der darunterliegenden Layer. Selbst wenn der durch WebGL geclearte Hintergrund eine andere Farbe als weiß besitzt und wir lediglich eine Textur zeichnen, entstand dieser Effekt.
 
 \todo{Screenshot}
 
-Dieser Bug drückt sich häufig durch weiße Ränder rund um den nicht-transparenten Teil von Texturen aus.
+Dieser Bug drückte sich häufig durch weiße Ränder rund um den nicht-transparenten Teil von Texturen aus.
+
+Grund dafür war, dass die Website selbst (bzw. das \textprog{canvas}-Element eine weiße Hintergrundfarbe hatte. Ob dieses Verhalten von den Browser-Herstellern so vorgesehen ist, ist fragwürdig.

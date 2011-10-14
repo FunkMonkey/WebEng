@@ -1,0 +1,32 @@
+\chapter{Spielidee}
+
+Basierend auf der vorgestellten Engine wurde im Verlauf des Projekts ein eigenes kleines Spiel mit dem Namen ''Troubled Souls'' entwickelt. Dabei handelt es sich um eine abgewandelte Variante einer von Christoph Kapffer's im Rahmen des Master-Projekts ''Quantum Quest'' entwickelten Spielidee namens ''Cursor Fans''. \todo{Link}
+
+Ziel in ''Troubled Souls'' ist es eine Schar von \textit{verirrten Seelen} an Hindernissen und Gefahren vorbei sicher an das Ende des Levels zu führen. Diese Seelen folgen vehement der \textit{Quelle des Lebens} - einem mysteriösem Licht, welches an den Mouse-Cursor des Spielers gebunden ist. Sie werden von diesem Licht magisch angezogen und bewegen sich ununterbrochen in dessen Richtung, selbst wenn es ihren eigenen Tod, beispielsweise durch den Sturz in den Abgrund, bedeutet. Sie können nicht anders, denn sollte sich die Quelle des Lebens zu weit von ihnen entfernen, sterben sie ebenfalls.
+
+Aufgabe des Spielers ist es also die Seelen durch die Bewegung der Mouse in die richtige Richtung zu führen. Dabei kann er eine einzelne Seele auch für einige Sekunden hochheben und über Abgründe hiefen. Dabei muss er jedoch darauf achten, dass die anderen dabei nicht in ihr Verderben laufen. Und auch die eine Seele, die er trägt, wird sich nach kurzer Zeit losreißen. 
+
+Um sein Ziel zu erreichen, muss der Spieler die Seelen also geschickt von einander separieren und gleichzeitig darauf achten, sie nicht zu weit voneinander (und somit auch von der Quelle) zu entfernen. Dafür steht ihm aktuell auch ein weiter Gegenstand, der sogenannte Blocker, zur Verfügung. Dabei handelt es sich um ein physikalisches Hindernis, welches der Spieler selbst bewegen und clever positionieren muss.
+
+\todo{Screenshot}
+
+\chapter{Aufbau}
+
+Das Spiel selbst ist eine erweiterte Instanz von \textprog{BaseGame}. Innerhalb dieser Instanz werden die \textprog{InputActions} festgelegt, welche für die Steuerung des Spiels sorgen. Zusätzlich implementiert es eine \textprog{update}-Methode, welche die unterschiedlichen Manager sowie das Level aktualisiert und sich um die Bewegung der Kamera kümmert.
+
+\section{Spielobjekte}
+
+Die Hauptspielobjekte sind einfache Boxen, die Troubled Souls, die Quelle des Lebens, Todes-Zonen sowie Blocker. Daneben gibt es noch individuelle Spielobjekte, die zum Gameplay des Levels gehören.
+
+Die Spielobjekte existieren alle in einem eigenen Modul, welches für gewöhnlich eine \textprog{create}-Funktion bereitstellt. Innerhalb dieser Funktion wird eine Instanz von \textprog{BaseGameObject} erstellt und die notwendigen Plugins (und teils Konfigurationen) hinzugefügt.
+
+\subsection{Boxen}
+
+Um die Erstellung des Levels zu vereinfachen gibt es das Modul \textprog{BoxWithPhysics}, mit welcher man einfach über die Angabe von Position und Größe ein Box-Spielobjekt erstellen kann. Wenn gewünscht kann man bei der Erstellung auch Farbe, Textur oder spezielle physikalische Eigenschaften übergeben.
+
+\subsection{Troubled Souls}
+
+Troubled Souls sind im Modul \textprog{DarkSoul} implementiert. In dessen \textprog{create}-Funktion wird eine einfaches Spielobjekt mit textureller Grafik und Physik erstellt und als dynamisches Physikobjekt deklariert. Die Spiellogik wird diesem Object durch das in derselben Datei vorzufindende \textprog{Plugin\_LogicDarkSoul} hinzugefügt. Alle Spielobjekte mit eigenem Gameplay verfügen über ein eigenes Logik-Plugin. Die Möglichkeit eine verirrte Seele aufzunehmen wird dem Spielobjekt durch das \textprog{Plugin\_Pickable} hinzugefügt.
+
+Innerhalb der Logik der Seele wird die Entfernung zum Licht überprüft und sofern diese zu groß ist, die Seele als tot markiert und das Spiel beendet.
+
