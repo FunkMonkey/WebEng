@@ -269,39 +269,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 		{
 			this.addGameObject(GO_Cursor.createCursor("Cursor"));
 		},
-		
-		/**
-		 * Called when a resource has been loaded
-		 *   - will call the given callback, when all resources loaded
-		 * 
-		 * @param   {function} callback   Callback to call, when done
-		 */
-		onResourceLoaded: function onResourceLoaded(callback)
-		{
-			log("called");
-			if(this.music && this.baseResourcesLoaded)
-				callback();
-		},
-		
-		/**
-		 * Loads the gameobjects resources (asynchron)
-		 * 
-		 * @param   {function} callback Function to call when resources have been loaded
-		 */
-		//loadResources: function loadResources(callback)
-		//{
-		//	log("load resources");
-		//	BaseLevel.prototype.loadResources.call(this, (function(){this.baseResourcesLoaded = true; this.onResourceLoaded(callback)}).bind(this))
-		//	log("try loading audio")
-		//	AudioCore.createAudio("TestGame/Content/Sounds/music.ogg", (function(audio){
-		//		log("audio loaded")
-		//		this.music = audio;
-		//		//this.music.play();
-		//		
-		//		this.onResourceLoaded(callback);
-		//	}).bind(this));
-		//},
-		
+				
 		/**
 		 * Creates all gameobjects
 		 */

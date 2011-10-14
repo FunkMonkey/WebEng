@@ -42,10 +42,13 @@ ModuleSystem.registerModule("Engine/Audio/AudioCore", function(require, exports)
 			// TODO: error handling
 			
 			var audio = new Audio();
-			log("creating audio")
-			audio.addEventListener("canplaythrough", function () {
-				//callback(audio);
-				log("canplay")
+			audio.addEventListener("canplaythrough", function (event) {
+				
+				if(!audio.canPlayThroughFired)
+				{
+					audio.canPlayThroughFired = true;
+					callback(audio);
+				}
 			}, true);
 			
 			audio.addEventListener("error", function(){

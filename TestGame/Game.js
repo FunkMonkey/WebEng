@@ -16,6 +16,22 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 	Game.functions = {
 		
 		/**
+		 * Loads the games resources (asynchron)
+		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
+		 */
+		loadResources: function loadResources(callback)
+		{
+			AudioCore.createAudio("TestGame/Content/Sounds/music.ogg", (function(audio){
+				this.music = audio;
+				this.music.loop = true;
+				this.music.volume = 0.5;
+				
+				callback();
+			}).bind(this));
+		},
+		
+		/**
 		 * Initializes the controls
 		 */
 		initControls: function initControls()
@@ -75,6 +91,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			if(onPauseGame.isTriggered)
 			{
 				this.stopGameLoop();
+				this.music.pause();
 				this.jdomMenu.show();
 				return;
 			}
@@ -170,6 +187,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				this.jdomMenuContinue.show();
 				this.jdomMenuRestart.show();
 				this.jdomMenu.hide();
+				this.music.play();
 				this.startGameLoop();
 			}).bind(this));
 		},
@@ -182,6 +200,8 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			this.loadLevel("/TestGame/Scripts/Levels/Level1/Level", (function cb(){
 				this.jdomMenuContinue.show();
 				this.jdomMenu.hide();
+				this.music.currentTime = 0;
+				this.music.play();
 				this.startGameLoop();
 			}).bind(this));
 		},
@@ -191,6 +211,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		 */
 		_continue: function _continue()
 		{
+			this.music.play();
 			this.jdomMenu.hide();
 			this.startGameLoop();
 		},

@@ -6,7 +6,7 @@ body
 #game-container
 {
 	width: 640px;
-	margin-top: 2em;
+	margin-top: 5em;
 	position: relative;
 	left: 50%;
 	margin-left: -320px;
