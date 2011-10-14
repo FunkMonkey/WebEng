@@ -17,8 +17,8 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		this.updateInterval = 1/60;
 		this.updateTimer = null;
 		this.level = null;
-		//this.lastUpdate = Date.now();
-		this.lastUpdate = window.mozAnimationStartTime;
+		this.lastUpdate = Date.now();
+		//this.lastUpdate = -1;
 		this.updateCount = 0;
 		
 		this.isInGameLoop = false;
@@ -169,7 +169,7 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			
 			this._boundUpdateCall = this._updateCall.bind(this);
 			
-			this.lastUpdate = window.mozAnimationStartTime;
+			this.lastUpdate = Date.now();
 			window.requestAnimationFrame(this._boundUpdateCall);
 			
 			//this.updateTimer = window.setInterval(this._updateCall.bind(this), this.updateInterval);
