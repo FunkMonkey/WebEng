@@ -32,7 +32,11 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 	
 	var PhysicsCore = {
 		
-		
+		/**
+		 * Initializes the PhysicsCore
+		 * 
+		 * @param   {b2Vec2} gravity  Gravity
+		 */
 		init: function init(gravity)
 		{
 			if(!gravity)
@@ -57,8 +61,16 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			this.world.SetContactListener(this.contactListener);
 		},
 		
+		/**
+		 * ContactListener for handling box2d contacts
+		 */
 		contactListener:
 		{
+			/**
+			 * Called when a contact between two fixtures begins
+			 * 
+			 * @param   {b2Contact} contact  Contact
+			 */
 			BeginContact: function BeginContact(contact)
 			{
 				var fixA = contact.GetFixtureA();
@@ -71,6 +83,11 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 					fixB.onBeginContact(fixB, fixA, contact);
 			},
 			
+			/**
+			 * Called when a contact between two fixtures ends
+			 * 
+			 * @param   {b2Contact} contact  Contact
+			 */
 			EndContact: function EndContact(contact)
 			{
 				var fixA = contact.GetFixtureA();
@@ -83,6 +100,12 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 					fixB.onEndContact(fixB, fixA, contact);
 			},
 			
+			/**
+			 * Called before contact-resolution happens
+			 * 
+			 * @param   {b2Contact}  contact      The Contact
+			 * @param   {b2Manifold} oldManifold
+			 */
 			PreSolve: function PreSolve(contact, oldManifold)
 			{
 				var fixA = contact.GetFixtureA();
@@ -95,6 +118,12 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 					fixB.onPreSolve(fixB, fixA, contact, oldManifold);
 			},
 			
+			/**
+			 * Called after contact-resolution happened
+			 * 
+			 * @param   {b2Contact}  contact   The Contact
+			 * @param   {b2Vec2}     impulse   The resulting impulse
+			 */
 			PostSolve: function PostSolve(contact, impulse)
 			{
 				var fixA = contact.GetFixtureA();
@@ -108,6 +137,13 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			}
 		},
 		
+		/**
+		 * Creates a physical body
+		 * 
+		 * @param   {b2BodyDef} bodyDef  body definition
+		 * 
+		 * @returns {b2Body} The created body
+		 */
 		createBody: function createBody(bodyDef)
 		{
 			var body = this.world.CreateBody(bodyDef);
@@ -116,7 +152,11 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			return body;
 		},
 		
-
+		/**
+		 * Destroys a physical body
+		 * 
+		 * @param   {b2Body} body  Body to destroy
+		 */
 		destroyBody: function destroyBody(body)
 		{
 			this.world.DestroyBody(body);
@@ -131,6 +171,13 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			}
 		},
 		
+		/**
+		 * Creates a physical joint
+		 * 
+		 * @param   {b2JointDef} jointDef  joint definition
+		 * 
+		 * @returns {b2Joint} The created joint
+		 */
 		createJoint: function createJoint(jointDef)
 		{
 			var joint = this.world.CreateJoint(jointDef);
@@ -139,6 +186,11 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			return joint;
 		},
 
+		/**
+		 * Destroys a physical joint
+		 * 
+		 * @param   {b2Joint} joint  Joint to destroy
+		 */
 		destroyJoint: function destroyJoint(joint)
 		{
 			this.world.DestroyJoint(joint);
@@ -153,8 +205,8 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			}
 		},
 		
-		/* 
-		 * 
+		/**
+		 * Destroys all bodies and joints
 		 */
 		destroyAllBodiesAndJoints: function destroyAllBodiesAndJoints()
 		{
@@ -169,8 +221,8 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			this.joints = [];
 		},
 		
-		/* 
-		 * 
+		/**
+		 * Destroys the PhysicsCore
 		 */
 		destroy: function destroy()
 		{
@@ -183,7 +235,7 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 		POST_SOLVE: 3,
 		
 		/* 
-		 * 
+		 * TODO: remove
 		 */
 		registerContactCallback: function registerContactCallback(fixture1, fixture2, type, callback)
 		{
@@ -218,6 +270,11 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			//}
 		},
 		
+		/**
+		 * Updates the PhysicsCore
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
+		 */
 		update: function update(dt)
 		{
 			this.world.Step(
@@ -229,8 +286,11 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			this.world.ClearForces();
 		},
 		
-		/* 
+		/**
+		 * Initializes debug-drawing
 		 * 
+		 * @param   {element} canvas  Canvas to draw in
+		 * @param   {b2Vec2}  scale   Scale to draw
 		 */
 		initDebugDraw: function initDebugDraw(canvas, scale)
 		{
@@ -250,8 +310,11 @@ ModuleSystem.registerModule("Engine/Physics/PhysicsCore", function(require, expo
 			this.world.SetDebugDraw(this.debugDraw);
 		},
 		
-		/* 
+		/**
+		 * Draws the debug view
 		 * 
+		 * @param   {number} dt 		Time since last frame (in s)
+		 * @param   {b2Vec2} translate  Decides how much to translate
 		 */
 		drawDebug: function drawDebug(dt, translate)
 		{
