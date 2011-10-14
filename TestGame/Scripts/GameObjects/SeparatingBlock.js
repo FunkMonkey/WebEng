@@ -7,7 +7,9 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/SeparatingBlock", func
 	var Plugin_Pickable = require("/TestGame/Scripts/Plugins/Plugin_Pickable").Plugin_Pickable;
 	var Plugin_LogicDarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul").Plugin_LogicDarkSoul;
 	
-	
+	/**
+	 * Plugin_LogicSeparatingBlock: Plugin for adding gamelogic of a blocker to a gameobject
+	 */
 	function Plugin_LogicSeparatingBlock()
 	{
 		this._tmpPos = new (PhysicsCore.b2Vec2)();
@@ -70,7 +72,14 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/SeparatingBlock", func
 		
 	};
 	
-	
+	/**
+	 * Creates a blocker (separating block) with the given id
+	 * 
+	 * @param   {string} id    ID of the gameobject
+	 * @param   {Object} data  Additional creation-data
+	 * 
+	 * @returns {BaseGameObject} A new blocker
+	 */
 	function create(id, data)
 	{
 		if(!data)

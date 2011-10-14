@@ -18,6 +18,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 	var GO_FallingBlock = require("GameObjects/FallingBlock");
 	var GO_MovingBlock = require("GameObjects/MovingBlock");
 	
+	/**
+	 * Level: Constructor function for creating this level
+	 */
 	function Level()
 	{
 		BaseLevel.call(this);
@@ -25,6 +28,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 	
 	Level.functions = {
 		
+		/**
+		 * Creates the ground (static objects)
+		 */
 		_createGround: function _createGround()
 		{
 			var groundColor = GraphicsCore.Color.fromPool(0, 0, 0, 1);
@@ -184,6 +190,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			
 		},
 		
+		/**
+		 * Creates some items
+		 */
 		_createItems: function _createItems()
 		{
 			var newPos = null;
@@ -206,11 +215,11 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			newPos.y += 1;
 			Goal.pos = newPos;
 			this.addGameObject(Goal);
-			
-			
 		},
 		
-		
+		/**
+		 * Creates the deathzones
+		 */
 		_createDeathZones: function _createDeathZones()
 		{
 			//this.addGameObject(GO_DeathZone.create("DeathZone1", {	pos: Vector3.fromPool(-3, 1, 0),
@@ -218,7 +227,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			//
 		},
 		
-		
+		/**
+		 * Creates the darksouls
+		 */
 		_createLife: function _createLife()
 		{
 			this.addGameObject(GO_DarkSoul.createDarkSoul("DarkSoul1", {	pos: Vector3.fromPool(2, 2, 0),
@@ -230,6 +241,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 																			color: GraphicsCore.Color.fromPool(0, 0, 1, 1)}));
 		},
 		
+		/**
+		 * Creates some other items
+		 */
 		_createFrontItems: function _createFrontItems()
 		{
 			var newPos = null;
@@ -247,13 +261,19 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this.addGameObject(MovingBlock);
 		},
 		
+		/**
+		 * Creates the cursor
+		 */
 		_createFrontLife: function _createFrontLife()
 		{
 			this.addGameObject(GO_Cursor.createCursor("Cursor"));
 		},
 		
-		/* 
+		/**
+		 * Called when a resource has been loaded
+		 *   - will call the given callback, when all resources loaded
 		 * 
+		 * @param   {function} callback   Callback to call, when done
 		 */
 		onResourceLoaded: function onResourceLoaded(callback)
 		{
@@ -262,8 +282,10 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 				callback();
 		},
 		
-		/* 
+		/**
+		 * Loads the gameobjects resources (asynchron)
 		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
 		 */
 		//loadResources: function loadResources(callback)
 		//{
@@ -279,7 +301,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 		//	}).bind(this));
 		//},
 		
-		
+		/**
+		 * Creates all gameobjects
+		 */
 		create: function create()
 		{	
 			// creating objects

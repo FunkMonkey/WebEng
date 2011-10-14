@@ -89,7 +89,6 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 			 * 
 			 * @returns {Vector3} Rotation of the object
 			 */
-
 			getRot: function getRot(){ return this._rot;},
 			
 			/**
@@ -109,7 +108,6 @@ ModuleSystem.registerModule("GameCore/Plugin_WorldObject3D", function(require, e
 			 * 
 			 * @returns {Vector3} Scale of the object
 			 */
-
 			getScale: function getScale(){ return this._scale;},
 			
 			/**

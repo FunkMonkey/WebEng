@@ -6,6 +6,14 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/BoxWithPhysics", funct
 	var BaseGameObject = require("/GameCore/BaseGameObject").BaseGameObject;
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	
+	/**
+	 * Creates a box with physics (and / or graphics) with the given id
+	 * 
+	 * @param   {string} id    ID of the gameobject
+	 * @param   {Object} data  Additional creation-data
+	 * 
+	 * @returns {BaseGameObject} A new box
+	 */
 	function createBoxWithPhysics(id, data)
 	{
 		if(!data)

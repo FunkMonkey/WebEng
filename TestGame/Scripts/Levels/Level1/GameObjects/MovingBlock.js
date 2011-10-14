@@ -6,6 +6,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 	var BoxWithPhysics = require("/TestGame/Scripts/GameObjects/BoxWithPhysics");
 	var Plugin_LogicDarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul").Plugin_LogicDarkSoul;
 	
+	/**
+	 * Plugin_LogicMovingBlock: Plugin for adding gamelogic of the moving block to a gameobject
+	 */
 	function Plugin_LogicMovingBlock()
 	{
 		this._tmpPos = new PhysicsCore.b2Vec2;
@@ -100,7 +103,14 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 		
 	};
 	
-	
+	/**
+	 * Creates a moving block with the given id
+	 * 
+	 * @param   {string} id    ID of the gameobject
+	 * @param   {Object} data  Additional creation-data
+	 * 
+	 * @returns {BaseGameObject} A new moving block
+	 */
 	function create(id, data)
 	{
 		if(!data)

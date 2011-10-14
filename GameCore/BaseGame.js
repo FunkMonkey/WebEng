@@ -9,6 +9,9 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			window.requestAnimationFrame = window.webkitRequestAnimationFrame
 	}
 	
+	/**
+	 * BaseGame: Constructor function for a basic game
+	 */
 	function BaseGame()
 	{
 		this.updateInterval = 1/60;
@@ -23,18 +26,22 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 	
 	BaseGame.functions = {
 		
+		/**
+		 * Creates the game
+		 */
 		create: function create()
 		{
 			
 		},
 		
+		// todo: remove
 		loadConfig: function loadConfig()
 		{
 			
 		},
 		
 		/**
-		 * Loads the games resources
+		 * Loads the games resources (asynchron)
 		 * 
 		 * @param   {function} callback Function to call when resources have been loaded
 		 */
@@ -44,8 +51,8 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		},
 		
 		
-		/* Initializes the game
-		 *
+		/**
+		 * Initializes the game
 		 */
 		init: function init()
 		{
@@ -61,25 +68,36 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			this.level.update(dt);
 		},
 		
+		/**
+		 * Called before the update-Function to determine dt and stuff
+		 * 
+		 * @param   {number} timestamp Timestamp of the current time
+		 */
 		_updateCall: function _updateCall(timestamp)
 		{
 			if(!this.isInGameLoop)
 				return;
 			
+			// calc dt
 			var timer = new Engine.Timers.PhaseTimer();
 			++this.updateCount;
 			var dt = (timestamp - this.lastUpdate) / 1000;
 			this.lastUpdate = timestamp;
 			this.lastUpdateInS = timestamp / 1000;
 			
+			// update the game
 			this.update(dt);
+			
+			// request the next frame
 			window.requestAnimationFrame(this._boundUpdateCall);
 			//timer.finishPhase("All");
 			//timer.print(log);
 			//log("frame: " + this.updateCount);
 		},
 		
-		
+		/**
+		 * Destroys the level
+		 */
 		destroy: function destroy()
 		{
 			if(this.isInGameLoop)
@@ -94,6 +112,12 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 
 		},*/
 		
+		/**
+		 * Loads the level with the given id
+		 * 
+		 * @param   {string}   moduleID  Level to load
+		 * @param   {function} callback  Function to call when level has been loaded
+		 */
 		loadLevel: function loadLevel(moduleID, callback)
 		{
 			if(this.isInGameLoop)
@@ -118,6 +142,9 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 				}.bind(this)));
 		},
 		
+		/**
+		 * Unloads the current level
+		 */
 		unloadCurrentLevel: function unloadCurrentLevel()
 		{
 			if(this.isInGameLoop)
@@ -130,6 +157,9 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 			this.level = null;
 		},
 		
+		/**
+		 * Starts the game-loop
+		 */
 		startGameLoop: function startGameLoop()
 		{
 			if(!this.update)
@@ -147,8 +177,10 @@ ModuleSystem.registerModule("GameCore/BaseGame", function(require, exports, modu
 		},
 				
 		
-		/* 
+		/**
+		 * Stops the gameloop
 		 * 
+		 * @returns {Type} Description
 		 */
 		stopGameLoop: function stopGameLoop()
 		{

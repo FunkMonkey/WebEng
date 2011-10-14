@@ -4,6 +4,9 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 	var PhaseTimer = require("/Engine/Timers").PhaseTimer;
 	var Plugin_Pickable = require("/TestGame/Scripts/Plugins/Plugin_Pickable").Plugin_Pickable;
 	
+	/**
+	 * Game: Constructor function for a "Troubled Souls" game-instance
+	 */
 	function Game()
 	{
 		BaseGame.call(this);
@@ -11,6 +14,9 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 	
 	Game.functions = {
 		
+		/**
+		 * Initializes the controls
+		 */
 		initControls: function initControls()
 		{
 			var action = null;
@@ -26,6 +32,9 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			action.addMouseMoveTrigger(true, [GraphicsCore.orthoPixelToMeterRatio, -GraphicsCore.orthoPixelToMeterRatio]);
 		},
 		
+		/**
+		 * Initializes the menu
+		 */
 		initMenu: function initMenu()
 		{
 			this.jdomMenu = $("#game-menu");
@@ -35,7 +44,9 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		},
 		
 		
-		
+		/**
+		 * Initializes the game
+		 */
 		init: function init()
 		{
 			BaseGame.prototype.init.call(this);
@@ -47,8 +58,10 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		},
 		
 		
-		/*
-		 *
+		/**
+		 * Updates the game
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
 		 */
 		update: function update(dt)
 		{
@@ -94,13 +107,14 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			//	timer.print(log);
 		},
 		
-		/* 
-		 * 
+		/**
+		 * Unloads the current level
 		 */
 		unloadCurrentLevel: function unloadCurrentLevel()
 		{
 			BaseGame.prototype.unloadCurrentLevel.call(this);
 			
+			// let's clean up
 			if(PhysicsCore.bodies.length > 0)
 				log("There are still bodies that have not been destroyed");
 				
@@ -115,8 +129,8 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			GraphicsCore.removeAllDrawableObjects();
 		},
 		
-		/* 
-		 * 
+		/**
+		 * Destroys the game
 		 */
 		destroy: function destroy()
 		{
@@ -124,11 +138,17 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			PhysicsCore.destroy();
 		},
 		
+		/**
+		 * Called when a darksoul dies - gamelogic
+		 */
 		onDarkSoulDead: function onDarkSoulDead()
 		{
 			log("Game Over");
 		},
 		
+		/**
+		 * Starts the game
+		 */
 		_start: function _start()
 		{
 			this.loadLevel("/TestGame/Scripts/Levels/Level1/Level", (function cb(){
@@ -140,6 +160,9 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			}).bind(this));
 		},
 		
+		/**
+		 * Restarts a new round of the game
+		 */
 		_restart: function _restart()
 		{
 			this.loadLevel("/TestGame/Scripts/Levels/Level1/Level", (function cb(){
@@ -148,14 +171,14 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			}).bind(this));
 		},
 		
+		/**
+		 * Continues the game
+		 */
 		_continue: function _continue()
 		{
 			this.jdomMenu.hide();
 			this.startGameLoop();
 		},
-		
-		
-		
 		
 	};
 	

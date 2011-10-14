@@ -6,6 +6,9 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 	var BoxWithPhysics = require("/TestGame/Scripts/GameObjects/BoxWithPhysics");
 	var Plugin_LogicDarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul").Plugin_LogicDarkSoul;
 	
+	/**
+	 * Plugin_LogicFallingBlock: Plugin for adding gamelogic of the falling block to a gameobject
+	 */
 	function Plugin_LogicFallingBlock()
 	{
 		this.state = "start";
@@ -123,7 +126,14 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 		
 	};
 	
-	
+	/**
+	 * Creates a falling block with the given id
+	 * 
+	 * @param   {string} id    ID of the gameobject
+	 * @param   {Object} data  Additional creation-data
+	 * 
+	 * @returns {BaseGameObject} A new falling block
+	 */
 	function create(id, data)
 	{
 		if(!data)

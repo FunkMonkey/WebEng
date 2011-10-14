@@ -5,12 +5,23 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DeathZone", function(r
 	
 	var BoxWithPhysics = require("BoxWithPhysics");
 	
+	/**
+	 * Post-Initalizes the death-zone
+	 */
 	function newPostInit()
 	{
 		this.pluginPhysics.fixture.deathZoneActive = true;
 		this._postInit();
 	}
 	
+	/**
+	 * Creates a deathzone with the given id
+	 * 
+	 * @param   {string} id    ID of the gameobject
+	 * @param   {Object} data  Additional creation-data
+	 * 
+	 * @returns {BaseGameObject} A new deathzone
+	 */
 	function create(id, data)
 	{
 		if(!data)

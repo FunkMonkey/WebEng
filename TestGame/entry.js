@@ -10,7 +10,10 @@ var AudioCore = null;
 var Game = null;
 
 
-
+/**
+ * Called when the DOM has finished loading
+ *   - initializes the game
+ */
 function onLoad()
 {
 	GraphicsCore = ModuleSystem.require("/Engine/Graphics/GraphicsCore").GraphicsCore;
@@ -40,41 +43,4 @@ function onLoad()
 	
 }
 
-
-
 window.addEventListener("load", onLoad, false);
-
-
-
-
-//Game.startGameLoop();
-
-
-
-
-//======================================================================================//
-// BaseClass
-//======================================================================================//
-/*function BaseClass()
-{
-	
-};
-
-Extension.inherit(BaseClass, Object);
-
-BaseClass.prototype.foo = "suffshit";
-
-function ChildClass()
-{
-	this.instancefoo = "sdlksdjf";
-};
-
-ChildClass.functions = {
-	aFunction: function(test){}
-};
-
-Extension.inherit_auto(ChildClass, BaseClass);
-
-ChildClass.prototype.fooChild = "upser";
-
-var test = new ChildClass();*/
