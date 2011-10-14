@@ -2,6 +2,15 @@
 
 ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, module){
 	
+	/**
+	 * Color
+	 *   - Constructor function for a color
+	 * 
+	 * @param   {number|Color}  rOrColor  A number specifying the red-component or a color
+	 * @param   {number}        g         green-component
+	 * @param   {number}        b         blue-component
+	 * @param   {number}        a         alpha-component
+	 */
 	function Color(rOrColor, g, b, a)
 	{
 		this._color = new Float32Array(4);
@@ -10,6 +19,14 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 	
 	Color.functions = {
 		
+		/**
+		* Sets the components of a color
+		* 
+		* @param   {number|Color}  rOrColor  A number specifying the red-component or a color
+		* @param   {number}        g         green-component
+		* @param   {number}        b         blue-component
+		* @param   {number}        a         alpha-component
+		*/	
 		set: function set(rOrColor, g, b, a)
 		{
 			if(rOrColor === undefined)
@@ -35,6 +52,11 @@ ModuleSystem.registerModule("Engine/Graphics/Color", function(require, exports, 
 			}
 		},
 		
+		/**
+		 * Clones the color
+		 * 
+		 * @returns {Color} Cloned color
+		 */
 		clone: function clone()
 		{
 			return Color.fromPool(this.r, this.g, this.b, this.a);

@@ -303,8 +303,6 @@ ModuleSystem.registerModule("Engine/Input/InputAction", function(require, export
 	InputAction.KeyboardTrigger = KeyboardTrigger;
 	InputAction.MouseButtonTrigger = MouseButtonTrigger;
 	InputAction.MouseMoveTrigger = MouseMoveTrigger;
-	InputAction.TriggerGroup = TriggerGroup;
-	
 	
 	InputAction.initModule = function initModule(inputCore)
 	{

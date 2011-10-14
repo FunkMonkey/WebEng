@@ -2,6 +2,14 @@
 
 ModuleSystem.registerModule("Engine/Vector3", function(require, exports, module){
 	
+	/**
+	 * Vector3
+	 *    - Constructor function for a 3-dimensional vector
+	 * 
+	 * @param   {number|Vector3}  xOrVec Value for x-component or a vector
+	 * @param   {number} y        y-component
+	 * @param   {number} z        z-component
+	 */
 	function Vector3(xOrVec, y, z)
 	{
 		this.set(xOrVec, y, z);
@@ -9,6 +17,13 @@ ModuleSystem.registerModule("Engine/Vector3", function(require, exports, module)
 	
 	Vector3.functions = {
 		
+		/**
+		* Sets the components of the vector
+		* 
+		* @param   {number|Vector3}  xOrVec Value for x-component or a vector
+		* @param   {number} y        y-component
+		* @param   {number} z        z-component
+		*/
 		set: function set(xOrVec, y, z)
 		{
 			if(xOrVec === undefined)
@@ -31,11 +46,23 @@ ModuleSystem.registerModule("Engine/Vector3", function(require, exports, module)
 			}
 		},
 		
+		/**
+		 * Returns a string-representation
+		 * 
+		 * @returns {string} String-representation
+		 */
 		toString: function toString()
 		{
 			return "(" + this[0] + ", " + this[1] + ", " + this[2] + ")";
 		},
 		
+		/**
+		 * Calculates the distence to another vector
+		 * 
+		 * @param   {Vector3} other  Other vector
+		 * 
+		 * @returns {number} Distance between both vectors
+		 */
 		distanceTo: function distanceTo(other)
 		{
 			var diff0 = this[0] - other[0];

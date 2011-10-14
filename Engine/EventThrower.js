@@ -12,6 +12,12 @@ ModuleSystem.registerModule("Engine/EventThrower", function(require, exports, mo
 			obj.fireCancelableEvent = this.fireCancelableEvent;
 		},
 		
+		/**
+		 * Adds an EventListener for the given id
+		 * 
+		 * @param   {string}   eventID Id of event to listen to
+		 * @param   {function} func    Function to call when event occurs
+		 */
 		addEventListener: function addEventListener(eventID, func)
 		{
 			if(!this._eventListeners[eventID])
@@ -20,6 +26,12 @@ ModuleSystem.registerModule("Engine/EventThrower", function(require, exports, mo
 			this._eventListeners[eventID].push(func);
 		},
 		
+		/**
+		 * Fires the event with the given id
+		 * 
+		 * @param   {string} eventID Id of event to fire
+		 * @param   {Object} data    Additional data
+		 */
 		fireEvent: function fireEvent(eventID, data)
 		{
 			if(!this._eventListeners[eventID])
@@ -30,6 +42,13 @@ ModuleSystem.registerModule("Engine/EventThrower", function(require, exports, mo
 				arr[i](this, eventID, data);
 		},
 		
+		/**
+		 * Fires the event with the given id
+		 *     - can be canceled during execution
+		 * 
+		 * @param   {string} eventID Id of event to fire
+		 * @param   {Object} data    Additional data
+		 */
 		fireCancelableEvent: function fireCancelableEvent(eventID, data)
 		{
 			if(!this._eventListeners[eventID])

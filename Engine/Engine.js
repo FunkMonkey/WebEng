@@ -28,11 +28,22 @@ var Engine = {
 		
 	},
 	
+	/**
+	 * Returns the time in milliseconds
+	 * 
+	 * @returns {number} Time in milliseconds
+	 */
 	getTimeInMS: function getTimeInMS()
 	{
 		return Date.now();
 	},
 	
+	/**
+	 * Returns the high resolution-time in milliseconds
+	 *    - just for compatibility
+	 * 
+	 * @returns {number} Time in milliseconds
+	 */
 	getHRTimeInMS: function getHRTimeInMS()
 	{
 		return Date.now();

@@ -19,6 +19,11 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		orthoFactor: 100,
 		orthoPixelToMeterRatio: 0.01,
 		
+		/**
+		 * Initializes the GraphicsCore
+		 * 
+		 * @param   {element} canvas  Canvas to draw in
+		 */
 		init: function init(canvas)
 		{
 			this.drawableObjects = [];
@@ -68,8 +73,8 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			this.stdColorShaderProgram = this.createStdColorShaderProgram();
 		},
 		
-		/*
-		 *
+		/**
+		 * Initializes the WebGL
 		 */
 		initWebGL: function initWebGL()
 		{
@@ -91,8 +96,8 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			
 		},
 		
-		/* 
-		 * 
+		/**
+		 * Removes all drawable objedts
 		 */
 		removeAllDrawableObjects: function removeAllDrawableObjects()
 		{
@@ -100,8 +105,8 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 		},
 		
 		
-		/*
-		 *
+		/**
+		 * Destroys the GraphicsCore
 		 */
 		destroy: function destroy()
 		{
@@ -109,8 +114,10 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			
 		},
 		
-		/*
-		 *
+		/**
+		 * Updates the GraphicsCore
+		 * 
+		 * @param   {number} dt Time since last frame (in s)
 		 */
 		update: function update(dt)
 		{
@@ -128,13 +135,20 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			}
 		},
 		
+		/**
+		 * Adds a drawable object
+		 * 
+		 * @param   {DrawableObject} obj  Drawable Object to add
+		 */
 		addDrawableObject: function addDrawableObject(obj)
 		{
 			this.drawableObjects.push(obj);
 		},
 		
-		/* 
+		/**
+		 * Removes the given drawable object
 		 * 
+		 * @param   {DrawableObject} obj Object to remove
 		 */
 		removeDrawableObject: function removeDrawableObject(obj)
 		{
@@ -148,7 +162,9 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			}
 		},
 		
-		
+		/**
+		 * Creates the standard ShaderProgram for drawing textures
+		 */
 		createStdTextureShaderProgram: function createStdTextureShaderProgram()
 		{
 			this.ShaderManager.loadShaderCode("std_texture_fs", "Engine/Graphics/Std_Texture_fs.shader", "x-shader/x-fragment");
@@ -175,6 +191,9 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			return shaderProgram;
 		},
 		
+		/**
+		 * Creates the standard ShaderProgram for drawing colors
+		 */
 		createStdColorShaderProgram: function createStdColorShaderProgram()
 		{
 			this.ShaderManager.loadShaderCode("std_color_fs", "Engine/Graphics/Std_Color_fs.shader", "x-shader/x-fragment");
@@ -197,6 +216,15 @@ ModuleSystem.registerModule("Engine/Graphics/GraphicsCore", function(require, ex
 			return shaderProgram;
 		},
 		
+		/**
+		 * Converts the given screen-position to a world-position
+		 * 
+		 * @param   {Vector3} screenPos   Position to convert
+		 * @param   {number}  distance    Distance in the world (for perspective only)
+		 * @param   {Vector3} outWorldPos Result
+		 * 
+		 * @returns {Vector3} World-Position
+		 */
 		screenPosToWorldPos: function screenPosToWorldPos(screenPos, distance, outWorldPos)
 		{
 			if(!outWorldPos)

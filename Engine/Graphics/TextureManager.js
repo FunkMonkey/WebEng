@@ -8,6 +8,11 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 	var TextureManager = {
 		textures: {},
 		
+		/**
+		 * Initializes the TextureManager
+		 * 
+		 * @param   {GraphicsCore} graphicsCore GraphicsCore
+		 */
 		init: function init(graphicsCore)
 		{
 			gl = graphicsCore.gl;
@@ -18,6 +23,12 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 		
 		images: {},
 		
+		/**
+		 * Loads the image at the given path
+		 * 
+		 * @param   {string}   path     Path to image
+		 * @param   {function} callback Callback, when image has been loaded
+		 */
 		loadImage: function loadImage(path, callback)
 		{
 			
@@ -42,11 +53,24 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 			}
 		},
 		
+		/**
+		 * Returns the texture with the given path
+		 * 
+		 * @param   {string} path Path to texture
+		 * 
+		 * @returns {Texture} The texture at the given path
+		 */
 		getTexture: function getTexture(path)
 		{
 			return this.textures[path]; 
 		},
 		
+		/**
+		 * Handles the loading of images
+		 * 
+		 * @param   {Image}    image    Loaded image
+		 * @param   {function} callback Function to call when finished
+		 */
 		_handleLoadedImage: function _handleLoadedImage(image, callback)
 		{
 			var texture = gl.createTexture();
@@ -70,7 +94,12 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 			callback(texture);	
 		},
 		
-		
+		/**
+		 * Creates a texture with the image at the given path
+		 * 
+		 * @param   {string}   path     Path to image
+		 * @param   {function} callback Function to call when finished
+		 */
 		createTexture: function createTexture(path, callback)
 		{
 			// TODO: error handling
@@ -87,6 +116,11 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 			}
 		},
 		
+		/**
+		 * Handles a loaded texture
+		 * 
+		 * @param   {Texture} texture Texture to handle
+		 */
 		handleLoadedTexture: function handleLoadedTexture(texture)
 		{
 			gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -97,6 +131,9 @@ ModuleSystem.registerModule("Engine/Graphics/TextureManager", function(require, 
 			gl.bindTexture(gl.TEXTURE_2D, null);
 		},
 		
+		/**
+		 * Creates a standard texturebuffer
+		 */
 		_createStandardTexBuffer: function _createStandardTexBuffer()
 		{
 			this.standardTexBuffer = gl.createBuffer();

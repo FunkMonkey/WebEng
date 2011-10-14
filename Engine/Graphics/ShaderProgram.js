@@ -5,26 +5,14 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 	var gl = null;
 	var GraphicsCore = null;
 	
-	function VertexAttribute(program, name, enable)
-	{
-		this.program = program;
-		this.name = name;
-		this.location = gl.getAttribLocation(this.program.webglShaderProgram, name);
-		
-		if(enable)
-			this.enable();
-	}
-	
-	VertexAttribute.prototype = {
-		constructor: VertexAttribute,
-		
-		enable: function enable()
-		{
-			gl.enableVertexAttribArray(this.location);
-		},
-		
-	};
-	
+	/**
+	 * ShaderProgram
+	 *    - constructor function for a ShaderProgram (Wrapper around webgl-shaderprograms)
+	 * 
+	 * @param   {Shader|Array} shader_s  A single shader or an array of shaders
+	 * @param   {boolean}      link      True if start linking
+	 * @param   {boolean}      use       True if start using
+	 */
 	function ShaderProgram(shader_s, link, use)
 	{
 		this.webglShaderProgram = gl.createProgram();
@@ -45,6 +33,13 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 	ShaderProgram.prototype = {
 		constructor: ShaderProgram,
 		
+		/**
+		 * Attaches a shader
+		 * 
+		 * @param   {Shader} shader Shader to attach
+		 * @param   {boolean}      link      True if start linking
+		 * @param   {boolean}      use       True if start using
+		 */
 		attachShader: function attachShader(shader, link, use)
 		{
 			gl.attachShader(this.webglShaderProgram, shader);
@@ -58,6 +53,13 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 			}
 		},
 		
+		/**
+		 * Attaches multiple shaders
+		 * 
+		 * @param   {Array} shaders Shaders to attach
+		 * @param   {boolean}      link      True if start linking
+		 * @param   {boolean}      use       True if start using
+		 */
 		attachShaders: function attachShaders(shaders, link, use)
 		{
 			for(var i = 0; i < shaders.length; ++i)
@@ -72,7 +74,9 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 			}
 		},
 		
-		
+		/**
+		 * Links the shaderprogram
+		 */
 		link: function link()
 		{
 			gl.linkProgram(this.webglShaderProgram);
@@ -84,6 +88,9 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 			} 
 		},
 		
+		/**
+		 * Uses the shader-program
+		 */
 		use: function use()
 		{
 			if(ShaderProgram.usedProgram !== this)
@@ -93,7 +100,14 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 			}
 		},
 		
-		registerUniform: function registerUniform(callName, uniformName, type, readonly)
+		/**
+		 * Registers a uniform
+		 * 
+		 * @param   {string} callName    Name to access the uniform in JS
+		 * @param   {string} uniformName Name of uniform in shader
+		 * @param   {string} type        Type of the uniform
+		 */
+		registerUniform: function registerUniform(callName, uniformName, type)
 		{
 			var uniformValues = this.uniformValues;
 			
@@ -133,13 +147,6 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 			
 		},
 		
-		registerAttribute: function registerAttribute(callName, attribName, enable)
-		{
-			this[callName] = new VertexAttribute(this, attribName, enable); 
-		},
-		
-		
-		
 	};
 	
 	ShaderProgram.init = function init(graphicsCore)
@@ -150,6 +157,5 @@ ModuleSystem.registerModule("Engine/Graphics/ShaderProgram", function(require, e
 
 	
 	exports.ShaderProgram = ShaderProgram;
-	exports.VertexAttribute = VertexAttribute;
 	
 });

@@ -3,10 +3,23 @@
 
 ModuleSystem.registerModule("Engine/GCPool", function(require, exports, module){
 	
+	/**
+	 * Initializes a GC-Pool on a class
+	 * 
+	 * @param   {function} ConstFunc Constructor function of the class
+	 * @param   {function} initFunc  Function for initalizing
+	 * @param   {boolean}  initBoth  If true, the initFunc will also be called for
+	 *                               objects created with new
+	 */
 	function initPoolOn(ConstFunc, initFunc, initBoth)
 	{
 		ConstFunc.pool = [];
 		
+		/**
+		 * Constructor function for the wrapper-class
+		 * 
+		 * @param   {Array} args Arguments
+		 */
 		function Wrapper(args) {
 			return ConstFunc.apply(this, args);
 		}
@@ -46,7 +59,9 @@ ModuleSystem.registerModule("Engine/GCPool", function(require, exports, module){
 			};
 		}
 		
-		
+		/**
+		 * Adds the associated object to the pool
+		 */
 		ConstFunc.prototype.toPool = function toPool()
 		{
 			ConstFunc.pool.push(this); 
