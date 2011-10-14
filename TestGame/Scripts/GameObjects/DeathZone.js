@@ -27,7 +27,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DeathZone", function(r
 		if(!data)
 			data = {};
 			
-		//data.noGraphics = true;
+		data.noGraphics = true;
 		data.color = GraphicsCore.Color.fromPool(1, 0, 0, 1);
 		data.isSensor = true;
 		data.isStatic = true;

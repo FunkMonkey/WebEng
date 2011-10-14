@@ -105,6 +105,13 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			timer.finishPhase("Graphics");
 			//if(timer.time > 16)
 			//	timer.print(log);
+			
+			if(this.level.gameOver && this.lastUpdateInS - this.level.gameOverStart > 2)
+			{
+				this.stopGameLoop();
+				this.jdomMenuContinue.hide();
+				this.jdomMenu.show();
+			}
 		},
 		
 		/**
@@ -143,7 +150,13 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		 */
 		onDarkSoulDead: function onDarkSoulDead()
 		{
-			log("Game Over");
+			if(!this.level.gameOver)
+			{
+				this.level.gameOver = true;
+				this.level.gameOverStart = this.lastUpdateInS;
+				log("Game Over");
+			}
+			
 		},
 		
 		/**
@@ -166,6 +179,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		_restart: function _restart()
 		{
 			this.loadLevel("/TestGame/Scripts/Levels/Level1/Level", (function cb(){
+				this.jdomMenuContinue.show();
 				this.jdomMenu.hide();
 				this.startGameLoop();
 			}).bind(this));

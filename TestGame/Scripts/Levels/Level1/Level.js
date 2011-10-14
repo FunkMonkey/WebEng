@@ -24,6 +24,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 	function Level()
 	{
 		BaseLevel.call(this);
+		this.gameOver = false;
 	}
 	
 	Level.functions = {
