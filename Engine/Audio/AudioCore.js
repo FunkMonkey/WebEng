@@ -42,12 +42,17 @@ ModuleSystem.registerModule("Engine/Audio/AudioCore", function(require, exports)
 			// TODO: error handling
 			
 			var audio = new Audio();
-			audio.onload = function () {
-				callback(audio);
-			};
+			log("creating audio")
+			audio.addEventListener("canplaythrough", function () {
+				//callback(audio);
+				log("canplay")
+			}, true);
+			
+			audio.addEventListener("error", function(){
+				log("error");
+			}, true);
 			
 			audio.src = path;
-			//this.images[path] = image;
 		},
 
 		

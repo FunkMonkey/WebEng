@@ -252,6 +252,33 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			this.addGameObject(GO_Cursor.createCursor("Cursor"));
 		},
 		
+		/* 
+		 * 
+		 */
+		onResourceLoaded: function onResourceLoaded(callback)
+		{
+			log("called");
+			if(this.music && this.baseResourcesLoaded)
+				callback();
+		},
+		
+		/* 
+		 * 
+		 */
+		//loadResources: function loadResources(callback)
+		//{
+		//	log("load resources");
+		//	BaseLevel.prototype.loadResources.call(this, (function(){this.baseResourcesLoaded = true; this.onResourceLoaded(callback)}).bind(this))
+		//	log("try loading audio")
+		//	AudioCore.createAudio("TestGame/Content/Sounds/music.ogg", (function(audio){
+		//		log("audio loaded")
+		//		this.music = audio;
+		//		//this.music.play();
+		//		
+		//		this.onResourceLoaded(callback);
+		//	}).bind(this));
+		//},
+		
 		
 		create: function create()
 		{	
