@@ -14,6 +14,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 	var GO_DarkSoul = require("/TestGame/Scripts/GameObjects/DarkSoul");
 	var GO_SeparatingBlock = require("/TestGame/Scripts/GameObjects/SeparatingBlock");
 	var GO_DeathZone = require("/TestGame/Scripts/GameObjects/DeathZone");
+	var GO_WinZone = require("/TestGame/Scripts/GameObjects/WinZone");
 	
 	var GO_FallingBlock = require("GameObjects/FallingBlock");
 	var GO_MovingBlock = require("GameObjects/MovingBlock");
@@ -207,14 +208,10 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/Level", function(req
 			Blocker.setPosIn2D(newPos, "left-bottom");
 			this.addGameObject(Blocker);
 			
-			var Goal = GO_BoxWithPhysics.createBoxWithPhysics("Goal", { 	size: Vector3.fromPool(0.1, 0.1, 0),
-																								color: GraphicsCore.Color.fromPool(1,0,0,1),
-																								noPhysics: true,
-																								isStatic	: true});
+			var Goal = GO_WinZone.create("Goal", { 	size: Vector3.fromPool(3.5, 2, 0),
+													color: GraphicsCore.Color.fromPool(1,0,0,1)});
 			newPos = this.gameObjects["Island_3"].getPosIn2D("right-top");
-			newPos.x -= 3;
-			newPos.y += 1;
-			Goal.pos = newPos;
+			Goal.setPosIn2D(newPos, "right-bottom");
 			this.addGameObject(Goal);
 		},
 		

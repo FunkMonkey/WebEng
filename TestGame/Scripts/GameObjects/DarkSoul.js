@@ -7,6 +7,8 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 	var Plugin_WorldObject3D = require("/GameCore/Plugin_WorldObject3D").Plugin_WorldObject3D;
 	var Plugin_Pickable = require("/TestGame/Scripts/Plugins/Plugin_Pickable").Plugin_Pickable;
 	
+	var ResourceCounter = require("/Engine/ResourceCounter").ResourceCounter;
+	
 	/**
 	 * Plugin_LogicDarkSoul: Plugin for adding gamelogic of a darksoul to a gameobject
 	 */
@@ -69,6 +71,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 			{
 				Game.onDarkSoulDead();
 				this.gameObj.pluginGraphics.texture = this.deadTexture;
+				this.soundDeath.play();
 			}
 		},
 		
@@ -79,11 +82,40 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		 */
 		loadResources: function loadResources(callback)
 		{
+			var resCounter = new ResourceCounter(5, (function cb(){ callback(this)}).bind(this), true);
+			
 			// load the dead-texture
 			GraphicsCore.TextureManager.createTexture("TestGame/Content/darksoul_dead.png", (function(texture){
 					this.deadTexture = texture;
-					callback(this);
+					resCounter.removeResource();
 				}).bind(this));
+			
+			AudioCore.createAudio("TestGame/Content/Sounds/darksoul_death.ogg", (function(audio){
+				this.soundDeath = audio;
+				resCounter.removeResource();
+			}).bind(this));
+			
+			AudioCore.createAudio("TestGame/Content/Sounds/darksoul_moan2.ogg", (function(audio){
+				this.soundMoan = audio;
+				resCounter.removeResource();
+			}).bind(this));
+			
+			AudioCore.createAudio("TestGame/Content/Sounds/darksoul_jump1.ogg", (function(audio){
+				this.soundJump1 = audio;
+				this.soundJump1.volume = 0.5;
+				resCounter.removeResource();
+			}).bind(this));
+			
+			AudioCore.createAudio("TestGame/Content/Sounds/darksoul_jump2.ogg", (function(audio){
+				this.soundJump2 = audio;
+				this.soundJump2.volume = 0.5;
+				resCounter.removeResource();
+			}).bind(this));
+			
+			//AudioCore.createAudio("TestGame/Content/Sounds/darksoul_death.ogg", (function(audio){
+			//	this.soundDeath = audio;
+			//	resCounter.removeResource();
+			//}).bind(this));
 		},
 		
 		/**
@@ -145,6 +177,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 		{
 			this.picked = true;
 			this.timePicked = Engine.getTimeInMS();
+			this.soundMoan.play();
 		},
 		
 		/**
@@ -213,18 +246,30 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 						this.physBody.ApplyImpulse(this._tmpImpulse, this.physBody.GetWorldCenter());
 						this.physBody.ApplyTorque(this.moveTorque * -this.dir);
 					}
+					this.jumpProb = 0.5;
 				}
 				// random jump
 				else
 				{
+					this.jumpProb = 1;
+				}
+				
+				var randJump = Math.random();
+				if(randJump < this.jumpProb)
+				{
 					this.timeSinceLastJump += dt;
-					if(this.timeSinceLastJump > this.minTimeSinceLastJump)
+					if(this.timeSinceLastJump > this.minTimeSinceLastJump + Math.random())
 					{
 						this._tmpJumpImpulse.x = this.dir * this.jumpImpulseFactor.x;
 						this._tmpJumpImpulse.y = this.jumpImpulseFactor.y;
 						this.physBody.ApplyImpulse(this._tmpJumpImpulse, this.physBody.GetWorldCenter());
 						this.physBody.ApplyTorque(this.jumpTorque);
 						this.timeSinceLastJump = 0;
+						
+						if(Math.random() < 0.5)
+							this.soundJump1.play();
+						else
+							this.soundJump2.play();
 					}
 				}
 			}

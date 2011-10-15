@@ -13,6 +13,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 	{
 		this._tmpPos = new PhysicsCore.b2Vec2;
 		this._tmpVel = new (PhysicsCore.b2Vec2)(0, -1);
+		this.allowSmashSound = true;
 	}
 	
 	Plugin_LogicMovingBlock.prototype = {
@@ -27,6 +28,20 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 		{
 			this.gameObj = gameObj;
 			this.gameObj.pluginLogicFallingBlock = this;
+		},
+		
+		/**
+		 * Loads the plugins resources
+		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
+		 */
+		loadResources: function loadResources(callback)
+		{
+			AudioCore.createAudio("TestGame/Content/Sounds/block_smash.ogg", (function(audio){
+				this.soundSmash = audio;
+				
+				callback(this);
+			}).bind(this));
 		},
 		
 		/**
@@ -81,11 +96,15 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 			{
 				this._tmpVel.y = -2;
 				this.bigBody.SetLinearVelocity(this._tmpVel);
+				this.allowSmashSound = true;
 			}
 			else if(this.gameObj.pos.y < 2)
 			{
 				this._tmpVel.y = 1;
 				this.bigBody.SetLinearVelocity(this._tmpVel);
+				this.allowSmashSound = false;
+				if(GraphicsCore.camera.pos.x < -21)
+					this.soundSmash.play();
 			}
 			
 			var pos = this.gameObj.pluginPhysics.body.GetPosition();
@@ -118,6 +137,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/MovingBl
 			data = {};
 		
 		data.physType = PhysicsCore.b2Body.b2_kinematicBody;
+		data.maskBits = 0xFFFB;
 		var obj = BoxWithPhysics.createBoxWithPhysics(id, data);
 		//obj.pluginPhysics.maskBits = 0xFFFD;
 		obj.addPlugin(new Plugin_LogicMovingBlock());

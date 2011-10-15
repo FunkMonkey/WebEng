@@ -129,6 +129,16 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				this.stopGameLoop();
 				this.jdomMenuContinue.hide();
 				this.jdomMenu.show();
+				
+				// todo show gameover message
+			}
+			else if(this.level.gameWin && this.lastUpdateInS - this.level.gameWinStart > 2)
+			{
+				this.stopGameLoop();
+				//this.jdomMenuContinue.hide();
+				this.jdomMenu.show();
+				
+				// todo show win message
 			}
 		},
 		
@@ -175,6 +185,15 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				log("Game Over");
 			}
 			
+		},
+		
+		/* 
+		 * Called when all darksouls in win-zone
+		 */
+		onWin: function onWin()
+		{
+			this.level.gameWin = true;
+			this.level.gameWinStart = this.lastUpdateInS;
 		},
 		
 		/**

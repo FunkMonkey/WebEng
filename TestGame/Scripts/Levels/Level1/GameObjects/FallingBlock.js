@@ -42,7 +42,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			AudioCore.createAudio("TestGame/Content/Sounds/block_smash.ogg", (function(audio){
 				this.soundSmash = audio;
 				
-				callback();
+				callback(this);
 			}).bind(this));
 		},
 		

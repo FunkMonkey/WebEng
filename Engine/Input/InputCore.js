@@ -238,6 +238,8 @@ ModuleSystem.registerModule("Engine/Input/InputCore", function(require, exports)
 		 */
 		onMouseleave: function onMouseleave(event)
 		{
+			for(var i in this.mouseButtonsDown)
+				this.mouseButtonsDown[i] = false;
 		},
 		
 		/**

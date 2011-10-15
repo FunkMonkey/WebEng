@@ -38,6 +38,7 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/SeparatingBlock", func
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
 			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0, this.gameObj.size.y / 2.0);
 			this.fixDef.filter.maskBits = 0x0002;
+			this.fixDef.categoryBits = 0x0004;
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
 			this.bodyDef.type = PhysicsCore.b2Body.b2_staticBody;
@@ -84,7 +85,8 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/SeparatingBlock", func
 	{
 		if(!data)
 			data = {};
-			
+		
+		data.categoryBits = 0x0004;
 		var obj = BoxWithPhysics.createBoxWithPhysics(id, data);
 		obj.pluginPhysics.maskBits = 0xFFFD;
 		
