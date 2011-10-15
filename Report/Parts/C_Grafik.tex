@@ -1,41 +1,40 @@
 \chapter{Grafik}
 
-Der \textprog{GraphicsCore} nutzt als Grafik-API das in Google Chrome sowie Mozilla Firefox integrierte WebGL. Dabei handelt es sich um eine abgespeckte Browser-Variante von OpenGL-ES. 
+Der \textprog{GraphicsCore} nutzt als Grafik-API das in Google Chrome sowie Mozilla Firefox integrierte \textbf{\href{http://www.khronos.org/webgl/}{WebGL}}\footnote{siehe Spezifikation unter \url{http://www.khronos.org/webgl/}}. Dabei handelt es sich um eine abgespeckte Browser-Variante von \textbf{\href{http://www.khronos.org/opengles/}{OpenGL ES}}\footnote{siehe Spezifikation unter \url{http://www.khronos.org/opengles/}}. 
 
-Als Viewport fungiert dabei der WebGL-Kontext eins HTML5-\textprog{canvas}-Elements. Für Matrizen-Operationen wird die XXX \todo{link} -Bibliothek genutzt.
+Als Viewport fungiert dabei der WebGL-Kontext eins HTML5-\textprog{canvas}-Elements. Für Matrizen-Operationen wird die \textbf{\href{http://code.google.com/p/glmatrix/}{glMatrix}}\footnote{Projektwebsite unter \url{http://code.google.com/p/glmatrix/}}-Bibliothek genutzt.
 
 Der \textprog{GraphicsCore} verwaltet eine Liste von zeichenbaren Objekten. Ein zeichenbares Objekt muss eine \textprog{draw}-Funktion implementieren um sich selbst zeichnen zu können.
 
 \section{Shader}
 
-Der \textprog{GraphicsCore} verfügt über einen Shader-Manager, welcher das Laden und Kompilieren von GLSL-Shader-Code, sowie die Erzeugung von Shader-Instanzen (\textprog{ShaderProgram}) übernimmt. Ein Shader besteht dabei für gewöhnlich aus einem Fragment-Shader und einem Vertex-Shader. 
+Der \textprog{GraphicsCore} verfügt über einen Shader-Manager, welcher das Laden und Kompilieren von \textbf{\href{http://www.opengl.org/documentation/glsl/}{GLSL}}\footnote{siehe Spezifikation unter \url{http://www.opengl.org/documentation/glsl/}}-Shader-Code, sowie die Erzeugung von Shader-Instanzen (\textprog{ShaderProgram}) übernimmt. Ein Shader besteht dabei für gewöhnlich aus einem Fragment-Shader und einem Vertex-Shader. 
 
-\textprog{ShaderProgram} ist ein von mir implementierter Wrapper für WebGL-Shaderprogramme, der so aufgebaut ist, dass man beispielsweise die \textprog{uniform}-Eigenschaften eines Shaders einfach per JS-Eigenschaft setzen kann, wie beispielsweise im folgenden Beispiel für die Farbe eines einfachen Shaders:
-
-\todo{Code-Beispiel}
+\textprog{ShaderProgram} ist ein von mir implementierter Wrapper für WebGL-Shaderprogramme, der so aufgebaut ist, dass man beispielsweise die \textprog{uniform}-Eigenschaften eines Shaders einfach per JS-Eigenschaft setzen kann.
 
 Innerhalb des Projekts gibt es zwei einfache Shader-Programme: eins zum Zeichnen beliebig-farbiger Rechtecke und ein weiteres zum Zeichnen von Texturen. 
 
 \section{Texturen}
 
-Der \textprog{GraphicsCore} verfügt zusätzlich über einen \textprog{TextureManager}, welcher sich um die Erzeugung und Verwaltung von Texturen kümmert. Das WebGL ist dabei so eingestellt, dass NPOT (non-power-of-two)-Texturen erlaubt sind. NPOT-Texturen haben innerhalb von WebGL einige Beschränkungen, welche aber innerhalb dieses Projekts keine Rolle spielten.
+Der \textprog{GraphicsCore} verfügt zusätzlich über einen \textprog{TextureManager}, welcher sich um die Erzeugung und Verwaltung von Texturen kümmert. WebGL ist dabei so konfiguriert, dass NPOT (non-power-of-two)-Texturen erlaubt sind. NPOT-Texturen haben innerhalb von WebGL einige Beschränkungen, welche aber innerhalb dieses Projekts keine Rolle spielten.
 
 \section{Plugins}
 
-Um Spielobjekten Grafik-Attribute und die Möglichkeit sich selbst zu zeichnen zu geben, existieren zwei Plugins, welche eine \textprog{draw}-Funktion bieten und bei Initialisierung sich selbst als zeichenbare Objekte beim \textprog{GraphicsCore} registrieren. Die Position und Größe des zu zeichnenden Objektes holen sich die Plugins vom Spielobjekt selbst. Basierend auf der Kamera-Position und der Position des Objekts wird eine Model-View-Matrix erzeugt und an das entsprechende Shader-Programm übergeben.
+Um Spielobjekten Grafik-Attribute und die Möglichkeit sich selbst zu zeichnen zu geben, existieren zwei Plugins, welche eine \textprog{draw}-Funktion bieten und bei Initialisierung sich selbst als zeichenbare Objekte beim \textprog{GraphicsCore} registrieren. Die Position und Größe des zu zeichnenden Objektes holen sich die Plugins vom Spielobjekt selbst (dank \textprog{Plugin\_WorldObject3D}). Basierend auf der Kamera-Position und der Position des Objekts wird eine Model-View-Matrix erzeugt und an das entsprechende Shader-Programm übergeben.
 
 Das \textprog{Plugin\_SimpleColorGraphics2D} zeichnet ein einfaches Rechteck mit einer beliebigen Farbe. Das \textprog{Plugin\_SimpleTextureGraphics2D} zeichnet ein einfaches Rechteck mit einer beliebigen Textur.
 
-\section{Probleme}
+\section{Probleme: ''Alpha-Bug''}
 
-Aktuell gibt es noch zwei größere Grafik-Bugs. Der ''Alpha-Bug'' soll im folgenden kurz vorgestellt werden. Der ''Physics-Bug'' wird im Physik-Abschnitt dieses Berichts besprochen.
-
-\subsection{''Alpha-Bug''}
 
 Während der Implementierungs-Phase gab es Probleme mit Texturen, die alpha-Werte größer 0 und kleiner 1 besitzen. Je näher sich der alpha-Wert dem Wert 0.5 nähert, umso stärker wurde die resultierende Farbe des Pixels zu einem Weißton, anstatt zu einer Mischfarbe der Textur und der darunterliegenden Layer. Selbst wenn der durch WebGL geclearte Hintergrund eine andere Farbe als weiß besitzt und wir lediglich eine Textur zeichnen, entstand dieser Effekt.
 
-\todo{Screenshot}
+\begin{figure}[h] % h = here
+	\centering
+		\includegraphics{images/alpha_bug.png}
+	\caption{Alpha-Bug: weiße Ränder bei Texturen}
+\end{figure}
 
 Dieser Bug drückte sich häufig durch weiße Ränder rund um den nicht-transparenten Teil von Texturen aus.
 
-Grund dafür war, dass die Website selbst (bzw. das \textprog{canvas}-Element eine weiße Hintergrundfarbe hatte. Ob dieses Verhalten von den Browser-Herstellern so vorgesehen ist, ist fragwürdig.
+Grund dafür war, dass die Website selbst (bzw. das \textprog{canvas}-Element) eine weiße Hintergrundfarbe hatte. Ob dieses Verhalten von den Browser-Herstellern so vorgesehen ist, ist fragwürdig.

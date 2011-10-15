@@ -4,15 +4,35 @@ Der Kern eines Spiels befindet sich innerhalb einer vom Programmierer erweiterte
 
 \section{Game-Loop}
 
-Anders als in anderen Programmiersprachen wie C++, wo man einr Game-Loop lediglich als \textprog{while}-Schleife implementieren würde, welche das jeweils nächste Update berechnet, brechen moderne Browser Schleifen, die eine gewisse Zeitdauer überschreiten, ab. Dies hat den Grund, dass diese sonst den Main-Thread und somit die UI des Browsers (bzw. zumindest das HTMLs innerhalb der Website) blockieren würden.
+Anders als in anderen Programmiersprachen wie C++, wo man eine Game-Loop lediglich als \textprog{while}-Schleife implementieren würde, welche das jeweils nächste Update berechnet, brechen moderne Browser Schleifen, die eine gewisse Zeitdauer überschreiten, ab. Dies hat den Grund, dass diese sonst den Main-Thread und somit die UI des Browsers (bzw. zumindest des HTMLs innerhalb der Website) blockieren würden.
 
-Eine Möglichkeit in Javascript eine Funktion wie für eine Game-Loop nötig innerhalb eines gewissen Intervals aufzurufen, bietet die DOM-Funktion \textprog{setInterval}. 
+Eine Möglichkeit in Javascript eine Funktion -  wie für eine Game-Loop nötig - innerhalb eines gewissen Intervals aufzurufen, bietet die DOM-Funktion \textbf{\href{http://www.w3.org/TR/html5/timers.html\#dom-windowtimers-setinterval}{setInterval}}\footnote{siehe Spezifikation unter \url{http://www.w3.org/TR/html5/timers.html\#dom-windowtimers-setinterval}}:
 
-\todo{Code-Beispiel}
+\begin{lstlisting}[language=JavaScript, caption=Implementierung einer Game-Loop mit \textprog{setInterval}]
+function update()
+{
+	// calculate delta-time and do game-update
+	// ...
+}
+
+// starting the game-loop: update will be called every ~16ms
+window.setInterval(1/60, update);
+\end{lstlisting}
 
 Der Aufruf von \textprog{setInterval} ist aufgrund der Browser-Implementierung jedoch leider nicht sehr konstant und verzeichnet große Latenzen. \textprog{setInterval} ist daher nicht für die Implementierung einer Game-Loop geeignet.
 
-Seit HTML5 bieten einige Browser-Hersteller jedoch eine weitere Methode, und zwar den Aufruf einer Methode mit Hilfe von \textprog{requestFrame}. Übergibt man \textprog{requestFrame} eine Methode, so wird dieser beim nächsten Zeichnen aufgerufen und kann ihrerseits wiederum ein neues \textprog{requestFrame} aufrufen. Der Zeitpunkt des Aufrufs wird dabei vom Browser bestimmt und ist in der Regel sehr viel konstanter.
+Seit HTML5 bieten einige Browser-Hersteller jedoch einen weiteren Weg, und zwar den Aufruf einer Methode mit Hilfe von \textbf{\href{http://www.w3.org/TR/animation-timing/\#requestAnimationFrame}{requestAnimationFrame}}\footnote{siehe Spezifikation unter \url{http://www.w3.org/TR/animation-timing/\#requestAnimationFrame}}. Übergibt man \textprog{requestAnimationFrame} eine Methode, so wird diese beim nächsten Zeichnen aufgerufen und kann ihrerseits wiederum ein neues \textprog{requestAnimationFrame} aufrufen. Der Zeitpunkt des Aufrufs wird dabei vom Browser bestimmt und ist in der Regel sehr viel konstanter.
 
-\todo{Code-Beispiel}
-\todo{link und mehr info}
+\begin{lstlisting}[language=JavaScript, caption=Implementierung einer Game-Loop mit \textprog{requestAnimationFrame}]
+function update()
+{
+	// calculate delta-time and do game-update
+	// ...
+	
+	// request another frame
+	window.requestAnimationFrame(update);
+}
+
+// starting the game-loop: update will be called from browser-timer
+window.requestAnimationFrame(update);
+\end{lstlisting}

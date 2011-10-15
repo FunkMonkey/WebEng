@@ -1,12 +1,22 @@
-\part{Web-Engine}
+%\part{Einleitung}
 
-Ein Spiel innerhalb der Web-Engine besteht aus verschiedenen Komponenten.
+\chapter*{Einleitung}
 
-Da es sich um ein Browser-Spiel handelt, existiert eine HTML-Datei, welche das darzustellende Dokument beschreibt. Diese inkludiert verschiedene Skripte, unter Anderem die \textprog{entry.js}-Datei, welche den Startpunkt des Spiels bestimmt. Innerhalb dieser werden die für bestimmte Aufgaben (Grafik, Physik, Input, Audio) zuständigen \textbf{Manager} erzeugt und konfiguriert. Diese sind global aus allen Teilen des Programmcodes erreichbar. Zusätzlich wird eine \textbf{Instanz der Spielklasse} erstellt, welche ebenfalls global erreichbar ist.
+Innerhalb dieses Independent Courseworks geht es um die Entwicklung einer \textbf{\href{http://dev.w3.org/html5/spec/Overview.html}{HTML5}}\footnote{siehe Spezifikation unter \url{http://dev.w3.org/html5/spec/Overview.html}}-basierten Computerspiele-Engine für die Verwendung in modernen Browsern. Basierend auf dieser Engine wurde zudem ein kleines Computerspiel, \textbf{''Troubled Souls''}, entwickelt um die Funktionsfähigkeit der Engine zu demonstrieren.
 
-Die HTML-Datei enthält zudem ein HTML5-\textprog{canvas}-Element, welches den Viewport des Spiels darstellt, in welchen mit Hilfe von WebGL gezeichnet wird.
+Die Engine nutzt unter Anderem das in moderne Browser integrierte \textbf{\href{http://www.khronos.org/webgl/}{WebGL}}\footnote{siehe Spezifikation unter \url{http://www.khronos.org/webgl/}} für das Rendern der Grafik, \textbf{\href{http://code.google.com/p/box2dweb/}{box2dweb}}\footnote{Projektwebsite unter \url{http://code.google.com/p/box2dweb/}} für die physikalische Simulation und die in HTML5 neu hinzugekommenen \textbf{\href{http://dev.w3.org/html5/spec/Overview.html\#the-audio-element}{audio}}\footnote{siehe Spezifikation unter \url{http://dev.w3.org/html5/spec/Overview.html\#the-audio-element}}-Elemente zum Abspielen von Sounds und Musik.
 
-\todo{Illustration}
+\part{HTML5-GameEngine}
+
+\chapter*{Allgemeines}
+
+Ein Spiel innerhalb der HTML5-GameEngine besteht aus verschiedenen Komponenten.
+
+Da es sich um ein Browser-Spiel handelt, existiert eine HTML-Datei, welche das darzustellende Dokument beschreibt. Diese inkludiert verschiedene Skripte, unter Anderem die \textprog{entry.js}-Datei, welche den Startpunkt des Spiels bestimmt. Innerhalb dieser werden die für bestimmte Aufgaben (Grafik, Physik, Input, Audio) zuständigen \textbf{Manager} (''Cores'') erzeugt und konfiguriert. Diese sind global aus allen Teilen des Programmcodes erreichbar. Zusätzlich wird eine \textbf{Instanz der Spielklasse} (GameCore) erstellt, welche ebenfalls global erreichbar ist.
+
+Die HTML-Datei enthält zudem ein HTML5-\textbf{\href{http://dev.w3.org/html5/spec/Overview.html\#the-canvas-element}{canvas}}\footnote{siehe Spezifikation unter \url{http://dev.w3.org/html5/spec/Overview.html\#the-canvas-element}}-Element, welches den Viewport des Spiels darstellt, in welchen mit Hilfe von WebGL gezeichnet wird.
+
+%\todo{Illustration}
 
 \include{Parts/C_GameCore}
 \include{Parts/C_GameObjects}
@@ -28,4 +38,50 @@ Die HTML-Datei enthält zudem ein HTML5-\textprog{canvas}-Element, welches den V
 
 \include{Parts/C_Auswertung}
 
-Auswertung
+\chapter*{Anhang}
+
+Diesem Bericht beiliegend befindet sich eine ausführbare Version des Spiels, samt dokumentiertem Quellcode. Die Datei \textprog{game.html} muss lediglich in einem Browser geöffnet werden. Getestet wurden Mozilla Firefox 7 und Google Chrome 14.
+
+\todo{Hinweise}
+
+\section*{Datei-Übersicht}
+
+\begin{tabular}{|l|p{0.75\textwidth}|}
+\hline 
+\textbf{Dependencies} & 3rd-Party Bibliotheken (jquery, box2dweb, glMatrix) \\ 
+\hline 
+\textbf{Engine} & Programm-Code der Game-Engine: Modulsystem und Manager \\ 
+\hline 
+\hspace{0.5cm} \textbf{Audio} & Programm-Code für AudioCore \\ 
+\hline 
+\hspace{0.5cm} \textbf{Input} & Programm-Code für InputCore \\ 
+\hline 
+\hspace{0.5cm} \textbf{Graphics} & Programm-Code für GraphicsCore \\ 
+\hline 
+\hspace{0.5cm} \textbf{Physics} & Programm-Code für PhysicsCore \\ 
+\hline 
+\textbf{GameCore} & Programm-Code der Spielkomponenten: BaseGame, Level, Spielobjekte \\ 
+\hline 
+\textbf{style} & CSS-Dateien und Bilder für HTML-Code \\ 
+\hline
+\textbf{TestGame} & Programm-Code und Content von Troubled Souls \\
+\hline 
+\hspace{0.5cm} \textbf{Content} & Content von Troubled Souls: Texturen und Sounds \\ 
+\hline 
+\hspace{0.5cm} \textbf{Scripts} & Programm-Code für Troubled Souls \\ 
+\hline 
+\hspace{1cm} \textbf{GameObjects} & Programm-Code für wiederkehrende Spielobjekte \\
+\hline 
+\hspace{1cm} \textbf{Levels} & Programm-Code für Levels (Level1) \\ 
+\hline 
+\hspace{1cm} \textbf{Plugins} & Programm-Code für wiederkehrende Plugins \\  
+\hline 
+\hspace{1cm} \textit{entry.js} & Einstiegs-Punkt des Spiels \\ 
+\hline 
+\hspace{1cm} \textit{Game.js} & Erweiterte Spiel-Klasse \\ 
+\hline 
+\textit{game.html} & HTML-Datei zum Ausführen des Spiels \\ 
+\hline 
+
+\hline 
+\end{tabular}

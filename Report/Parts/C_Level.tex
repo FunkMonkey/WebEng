@@ -2,10 +2,6 @@
 
 Das \textprog{BaseLevel} kümmert sich um die Erzeugung der Spielobjekte und weist diesen ihre Startparameter (z. B. Position, etc. zu). Es beinhaltet ein Array aller Spielobjekte. Beim Hinzufügen eines Spielobjekts, wird dieses zusätzlich mit dessen ID innerhalb einer Map gespeichert um es direkt mit Namen (ID) adressieren zu können.
 
-Das \textprog{BaseLevel} bietet neben der \textprog{create}-Funktion zur Erzeugung aller Spielobjekte zusätzlich die ''Standard''-Funktionen \textprog{loadResources, init, postInit, update} und \textprog{destroy}. Diese durchlaufen dabei hauptsächlich das Array der Spielobjekte und rufen die entsprechenden Funktionen auf. Für die \textprog{update}-Funktion gibt es aus Performance-Gründen ein eigenes Array, welches nur die update-baren Spielobjekte enthält (ob ein Spielobjekt innerhalb dieses Arrays liegt bestimmt sich beim Hinzufügen zum Level anhand der entsprechenden Eigenschaft des Objekts).
+Das \textprog{BaseLevel} bietet neben der \textprog{create}-Funktion zur Erzeugung aller Spielobjekte zusätzlich die ''Standard''-Funktionen \textprog{loadResources, init, postInit, update} und \textprog{destroy}. Diese durchlaufen dabei hauptsächlich das Array der Spielobjekte und rufen die entsprechenden Funktionen auf. 
 
 \textprog{loadResources} ist wiederum eine ''asynchrone'' Funktion, die einen Callback als Parameter erhält, welches aufgerufen wird, sobald die \textprog{loadResources}-Funktionen aller Spielobjekte fertig ausgeführt wurden. 
-
-\section{create}
-
-\todo{Beispiel einer create-Function}

@@ -24,6 +24,9 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 		{
 			this.gameObjects[obj.id] = obj;
 			this.gameObjectsArray.push(obj);
+			
+			// Todo: own array for updatable gameobjects (check if updatable plugins or forceUpdate)
+			
 		},
 		
 		/**
@@ -88,6 +91,7 @@ ModuleSystem.registerModule("GameCore/BaseLevel", function(require, exports, mod
 		 */
 		update: function update(deltaTime)
 		{
+			// Todo: own array for updatable gameobjects (check if updatable plugins)
 			for(var i = 0; i < this.gameObjectsArray.length; ++i)
 				this.gameObjectsArray[i].update(deltaTime);
 		},
