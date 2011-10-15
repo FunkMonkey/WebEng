@@ -15,6 +15,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 		this.isFinished = false;
 		this.timeTillFall = 2;
 		this._tmpPos = new PhysicsCore.b2Vec2;
+		this.soundSmashPlayed = false;
 	}
 	
 	Plugin_LogicFallingBlock.prototype = {
@@ -32,6 +33,20 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 		},
 		
 		/**
+		 * Loads the plugins resources
+		 * 
+		 * @param   {function} callback Function to call when resources have been loaded
+		 */
+		loadResources: function loadResources(callback)
+		{
+			AudioCore.createAudio("TestGame/Content/Sounds/block_smash.ogg", (function(audio){
+				this.soundSmash = audio;
+				
+				callback();
+			}).bind(this));
+		},
+		
+		/**
 		 * Second initiliaze call
 		 */
 		postInit: function postInit()
@@ -40,6 +55,7 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 			this.fixDef.isSensor = true;
 			this.fixDef.shape = new (PhysicsCore.b2PolygonShape)();
 			this.fixDef.shape.SetAsBox(this.gameObj.size.x / 2.0 * 0.9, this.gameObj.size.y / 2.0);
+			this.fixDef.filter.maskBits = 0x0002;
 			
 			this.bodyDef = new (PhysicsCore.b2BodyDef)();
 			this.bodyDef.type = PhysicsCore.b2Body.b2_dynamicBody;
@@ -65,6 +81,15 @@ ModuleSystem.registerModule("TestGame/Scripts/Levels/Level1/GameObjects/FallingB
 					var otherSize = other.gameObj.size;
 					if(otherPos.y < mePos.y && (otherPos.x + otherSize.x / 2.1) > (mePos.x - meSize.x/2.0) && (otherPos.x - otherSize.x / 2.1) < (mePos.x + meSize.x/2.0))
 						contact.SetEnabled(false);
+				}
+			}
+			
+			this.gameObj.pluginPhysics.fixture.onBeginContact = function(me, other, contact)
+			{
+				if(!(other.pluginDarkSoul) && !me.gameObj.pluginLogicFallingBlock.soundSmashPlayed)
+				{
+					me.gameObj.pluginLogicFallingBlock.soundSmashPlayed = true;
+					me.gameObj.pluginLogicFallingBlock.soundSmash.play();
 				}
 			}
 			

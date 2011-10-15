@@ -188,6 +188,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				this.jdomMenuRestart.show();
 				this.jdomMenu.hide();
 				this.music.play();
+				InputCore.update(0);
 				this.startGameLoop();
 			}).bind(this));
 		},
@@ -202,6 +203,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				this.jdomMenu.hide();
 				this.music.currentTime = 0;
 				this.music.play();
+				InputCore.update(0);
 				this.startGameLoop();
 			}).bind(this));
 		},
@@ -213,6 +215,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		{
 			this.music.play();
 			this.jdomMenu.hide();
+			InputCore.update(0);
 			this.startGameLoop();
 		},
 		
