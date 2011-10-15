@@ -161,3 +161,8 @@ a
 {
 	background-image: url(game_notes_gameover_3.png);
 }
+
+#game-ui-note.gameover4
+{
+	background-image: url(game_notes_gameover_4.png);
+}

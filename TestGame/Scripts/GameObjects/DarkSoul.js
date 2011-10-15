@@ -212,7 +212,10 @@ ModuleSystem.registerModule("TestGame/Scripts/GameObjects/DarkSoul", function(re
 				if(this._loneDeadStarted)
 				{
 					if(Game.lastUpdateInS - this._loneDeadStartTime > this.loneDeadTimeToDie)
+					{
+						Game.deathReason = "life_distance";
 						this.dead = true;
+					}
 				}
 				else
 				{

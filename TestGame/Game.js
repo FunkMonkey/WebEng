@@ -135,6 +135,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 					case "fall": this.jdomUINote.attr("class", "gameover3"); break;
 					case "smashed_sign": this.jdomUINote.attr("class", "gameover1"); break;
 					case "smashed_moving": this.jdomUINote.attr("class", "gameover2"); break;
+					case "life_distance": this.jdomUINote.attr("class", "gameover4"); break;
 				}
 				this.jdomUINote.show();
 				this.jdomMenuContinue.hide();
