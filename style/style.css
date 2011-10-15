@@ -3,10 +3,21 @@ body
 	background-color: #000;
 }
 
+#header
+{
+	position: relative;
+	background-image: url(title.png);
+	width: 303px;
+	height: 54px;
+	left: 50%;
+	margin-left: -151px;
+	margin-top: 2em;
+}
+
 #game-container
 {
 	width: 640px;
-	margin-top: 5em;
+	margin-top: 2em;
 	position: relative;
 	left: 50%;
 	margin-left: -320px;
@@ -24,25 +35,123 @@ body
 {
 	/*width: 1800px;*/
 	/*height: 800px;*/
-	border: 1px solid #fff;
+	/*border: 1px solid #fff;*/
 	background-color: #000;
 	/*cursor: url("cursor.png") crosshair;*/
 }
 
-#game-menu
+#game-ui
 {
-	border: 1px solid #000;
-	background-color: #fff;
-	
-	width: 200px;
-	position: absolute;
-	margin-left: 220px;
-	top: 200px;
 	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 640px;
+	height: 480px;
+	border: 1px solid #fff;
+	
 }
 
-#game-menu input
+#game-ui-background
+{
+	background-color: #000;
+	opacity: 0.7;
+	
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 640px;
+	height: 480px;
+}
+
+#game-menu
+{
+	width: 150px;
+	position: absolute;
+	left: 50%;
+	margin-left: -75px;
+	top: 200px;
+}
+
+/*#game-menu input
 {
 	width: 100%;
 	display: block;
+}*/
+
+#game-menu-start
+{
+	width: 140px;
+	height: 30px;
+	background-image: url(start_game.png);
+}
+
+#game-menu-start:hover
+{
+	background-image: url(start_game_hover.png);
+}
+
+#game-menu-continue
+{
+	width: 140px;
+	height: 30px;
+	background-image: url(continue.png);
+}
+
+#game-menu-continue:hover
+{
+	background-image: url(continue_hover.png);
+}
+
+#game-menu-restart
+{
+	width: 140px;
+	height: 30px;
+	background-image: url(restart.png);
+}
+
+#game-menu-restart:hover
+{
+	background-image: url(restart_hover.png);
+}
+
+#game-camera-info
+{
+	position: absolute;
+	bottom: 1em;
+	right: 1em;
+	color: #fff;
+	font-size: 0.6em;
+	font-family: Verdana, sans-serif;
+}
+
+#game-ui-note
+{
+	position: absolute;
+	width: 481px;
+	height: 99px;
+	left: 50%;
+	margin-left: -240px;
+	top: 50px;
+	display: none;
+}
+
+#game-ui-note.win
+{
+	background-image: url(game_notes_win.png);
+}
+
+#game-ui-note.gameover1
+{
+	background-image: url(game_notes_gameover_1.png);
+}
+
+#game-ui-note.gameover2
+{
+	background-image: url(game_notes_gameover_2.png);
+}
+
+#game-ui-note.gameover3
+{
+	background-image: url(game_notes_gameover_3.png);
 }

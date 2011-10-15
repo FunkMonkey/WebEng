@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>QuQu</title>
+        <title>Troubled Souls</title>
         
         <link rel="stylesheet"  href="style/style.css" />
         
@@ -33,15 +33,21 @@
     
     <body>
         <!--<audio src="file:///D:/Data/Projekte/WebGame/Source/TestGame/Content/Sounds/music.ogg" autoplay="true" />-->
+        <div id="header"></div>
         <div id="game-container">
             <!--<div id=viewport_helper> </div>-->
             <canvas id="game-viewport" width="640" height="480">
                 Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
             </canvas>
-            <div id="game-menu">
-                <input id="game-menu-start" type="button" value="Start Game!" onclick="Game._start();" />
-                <input id="game-menu-continue" type="button" value="Continue Game!" onclick="Game._continue();" style="display:none;" />
-                <input id="game-menu-restart" type="button" value="Restart Game!" onclick="Game._restart();" style="display:none;" />
+            <div id="game-ui">
+                <div id="game-ui-background"></div>
+                <div id="game-ui-note" class="win"></div>
+                <div id="game-menu">
+                    <div id="game-menu-start" onclick="Game._start();" /></div>
+                    <div id="game-menu-continue"  onclick="Game._continue();" style="display:none;" /></div>
+                    <div id="game-menu-restart" onclick="Game._restart();" style="display:none;" /></div>
+                </div>
+                <div id="game-camera-info">* You can move the camera by holding the left mousebutton.</div>
             </div>
         </div>
         

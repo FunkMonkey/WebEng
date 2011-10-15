@@ -52,12 +52,14 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		/**
 		 * Initializes the menu
 		 */
-		initMenu: function initMenu()
+		initUI: function initUI()
 		{
+			this.jdomUI = $("#game-ui");
 			this.jdomMenu = $("#game-menu");
 			this.jdomMenuStart = $("#game-menu-start");
 			this.jdomMenuRestart = $("#game-menu-restart");
 			this.jdomMenuContinue = $("#game-menu-continue");
+			this.jdomUINote = $("#game-ui-note");
 		},
 		
 		
@@ -68,7 +70,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		{
 			BaseGame.prototype.init.call(this);
 			
-			this.initMenu();
+			this.initUI();
 			this.initControls();
 			
 			//PhysicsCore.initDebugDraw(document.getElementById("canvas2"));
@@ -92,7 +94,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			{
 				this.stopGameLoop();
 				this.music.pause();
-				this.jdomMenu.show();
+				this.jdomUI.show();
 				return;
 			}
 			
@@ -127,16 +129,26 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 			if(this.level.gameOver && this.lastUpdateInS - this.level.gameOverStart > 2)
 			{
 				this.stopGameLoop();
+				
+				switch(this.deathReason)
+				{
+					case "fall": this.jdomUINote.attr("class", "gameover3"); break;
+					case "smashed_sign": this.jdomUINote.attr("class", "gameover1"); break;
+					case "smashed_moving": this.jdomUINote.attr("class", "gameover2"); break;
+				}
+				this.jdomUINote.show();
 				this.jdomMenuContinue.hide();
-				this.jdomMenu.show();
+				this.jdomUI.show();
 				
 				// todo show gameover message
 			}
 			else if(this.level.gameWin && this.lastUpdateInS - this.level.gameWinStart > 2)
 			{
 				this.stopGameLoop();
-				//this.jdomMenuContinue.hide();
-				this.jdomMenu.show();
+				this.jdomUINote.attr("class", "win");
+				this.jdomUINote.show();
+				this.jdomMenuContinue.hide();
+				this.jdomUI.show();
 				
 				// todo show win message
 			}
@@ -205,7 +217,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 				this.jdomMenuStart.hide();
 				this.jdomMenuContinue.show();
 				this.jdomMenuRestart.show();
-				this.jdomMenu.hide();
+				this.jdomUI.hide();
 				this.music.play();
 				InputCore.update(0);
 				this.startGameLoop();
@@ -219,7 +231,8 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		{
 			this.loadLevel("/TestGame/Scripts/Levels/Level1/Level", (function cb(){
 				this.jdomMenuContinue.show();
-				this.jdomMenu.hide();
+				this.jdomUINote.hide();
+				this.jdomUI.hide();
 				this.music.currentTime = 0;
 				this.music.play();
 				InputCore.update(0);
@@ -233,7 +246,7 @@ ModuleSystem.registerModule("TestGame/Game", function(require, exports){
 		_continue: function _continue()
 		{
 			this.music.play();
-			this.jdomMenu.hide();
+			this.jdomUI.hide();
 			InputCore.update(0);
 			this.startGameLoop();
 		},

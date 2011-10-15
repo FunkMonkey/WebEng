@@ -37,7 +37,7 @@ function onLoad()
 		Game.init();
 		
 		// enabling menu
-		Game.jdomMenu.show();
+		Game.jdomUI.show();
 		
 	}); // async
 	
